@@ -11,6 +11,7 @@
 @implementation YouponAppDelegate
 
 
+@synthesize rootTabBarController = _rootTabBarController;
 @synthesize window=_window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -62,6 +63,7 @@
 - (void)dealloc
 {
     [_window release];
+    [_rootTabBarController release];
     [super dealloc];
 }
 

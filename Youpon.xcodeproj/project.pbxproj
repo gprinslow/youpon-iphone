@@ -37,17 +37,17 @@
 		85A09B8613E9EF24008AC0F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		85A09B8813E9EF24008AC0F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		85A09B8A13E9EF24008AC0F3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		85A09B8E13E9EF24008AC0F3 /* Youpon-Info.plist */ = {isa = PBXFileReference; path = "Youpon-Info.plist"; sourceTree = "<group>"; };
+		85A09B8E13E9EF24008AC0F3 /* Youpon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Youpon-Info.plist"; sourceTree = "<group>"; };
 		85A09B9013E9EF24008AC0F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		85A09B9213E9EF24008AC0F3 /* Youpon-Prefix.pch */ = {isa = PBXFileReference; path = "Youpon-Prefix.pch"; sourceTree = "<group>"; };
+		85A09B9213E9EF24008AC0F3 /* Youpon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Youpon-Prefix.pch"; sourceTree = "<group>"; };
 		85A09B9313E9EF24008AC0F3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		85A09B9513E9EF24008AC0F3 /* YouponAppDelegate.h */ = {isa = PBXFileReference; path = YouponAppDelegate.h; sourceTree = "<group>"; };
+		85A09B9513E9EF24008AC0F3 /* YouponAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YouponAppDelegate.h; sourceTree = "<group>"; };
 		85A09B9613E9EF24008AC0F3 /* YouponAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouponAppDelegate.m; sourceTree = "<group>"; };
 		85A09B9913E9EF24008AC0F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		85A09BA013E9EF24008AC0F3 /* YouponTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouponTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		85A09BA813E9EF24008AC0F3 /* YouponTests-Info.plist */ = {isa = PBXFileReference; path = "YouponTests-Info.plist"; sourceTree = "<group>"; };
+		85A09BA813E9EF24008AC0F3 /* YouponTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "YouponTests-Info.plist"; sourceTree = "<group>"; };
 		85A09BAA13E9EF24008AC0F3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		85A09BAC13E9EF24008AC0F3 /* YouponTests-Prefix.pch */ = {isa = PBXFileReference; path = "YouponTests-Prefix.pch"; sourceTree = "<group>"; };
+		85A09BAC13E9EF24008AC0F3 /* YouponTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YouponTests-Prefix.pch"; sourceTree = "<group>"; };
 		85A09BAD13E9EF24008AC0F3 /* YouponTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YouponTests.h; sourceTree = "<group>"; };
 		85A09BAF13E9EF24008AC0F3 /* YouponTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouponTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */

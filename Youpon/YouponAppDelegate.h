@@ -10,7 +10,9 @@
 
 @interface YouponAppDelegate : NSObject <UIApplicationDelegate> {
 
+    UITabBarController *_rootTabBarController;
 }
+@property (nonatomic, retain) IBOutlet UITabBarController *rootTabBarController;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
