@@ -17,6 +17,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    //Set root tab bar controller as window's root view controller
+    self.window.rootViewController = self.rootTabBarController;
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
