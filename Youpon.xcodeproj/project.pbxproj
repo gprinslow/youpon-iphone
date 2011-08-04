@@ -36,6 +36,7 @@
 		8596AB3D13EB288A00878D01 /* 172-pricetag.png in Resources */ = {isa = PBXBuildFile; fileRef = 8596AB2D13EB288A00878D01 /* 172-pricetag.png */; };
 		8596AB3E13EB288A00878D01 /* 191-collection.png in Resources */ = {isa = PBXBuildFile; fileRef = 8596AB2E13EB288A00878D01 /* 191-collection.png */; };
 		8596AB6A13EB4F1C00878D01 /* NSArray+NestedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB6913EB4F1C00878D01 /* NSArray+NestedArray.m */; };
+		8596AB6D13EB519F00878D01 /* StringValueDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB6C13EB519F00878D01 /* StringValueDisplay.m */; };
 		85A09B8713E9EF24008AC0F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8613E9EF24008AC0F3 /* UIKit.framework */; };
 		85A09B8913E9EF24008AC0F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8813E9EF24008AC0F3 /* Foundation.framework */; };
 		85A09B8B13E9EF24008AC0F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8A13E9EF24008AC0F3 /* CoreGraphics.framework */; };
@@ -106,6 +107,8 @@
 		8596AB2E13EB288A00878D01 /* 191-collection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "191-collection.png"; sourceTree = "<group>"; };
 		8596AB6813EB4F1C00878D01 /* NSArray+NestedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+NestedArray.h"; sourceTree = "<group>"; };
 		8596AB6913EB4F1C00878D01 /* NSArray+NestedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+NestedArray.m"; sourceTree = "<group>"; };
+		8596AB6B13EB519F00878D01 /* StringValueDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringValueDisplay.h; sourceTree = "<group>"; };
+		8596AB6C13EB519F00878D01 /* StringValueDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringValueDisplay.m; sourceTree = "<group>"; };
 		85A09B8213E9EF24008AC0F3 /* Youpon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Youpon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A09B8613E9EF24008AC0F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		85A09B8813E9EF24008AC0F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -226,6 +229,8 @@
 			children = (
 				8596AB6813EB4F1C00878D01 /* NSArray+NestedArray.h */,
 				8596AB6913EB4F1C00878D01 /* NSArray+NestedArray.m */,
+				8596AB6B13EB519F00878D01 /* StringValueDisplay.h */,
+				8596AB6C13EB519F00878D01 /* StringValueDisplay.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -442,6 +447,7 @@
 				8596AB1913EB27A000878D01 /* SBJsonUTF8Stream.m in Sources */,
 				8596AB1A13EB27A000878D01 /* SBJsonWriter.m in Sources */,
 				8596AB6A13EB4F1C00878D01 /* NSArray+NestedArray.m in Sources */,
+				8596AB6D13EB519F00878D01 /* StringValueDisplay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
