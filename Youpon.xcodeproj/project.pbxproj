@@ -41,6 +41,7 @@
 		8596AB7413EB827E00878D01 /* TableRowDetailEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB7313EB827E00878D01 /* TableRowDetailEditController.m */; };
 		8596AB7713EB8ABB00878D01 /* TableRowDetailEditStringController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB7613EB8ABB00878D01 /* TableRowDetailEditStringController.m */; };
 		8596AB7A13EC3AB600878D01 /* TableRowDetailEditDateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB7913EC3AB600878D01 /* TableRowDetailEditDateController.m */; };
+		8596AB7D13EC50C800878D01 /* TableRowDetailEditSingleSelectionListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB7C13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.m */; };
 		85A09B8713E9EF24008AC0F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8613E9EF24008AC0F3 /* UIKit.framework */; };
 		85A09B8913E9EF24008AC0F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8813E9EF24008AC0F3 /* Foundation.framework */; };
 		85A09B8B13E9EF24008AC0F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8A13E9EF24008AC0F3 /* CoreGraphics.framework */; };
@@ -113,7 +114,7 @@
 		8596AB6913EB4F1C00878D01 /* NSArray+NestedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+NestedArray.m"; sourceTree = "<group>"; };
 		8596AB6B13EB519F00878D01 /* StringValueDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringValueDisplay.h; sourceTree = "<group>"; };
 		8596AB6C13EB519F00878D01 /* StringValueDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringValueDisplay.m; sourceTree = "<group>"; };
-		8596AB6F13EB76E400878D01 /* GroupedEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = GroupedEditTableViewController.h; sourceTree = "<group>"; };
+		8596AB6F13EB76E400878D01 /* GroupedEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedEditTableViewController.h; sourceTree = "<group>"; };
 		8596AB7013EB76E400878D01 /* GroupedEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedEditTableViewController.m; sourceTree = "<group>"; };
 		8596AB7213EB827E00878D01 /* TableRowDetailEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableRowDetailEditController.h; sourceTree = "<group>"; };
 		8596AB7313EB827E00878D01 /* TableRowDetailEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditController.m; sourceTree = "<group>"; };
@@ -121,6 +122,8 @@
 		8596AB7613EB8ABB00878D01 /* TableRowDetailEditStringController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditStringController.m; sourceTree = "<group>"; };
 		8596AB7813EC3AB500878D01 /* TableRowDetailEditDateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableRowDetailEditDateController.h; sourceTree = "<group>"; };
 		8596AB7913EC3AB600878D01 /* TableRowDetailEditDateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditDateController.m; sourceTree = "<group>"; };
+		8596AB7B13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableRowDetailEditSingleSelectionListController.h; sourceTree = "<group>"; };
+		8596AB7C13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditSingleSelectionListController.m; sourceTree = "<group>"; };
 		85A09B8213E9EF24008AC0F3 /* Youpon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Youpon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A09B8613E9EF24008AC0F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		85A09B8813E9EF24008AC0F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -258,6 +261,8 @@
 				8596AB7613EB8ABB00878D01 /* TableRowDetailEditStringController.m */,
 				8596AB7813EC3AB500878D01 /* TableRowDetailEditDateController.h */,
 				8596AB7913EC3AB600878D01 /* TableRowDetailEditDateController.m */,
+				8596AB7B13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.h */,
+				8596AB7C13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -480,6 +485,7 @@
 				8596AB7413EB827E00878D01 /* TableRowDetailEditController.m in Sources */,
 				8596AB7713EB8ABB00878D01 /* TableRowDetailEditStringController.m in Sources */,
 				8596AB7A13EC3AB600878D01 /* TableRowDetailEditDateController.m in Sources */,
+				8596AB7D13EC50C800878D01 /* TableRowDetailEditSingleSelectionListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
