@@ -1,15 +1,19 @@
 //
-//  TableRowDetailEditStringController.m
+//  TableRowDetailEditDateController.m
 //  Youpon
 //
-//  Created by Garrison on 8/4/11.
+//  Created by Garrison on 8/5/11.
 //  Copyright 2011 Garrison Prinslow. All rights reserved.
 //
 
-#import "TableRowDetailEditStringController.h"
+#import "TableRowDetailEditDateController.h"
 
 
-@implementation TableRowDetailEditStringController
+@implementation TableRowDetailEditDateController
+
+@synthesize datePicker;
+@synthesize dateTableView;
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -22,6 +26,8 @@
 
 - (void)dealloc
 {
+    [datePicker release];
+    [dateTableView release];
     [super dealloc];
 }
 
@@ -34,6 +40,31 @@
 }
 
 #pragma mark - View lifecycle
+
+//Added: loadView - create view without a nib
+- (void)loadView {
+    [super loadView];
+    
+    UIView *theView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.view = theView;
+    [theView release];
+    
+    UITableView *theTableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, 67.0, 320.0, 480.0) style:UITableViewStyleGrouped];
+    theTableView.delegate = self;
+    theTableView.dataSource = self;
+    [self.view addSubview:theTableView];
+    self.dateTableView = theTableView;
+    [theTableView release];
+    
+    UIDatePicker *theDatePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0.0, 200.0, 320.0, 216.0)];
+    theDatePicker.datePickerMode = UIDatePickerModeDate;
+    self.datePicker = theDatePicker;
+    [theDatePicker release];
+    [datePicker addTarget:self action:@selector(dateChanged) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:datePicker];
+    
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+}
 
 - (void)viewDidLoad
 {
@@ -55,6 +86,15 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    if ([data valueForKeyPath:self.keyPath] != nil) {
+        [self.datePicker setDate:[data valueForKeyPath:keyPath] animated:YES];
+    }
+    else {
+        [self.datePicker setDate:[NSDate date] animated:YES];
+    }
+    
+    [self.tableView reloadData];
+    
     [super viewWillAppear:animated];
 }
 
@@ -95,38 +135,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *TableRowDetailEditStringCellIdentifier = @"TableRowDetailEditStringCellIdentifier";
+    static NSString *TableRowDetailEditDateControllerCellIdentifier = @"TableRowDetailEditDateControllerCellIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TableRowDetailEditStringCellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TableRowDetailEditDateControllerCellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TableRowDetailEditStringCellIdentifier] autorelease];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 80, 25)];
-        label.textAlignment = UITextAlignmentRight;
-        label.tag = kLabelTag;
-        UIFont *font = [UIFont boldSystemFontOfSize:14.0];
-        label.textColor = kNonEditableTextColor;
-        label.font = font;
-        [cell.contentView addSubview:label];
-        [label release];
-        
-        UITextField *theTextField = [[UITextField alloc] initWithFrame:CGRectMake(100, 10, 190, 25)];
-        
-        [cell.contentView addSubview:theTextField];
-        theTextField.tag = kTextFieldTag;
-        [theTextField release];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TableRowDetailEditDateControllerCellIdentifier] autorelease];
+        cell.textLabel.font = [UIFont systemFontOfSize:17.0];
+        cell.textLabel.textColor = [UIColor colorWithRed:0.243 green:0.306 blue:0.435 alpha:1.0];
     }
     
     // Configure the cell...
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:kLabelTag];
-    label.text = rowLabel;
-    
-    UITextField *textField = (UITextField *)[cell.contentView viewWithTag:kTextFieldTag];
-    
-    NSString *currentValue = [self.data valueForKeyPath:self.keyPath];
-    
-    textField.text = currentValue;
-    [textField becomeFirstResponder];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    cell.textLabel.text = [formatter stringFromDate:[self.datePicker date]];
+    [formatter release];
     
     return cell;
 }
@@ -144,24 +166,19 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark - Custom methods - Superclass overrides
-
--(IBAction)saveEditedDataLocally {
-    NSUInteger onlyRow[] = {0, 0};
-    NSIndexPath *onlyRowPath = [NSIndexPath indexPathWithIndexes:onlyRow length:2];
-    
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:onlyRowPath];
-    UITextField *textField = (UITextField *)[cell.contentView viewWithTag:kTextFieldTag];
-    
-    [self.data setValue:textField.text forKey:self.keyPath];
+#pragma mark - Superclass overrides
+- (IBAction)saveEditedDataLocally {
+    [self.data setValue:self.datePicker.date forKeyPath:self.keyPath];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - Custom methods
+- (IBAction)dateChanged {
+    [self.dateTableView reloadData];
+}
 
 
 @end

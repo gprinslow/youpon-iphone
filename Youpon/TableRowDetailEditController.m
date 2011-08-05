@@ -12,7 +12,7 @@
 @implementation TableRowDetailEditController
 
 @synthesize data;
-@synthesize keypath;
+@synthesize keyPath;
 @synthesize rowLabel;
 
 
@@ -28,7 +28,7 @@
 - (void)dealloc
 {
     [data release];
-    [keypath release];
+    [keyPath release];
     [rowLabel release];
     [super dealloc];
 }

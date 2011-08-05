@@ -11,12 +11,12 @@
 
 @interface TableRowDetailEditController : UITableViewController {
     NSMutableDictionary *data;
-    NSString *keypath;
+    NSString *keyPath;
     NSString *rowLabel;
 }
 
 @property (nonatomic, retain) NSMutableDictionary *data;
-@property (nonatomic, retain) NSString *keypath;
+@property (nonatomic, retain) NSString *keyPath;
 @property (nonatomic, retain) NSString *rowLabel;
 
 -(IBAction)cancel;
