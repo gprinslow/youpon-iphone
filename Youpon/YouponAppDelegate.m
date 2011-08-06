@@ -12,14 +12,54 @@
 
 
 @synthesize rootTabBarController = _rootTabBarController;
+@synthesize loginRootTableViewController = _loginRootTableViewController;
 @synthesize window=_window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     
+    //Init the LoginView
+    self.loginRootTableViewController = [[LoginRootTableViewController alloc] initWithNibName:@"LoginRootTableViewController" bundle:nil];
+    
     //Set root tab bar controller as window's root view controller
     self.window.rootViewController = self.rootTabBarController;
+    
+    /*
+     * Prepare data for LoginView
+     * TODO: Improve security of stored username, password, pin (userDefaults unsecure)
+     */
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+    
+    if ([rememberMe isEqualToString:@"TRUE"]) {
+        NSString *hasAuthenticated = [userDefaults objectForKey:@"hasAuthenticated"];
+        NSString *hasEstablishedPin = [userDefaults objectForKey:@"hasEstablishedPin"];
+        
+        if ([hasAuthenticated isEqualToString:@"TRUE"]) {
+            NSString *authenticatedUsername = [userDefaults objectForKey:@"authenticatedUsername"];
+            
+            [self.loginRootTableViewController.data setValue:authenticatedUsername forKey:@"username"];
+            
+            if ([hasEstablishedPin isEqualToString:@"TRUE"]) {
+                NSString *authenticatedPassword = [userDefaults objectForKey:@"authenticatedPassword"];
+                
+                [self.loginRootTableViewController.data setValue:authenticatedPassword forKey:@"password"];
+            }
+        }
+        else {
+            [self.loginRootTableViewController.data setValue:@"" forKey:@"username"];
+            [self.loginRootTableViewController.data setValue:@"" forKey:@"password"];
+        }
+    }
+    else {
+        [self.loginRootTableViewController.data setValue:@"" forKey:@"username"];
+        [self.loginRootTableViewController.data setValue:@"" forKey:@"password"];
+    }
+    
+    
+    //Present the LoginView - modally
+    [self.rootTabBarController presentModalViewController:self.loginRootTableViewController animated:YES];
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -68,7 +108,20 @@
 {
     [_window release];
     [_rootTabBarController release];
+    [_loginRootTableViewController release];
     [super dealloc];
+}
+
+#pragma mark - Tab Bar Controller Delegate methods
+
+// Optional UITabBarControllerDelegate method.
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    //TODO: fill in didSelectViewController
+}
+
+// Optional UITabBarControllerDelegate method.
+- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
+    //TODO: fill in didEndCustomizingViewControllers (if needed)
 }
 
 @end

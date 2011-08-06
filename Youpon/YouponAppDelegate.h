@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoginRootTableViewController.h"
 
-@interface YouponAppDelegate : NSObject <UIApplicationDelegate> {
-
+@interface YouponAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UITabBarController *_rootTabBarController;
+    LoginRootTableViewController *_loginRootTableViewController;
 }
+
 @property (nonatomic, retain) IBOutlet UITabBarController *rootTabBarController;
+@property (nonatomic, retain) IBOutlet LoginRootTableViewController *loginRootTableViewController;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

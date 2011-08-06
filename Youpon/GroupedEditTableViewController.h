@@ -12,7 +12,7 @@
 @interface GroupedEditTableViewController : UITableViewController {
     NSMutableDictionary *data;
     
-    @private
+    @protected
     NSArray *sectionNames;
     NSArray *rowLabels;
     NSArray *rowKeys;
