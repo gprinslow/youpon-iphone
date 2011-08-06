@@ -314,13 +314,13 @@
 		85A09B8C13E9EF24008AC0F3 /* Youpon */ = {
 			isa = PBXGroup;
 			children = (
+				85A09B9513E9EF24008AC0F3 /* YouponAppDelegate.h */,
+				85A09B9613E9EF24008AC0F3 /* YouponAppDelegate.m */,
 				8596AB7E13EC671000878D01 /* Controllers */,
 				8596AB6E13EB763500878D01 /* Classes */,
 				8596AB6713EB4ED400878D01 /* Categories */,
 				8596AB1D13EB286A00878D01 /* Images */,
 				8596AAF413EB27A000878D01 /* SBJSON */,
-				85A09B9513E9EF24008AC0F3 /* YouponAppDelegate.h */,
-				85A09B9613E9EF24008AC0F3 /* YouponAppDelegate.m */,
 				8596AB1C13EB27C600878D01 /* Interface */,
 				85A09B8D13E9EF24008AC0F3 /* Supporting Files */,
 			);

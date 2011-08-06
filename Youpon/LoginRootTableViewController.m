@@ -140,6 +140,7 @@
 {
     [super viewWillAppear:animated];
     
+    //Added - to refresh data upon return
     [self.tableView reloadData];
 }
 
