@@ -12,6 +12,7 @@
 
 
 @synthesize rootTabBarController = _rootTabBarController;
+@synthesize loginNavigationController = _loginNavigationController;
 @synthesize loginRootTableViewController = _loginRootTableViewController;
 @synthesize window=_window;
 
@@ -19,8 +20,11 @@
 {
     // Override point for customization after application launch.
     
-    //Init the LoginView
+    //Init the LoginRootTableView
     self.loginRootTableViewController = [[LoginRootTableViewController alloc] initWithNibName:@"LoginRootTableViewController" bundle:nil];
+    
+    //Init the LoginNavController w/RootTableView as Root
+    self.loginNavigationController = [[UINavigationController alloc] initWithRootViewController:self.loginRootTableViewController];    
     
     //Set root tab bar controller as window's root view controller
     self.window.rootViewController = self.rootTabBarController;
@@ -59,7 +63,8 @@
     
     
     //Present the LoginView - modally
-    [self.rootTabBarController presentModalViewController:self.loginRootTableViewController animated:YES];
+    //[self.rootTabBarController presentModalViewController:self.loginRootTableViewController animated:YES];
+    [self.rootTabBarController presentModalViewController:self.loginNavigationController animated:YES];
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -108,6 +113,7 @@
 {
     [_window release];
     [_rootTabBarController release];
+    [_loginNavigationController release];
     [_loginRootTableViewController release];
     [super dealloc];
 }
