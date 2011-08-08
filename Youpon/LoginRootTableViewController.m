@@ -167,6 +167,14 @@
     }
     
     
+    //DEBUG: Remove
+//    NSLog(@"%@", self.data);
+//    NSArray *keys = [self.data allKeys];
+//    
+//    for (NSString *key in keys) {
+//        NSLog(@"%@ is %@", key, [self.data objectForKey:key]);
+//    }
+    
 }
 
 - (void)viewDidUnload
