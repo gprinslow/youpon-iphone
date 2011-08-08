@@ -47,6 +47,14 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    //Format navigation bar
+    self.title = NSLocalizedString(@"Login", @"Login");
+    
+    UIBarButtonItem *registrationButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Register" style:UIBarButtonItemStylePlain target:self action:@selector(switchToRegistration)];
+    
+    self.navigationItem.rightBarButtonItem = registrationButtonItem;
+    
+    
     sectionNames = [[NSArray alloc] initWithObjects:
                     [NSNull null], 
                     NSLocalizedString(@"Options", @"Options"), 
@@ -125,6 +133,38 @@
                       [NSArray arrayWithObject:[NSNull null]],
                       
                       nil];
+    
+    /*
+     * Prepare data for LoginView
+     * TODO: Improve security of stored username, password, pin (userDefaults unsecure)
+     */
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+    
+    if ([rememberMe isEqualToString:@"TRUE"]) {
+        NSString *hasAuthenticated = [userDefaults objectForKey:@"hasAuthenticated"];
+        NSString *hasEstablishedPin = [userDefaults objectForKey:@"hasEstablishedPin"];
+        
+        if ([hasAuthenticated isEqualToString:@"TRUE"]) {
+            NSString *authenticatedUsername = [userDefaults objectForKey:@"authenticatedUsername"];
+            
+            [self.data setValue:authenticatedUsername forKey:@"username"];
+            
+            if ([hasEstablishedPin isEqualToString:@"TRUE"]) {
+                NSString *authenticatedPassword = [userDefaults objectForKey:@"authenticatedPassword"];
+                
+                [self.data setValue:authenticatedPassword forKey:@"password"];
+            }
+        }
+        else {
+            [self.data setValue:@"" forKey:@"username"];
+            [self.data setValue:@"" forKey:@"password"];
+        }
+    }
+    else {
+        [self.data setValue:@"" forKey:@"username"];
+        [self.data setValue:@"" forKey:@"password"];
+    }
     
     
 }
@@ -259,5 +299,14 @@
     }
     return title;
 }
+
+#pragma mark - Custom methods
+
+- (IBAction)switchToRegistration {
+    
+    
+    
+}
+
 
 @end
