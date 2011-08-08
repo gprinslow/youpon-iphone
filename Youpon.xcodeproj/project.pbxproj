@@ -44,6 +44,7 @@
 		8596AB7D13EC50C800878D01 /* TableRowDetailEditSingleSelectionListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB7C13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.m */; };
 		8596AB8213EC677E00878D01 /* LoginRootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AB8013EC677E00878D01 /* LoginRootTableViewController.m */; };
 		8596AB8313EC677E00878D01 /* LoginRootTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8596AB8113EC677E00878D01 /* LoginRootTableViewController.xib */; };
+		85A06B2413F0743100ADB6E4 /* TextEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A06B2313F0743100ADB6E4 /* TextEntryTableViewCell.m */; };
 		85A09B8713E9EF24008AC0F3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8613E9EF24008AC0F3 /* UIKit.framework */; };
 		85A09B8913E9EF24008AC0F3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8813E9EF24008AC0F3 /* Foundation.framework */; };
 		85A09B8B13E9EF24008AC0F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A09B8A13E9EF24008AC0F3 /* CoreGraphics.framework */; };
@@ -129,6 +130,8 @@
 		8596AB7F13EC677E00878D01 /* LoginRootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginRootTableViewController.h; sourceTree = "<group>"; };
 		8596AB8013EC677E00878D01 /* LoginRootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginRootTableViewController.m; sourceTree = "<group>"; };
 		8596AB8113EC677E00878D01 /* LoginRootTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRootTableViewController.xib; sourceTree = "<group>"; };
+		85A06B2213F0743100ADB6E4 /* TextEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextEntryTableViewCell.h; sourceTree = "<group>"; };
+		85A06B2313F0743100ADB6E4 /* TextEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextEntryTableViewCell.m; sourceTree = "<group>"; };
 		85A09B8213E9EF24008AC0F3 /* Youpon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Youpon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A09B8613E9EF24008AC0F3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		85A09B8813E9EF24008AC0F3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -269,6 +272,8 @@
 				8596AB7913EC3AB600878D01 /* TableRowDetailEditDateController.m */,
 				8596AB7B13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.h */,
 				8596AB7C13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.m */,
+				85A06B2213F0743100ADB6E4 /* TextEntryTableViewCell.h */,
+				85A06B2313F0743100ADB6E4 /* TextEntryTableViewCell.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -504,6 +509,7 @@
 				8596AB7A13EC3AB600878D01 /* TableRowDetailEditDateController.m in Sources */,
 				8596AB7D13EC50C800878D01 /* TableRowDetailEditSingleSelectionListController.m in Sources */,
 				8596AB8213EC677E00878D01 /* LoginRootTableViewController.m in Sources */,
+				85A06B2413F0743100ADB6E4 /* TextEntryTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

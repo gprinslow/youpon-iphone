@@ -10,6 +10,7 @@
 #import "NSArray+NestedArray.h"
 #import "StringValueDisplay.h"
 #import "TableRowDetailEditController.h"
+#import "TextEntryTableViewCell.h"
 
 @implementation LoginRootTableViewController
 
@@ -229,26 +230,48 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *LoginRootTableViewControllerCellIdentifier = @"LoginRootTableViewControllerCellIdentifier";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:LoginRootTableViewControllerCellIdentifier] autorelease];
-    }
-    
-    // Configure the cell...
     NSString *rowKey = [rowKeys nestedObjectAtIndexPath:indexPath];
     NSString *rowLabel = [rowLabels nestedObjectAtIndexPath:indexPath];
     
-    //TODO: Conditional formatting of cells here
-    id <StringValueDisplay, NSObject> rowValue = [data valueForKey:rowKey];
+    static NSString *LoginRootTableViewControllerCellIdentifier = @"LoginRootTableViewControllerCellIdentifier";
     
-    cell.detailTextLabel.text = [rowValue stringValueDisplay];
-    cell.textLabel.text = rowLabel;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    
-    return cell;
+    if ([rowKey isEqualToString:@"password"]) {
+        TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[[TextEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:LoginRootTableViewControllerCellIdentifier] autorelease];
+        }
+        
+        cell.textLabel.text = rowLabel;
+        
+        cell.textField.adjustsFontSizeToFitWidth = TRUE;
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        cell.textField.backgroundColor = [UIColor whiteColor];
+        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        cell.textField.returnKeyType = UIReturnKeyDone;
+        cell.textField.clearButtonMode = UITextFieldViewModeAlways;
+        cell.textField.secureTextEntry = TRUE;
+        
+        cell.textField.text = [data valueForKey:rowKey];
+        
+        return cell;
+    }
+    else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:LoginRootTableViewControllerCellIdentifier] autorelease];
+        }
+     
+        id <StringValueDisplay, NSObject> rowValue = [data valueForKey:rowKey];
+        
+        cell.detailTextLabel.text = [rowValue stringValueDisplay];
+        cell.textLabel.text = rowLabel;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        return cell;
+    }
+    return nil;
 }
 
 #pragma mark - Table view delegate
