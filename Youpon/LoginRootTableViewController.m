@@ -58,8 +58,8 @@
     
     sectionNames = [[NSArray alloc] initWithObjects:
                     [NSNull null], 
-                    NSLocalizedString(@"Options", @"Options"), 
                     [NSNull null], 
+                    NSLocalizedString(@"Options", @"Options"), 
                     nil];
     
     rowLabels = [[NSArray alloc] initWithObjects:
@@ -72,12 +72,12 @@
                   nil],
                  
                  //Section 2
-                 [NSArray arrayWithObjects:
-                  NSLocalizedString(@"Remember Me", @"Remember Me"),
+                 [NSArray arrayWithObjects:@"",
                   nil],
                  
                  //Section 3
-                 [NSArray arrayWithObjects:@"",
+                 [NSArray arrayWithObjects:
+                  NSLocalizedString(@"Remember Me", @"Remember Me"),
                   nil],
                  
                  nil];
@@ -93,11 +93,11 @@
                
                //Section 2
                [NSArray arrayWithObject:
-                @"rememberMe"],
+                @"loginButton"],
                
                //Section 3
                [NSArray arrayWithObject:
-                @"loginButton"],
+                @"rememberMe"],
                
                nil];
     
@@ -105,16 +105,16 @@
                  
                  //Section 1
                  [NSArray arrayWithObjects:
-                  @"TableRowDetailEditStringController",
-                  @"TableRowDetailEditStringController",
-                  @"TableRowDetailEditStringController",
+                  [NSNull null],
+                  [NSNull null],
+                  [NSNull null],
                   nil],
                  
                  //Section 2
-                 [NSArray arrayWithObject:@"TableRowDetailEditSingleSelectionListController"],
+                 [NSArray arrayWithObject:[NSNull null]],
                  
                  //Section 3
-                 [NSArray arrayWithObject:[NSNull null]],
+                 [NSArray arrayWithObject:@"TableRowDetailEditSingleSelectionListController"],
                  
                  nil];
     
@@ -128,10 +128,10 @@
                      nil],
 
                       //Section 2
-                      [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Yes", @"No", nil] forKey:@"list"],
+                    [NSArray arrayWithObject:[NSNull null]],
                       
                       //Section 3
-                      [NSArray arrayWithObject:[NSNull null]],
+                    [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Yes", @"No", nil] forKey:@"list"],
                       
                       nil];
     
@@ -247,12 +247,15 @@
         cell.textField.adjustsFontSizeToFitWidth = TRUE;
         cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         cell.textField.backgroundColor = [UIColor whiteColor];
+        cell.textField.clearButtonMode = UITextFieldViewModeAlways;
         cell.textField.keyboardType = UIKeyboardTypeDefault;
         cell.textField.returnKeyType = UIReturnKeyDone;
-        cell.textField.clearButtonMode = UITextFieldViewModeAlways;
         cell.textField.secureTextEntry = TRUE;
         
         cell.textField.text = [data valueForKey:rowKey];
+        
+        txfPassword = cell.textField;
+        [txfPassword addTarget:self action:@selector(passwordEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
         return cell;
     }
@@ -279,23 +282,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
-    
-    //Push editing controller onto stack
-    NSString *controllerClassName = [rowControllers nestedObjectAtIndexPath:indexPath];
+
+    id controllerClassName = [rowControllers nestedObjectAtIndexPath:indexPath];
     NSString *rowLabel  = [rowLabels nestedObjectAtIndexPath:indexPath];
     NSString *rowKey = [rowKeys nestedObjectAtIndexPath:indexPath];
     
-    //TODO: Conditional allocation of controllers here
-    if (![controllerClassName isEqualToString:@"NSNull"]) {
+    //Conditional allocation of controllers here
+    if (controllerClassName != [NSNull null]) {
         
-        Class controllerClass = NSClassFromString(controllerClassName);
+        NSString *controllerClassString = (NSString *)controllerClassName;
+        
+        Class controllerClass = NSClassFromString(controllerClassString);
         TableRowDetailEditController *controller = [controllerClass alloc];
         controller = [controller initWithStyle:UITableViewStyleGrouped];
         controller.keyPath = rowKey;
@@ -330,6 +327,19 @@
     }
     return title;
 }
+
+#pragma mark - Action methods for resigning keyboard
+
+- (IBAction)usernameEditingDidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
+}
+- (IBAction)passwordEditingDidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
+}
+- (IBAction)pinEditingDidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
+}
+
 
 #pragma mark - Custom methods
 

@@ -10,8 +10,15 @@
 #import "GroupedEditTableViewController.h"
 
 @interface LoginRootTableViewController : GroupedEditTableViewController {
-    
+    UITextField *txfUsername;
+    UITextField *txfPassword;
+    UITextField *txfPin;
 }
+
+
+- (IBAction)usernameEditingDidEndOnExit:(id)sender;
+- (IBAction)passwordEditingDidEndOnExit:(id)sender;
+- (IBAction)pinEditingDidEndOnExit:(id)sender;
 
 - (IBAction)switchToRegistration;
 

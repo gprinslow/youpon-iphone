@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8592B9E213F09EA500E19E03 /* GroupedEditTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */; };
 		8596AB0F13EB27A000878D01 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AAF713EB27A000878D01 /* NSObject+SBJson.m */; };
 		8596AB1013EB27A000878D01 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AAFA13EB27A000878D01 /* SBJsonParser.m */; };
 		8596AB1113EB27A000878D01 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AAFC13EB27A000878D01 /* SBJsonStreamParser.m */; };
@@ -71,6 +72,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8592B9E013F09EA500E19E03 /* GroupedEditTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedEditTableView.h; sourceTree = "<group>"; };
+		8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedEditTableView.m; sourceTree = "<group>"; };
 		8596AAF513EB27A000878D01 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		8596AAF613EB27A000878D01 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		8596AAF713EB27A000878D01 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
@@ -274,6 +277,8 @@
 				8596AB7C13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.m */,
 				85A06B2213F0743100ADB6E4 /* TextEntryTableViewCell.h */,
 				85A06B2313F0743100ADB6E4 /* TextEntryTableViewCell.m */,
+				8592B9E013F09EA500E19E03 /* GroupedEditTableView.h */,
+				8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -510,6 +515,7 @@
 				8596AB7D13EC50C800878D01 /* TableRowDetailEditSingleSelectionListController.m in Sources */,
 				8596AB8213EC677E00878D01 /* LoginRootTableViewController.m in Sources */,
 				85A06B2413F0743100ADB6E4 /* TextEntryTableViewCell.m in Sources */,
+				8592B9E213F09EA500E19E03 /* GroupedEditTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
