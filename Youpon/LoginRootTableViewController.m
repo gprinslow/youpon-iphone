@@ -49,7 +49,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     //Format navigation bar
-    self.title = NSLocalizedString(@"Login", @"Login");
+    self.title = NSLocalizedString(@"Youpon - Login", @"Login Page Title");
     
     UIBarButtonItem *registrationButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Register" style:UIBarButtonItemStylePlain target:self action:@selector(switchToRegistration)];
     
@@ -114,7 +114,7 @@
                  [NSArray arrayWithObject:[NSNull null]],
                  
                  //Section 3
-                 [NSArray arrayWithObject:@"TableRowDetailEditSingleSelectionListController"],
+                 [NSArray arrayWithObject:[NSNull null]],
                  
                  nil];
     
@@ -131,7 +131,7 @@
                     [NSArray arrayWithObject:[NSNull null]],
                       
                       //Section 3
-                    [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Yes", @"No", nil] forKey:@"list"],
+                    [NSArray arrayWithObject:[NSNull null]],
                       
                       nil];
     
@@ -235,7 +235,7 @@
     
     static NSString *LoginRootTableViewControllerCellIdentifier = @"LoginRootTableViewControllerCellIdentifier";
     
-    if ([rowKey isEqualToString:@"password"]) {
+    if ([rowKey isEqualToString:@"username"]) {
         TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
         
         if (cell == nil) {
@@ -247,15 +247,123 @@
         cell.textField.adjustsFontSizeToFitWidth = TRUE;
         cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         cell.textField.backgroundColor = [UIColor whiteColor];
-        cell.textField.clearButtonMode = UITextFieldViewModeAlways;
+        cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
+        cell.textField.returnKeyType = UIReturnKeyNext;
+        cell.textField.secureTextEntry = FALSE;
+        
+        cell.textField.placeholder = @"Enter your username";
+        
+        cell.textField.text = [data valueForKey:rowKey];
+        
+        txfUsername = cell.textField;
+        [txfUsername addTarget:self action:@selector(usernameEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+        
+        return cell;
+    }
+    else if ([rowKey isEqualToString:@"password"]) {
+        TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[[TextEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:LoginRootTableViewControllerCellIdentifier] autorelease];
+        }
+        
+        cell.textLabel.text = rowLabel;
+        
+        cell.textField.adjustsFontSizeToFitWidth = TRUE;
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        cell.textField.backgroundColor = [UIColor whiteColor];
+        cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         cell.textField.keyboardType = UIKeyboardTypeDefault;
         cell.textField.returnKeyType = UIReturnKeyDone;
         cell.textField.secureTextEntry = TRUE;
+        
+        cell.textField.placeholder = @"Enter your password";
         
         cell.textField.text = [data valueForKey:rowKey];
         
         txfPassword = cell.textField;
         [txfPassword addTarget:self action:@selector(passwordEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+        
+        return cell;
+    }
+    else if ([rowKey isEqualToString:@"pin"]) {
+        TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[[TextEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:LoginRootTableViewControllerCellIdentifier] autorelease];
+        }
+        
+        cell.textLabel.text = rowLabel;
+        
+        cell.textField.adjustsFontSizeToFitWidth = FALSE;
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        cell.textField.backgroundColor = [UIColor whiteColor];
+        cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        cell.textField.returnKeyType = UIReturnKeyDone;
+        cell.textField.secureTextEntry = TRUE;
+        
+        cell.textField.placeholder = @"Enter your PIN";
+        
+        cell.textField.text = [data valueForKey:rowKey];
+        
+        txfPin = cell.textField;
+        [txfPin addTarget:self action:@selector(pinEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+        
+        return cell;
+    }
+    else if ([rowKey isEqualToString:@"loginButton"]) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:LoginRootTableViewControllerCellIdentifier] autorelease];
+        }
+        
+        CGFloat cellCenter = cell.frame.size.height/2.0;
+        
+        UIActivityIndicatorView *loginActivityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+        [loginActivityIndicatorView setFrame:CGRectMake(0.0f, cellCenter, 24.0f, 24.0f)];
+        cell.accessoryView = loginActivityIndicatorView;
+        aivLogin = loginActivityIndicatorView;
+        
+        UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [loginButton addTarget:self action:@selector(doLoginAction) forControlEvents:UIControlEventTouchUpInside];
+        [loginButton setTitle:@"Log in" forState:UIControlStateNormal];
+        loginButton.frame = CGRectMake(10.0f, 7.0f, 240.0f, 30.0f);
+        [cell.contentView addSubview:loginButton];
+        btnLogin = loginButton;
+        
+        return cell;
+    }
+    else if ([rowKey isEqualToString:@"rememberMe"]) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:LoginRootTableViewControllerCellIdentifier] autorelease];
+        }
+        
+        CGFloat cellCenter = cell.frame.size.height/2.0;
+        
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+        
+        cell.detailTextLabel.text = rowLabel;
+        cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:14.0];
+        cell.detailTextLabel.textColor = [UIColor colorWithRed:0.318 green:0.4 blue:0.569 alpha:1.0];
+        
+        UISwitch *rememberMeSwitch = [[[UISwitch alloc] initWithFrame:CGRectMake(0.0f, cellCenter, 24.0f, 24.0f)] autorelease];
+        
+        if ([rememberMe isEqualToString:@"TRUE"]) {
+            [rememberMeSwitch setOn:YES animated:FALSE];
+        }
+        else {
+            [rememberMeSwitch setOn:NO animated:FALSE];
+        }
+        
+        cell.accessoryView = rememberMeSwitch;
+        
+        swtRememberMe = rememberMeSwitch;
         
         return cell;
     }
@@ -316,6 +424,32 @@
     }
     else {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
+        if ([rowKey isEqualToString:@"username"]) {
+            [txfUsername becomeFirstResponder];
+        }
+        else if ([rowKey isEqualToString:@"password"]) {
+            [txfPassword becomeFirstResponder];
+        }
+        else if ([rowKey isEqualToString:@"pin"]) {
+            [txfPin becomeFirstResponder];
+        }
+        else if ([rowKey isEqualToString:@"loginButton"]) {
+            [txfUsername resignFirstResponder];
+            [txfPassword resignFirstResponder];
+            [txfPin resignFirstResponder];
+            
+            if ([btnLogin isEnabled]) {
+                [self doLoginAction];
+            }
+        }
+        else if ([rowKey isEqualToString:@"rememberMe"]) {
+            [txfUsername resignFirstResponder];
+            [txfPassword resignFirstResponder];
+            [txfPin resignFirstResponder];
+            
+            [swtRememberMe setOn:![swtRememberMe isOn] animated:YES];
+        }
     }
 }
 
@@ -332,6 +466,7 @@
 
 - (IBAction)usernameEditingDidEndOnExit:(id)sender {
     [sender resignFirstResponder];
+    [txfPassword becomeFirstResponder];
 }
 - (IBAction)passwordEditingDidEndOnExit:(id)sender {
     [sender resignFirstResponder];
@@ -344,10 +479,13 @@
 #pragma mark - Custom methods
 
 - (IBAction)switchToRegistration {
-    
-    
-    
+    //TODO: Switch to Registration screen
 }
 
+- (IBAction)doLoginAction {
+    //TODO: Login Action
+    NSLog(@"Login action");
+    [aivLogin startAnimating];
+}
 
 @end

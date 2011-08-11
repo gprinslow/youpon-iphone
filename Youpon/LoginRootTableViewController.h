@@ -13,6 +13,9 @@
     UITextField *txfUsername;
     UITextField *txfPassword;
     UITextField *txfPin;
+    UIButton *btnLogin;
+    UIActivityIndicatorView *aivLogin;
+    UISwitch *swtRememberMe;
 }
 
 
@@ -21,5 +24,6 @@
 - (IBAction)pinEditingDidEndOnExit:(id)sender;
 
 - (IBAction)switchToRegistration;
+- (IBAction)doLoginAction;
 
 @end

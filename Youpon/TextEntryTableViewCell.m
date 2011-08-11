@@ -22,13 +22,13 @@
         
         
         //X-Coord of origin point
-        CGFloat x = 100;
+        CGFloat x = 100.0f;
         //Y-Coord of origin point
-        CGFloat y = 9;
+        CGFloat y = 10.0f;
         //Width of rectangle
         CGFloat width = (self.frame.size.width - x - self.indentationWidth);
         //Height of rectangle
-        CGFloat height = 24;
+        CGFloat height = 24.0f;
         
         self.textField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, width, height)];
         self.textField.autoresizingMask=UIViewAutoresizingFlexibleHeight;
