@@ -151,10 +151,16 @@
             
             [self.data setValue:authenticatedUsername forKey:@"username"];
             
+            //Move control to Password field
+            [txfPassword becomeFirstResponder];
+            
             if ([hasEstablishedPin isEqualToString:@"TRUE"]) {
                 NSString *authenticatedPassword = [userDefaults objectForKey:@"authenticatedPassword"];
                 
                 [self.data setValue:authenticatedPassword forKey:@"password"];
+                
+                //Move control to PIN field
+                [txfPin becomeFirstResponder];
             }
         }
         else {
@@ -309,6 +315,8 @@
         cell.textField.text = [data valueForKey:rowKey];
         
         txfPin = cell.textField;
+        cell.tag = 1;
+        
         [txfPin addTarget:self action:@selector(pinEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
         return cell;
@@ -353,6 +361,7 @@
         cell.detailTextLabel.textColor = [UIColor colorWithRed:0.318 green:0.4 blue:0.569 alpha:1.0];
         
         UISwitch *rememberMeSwitch = [[[UISwitch alloc] initWithFrame:CGRectMake(0.0f, cellCenter, 24.0f, 24.0f)] autorelease];
+        [rememberMeSwitch addTarget:self action:@selector(rememberMeSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
         
         if ([rememberMe isEqualToString:@"TRUE"]) {
             [rememberMeSwitch setOn:YES animated:FALSE];
@@ -474,7 +483,20 @@
 - (IBAction)pinEditingDidEndOnExit:(id)sender {
     [sender resignFirstResponder];
 }
+         
+#pragma mark - Action methods for responding to value changed
 
+- (IBAction)rememberMeSwitchValueChanged:(id)sender {
+    if (![swtRememberMe isOn]) {
+        [txfPin setText:@""];
+        [txfPin setPlaceholder:@"Disabled"];
+        [txfPin setEnabled:FALSE];
+    }
+    else {
+        [txfPin setPlaceholder:@"Enter your PIN"];
+        [txfPin setEnabled:TRUE];
+    }
+}
 
 #pragma mark - Custom methods
 
@@ -485,7 +507,59 @@
 - (IBAction)doLoginAction {
     //TODO: Login Action
     NSLog(@"Login action");
+    
+    [txfUsername resignFirstResponder];
+    [txfPassword resignFirstResponder];
+    [txfPin resignFirstResponder];
+    
     [aivLogin startAnimating];
+    [btnLogin setEnabled:FALSE];
+    [self.tableView setAllowsSelection:FALSE];
+    
+    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+
+
+    if ([self isValidLoginAction]) {
+        NSLog(@"Valid Login Action - call service here");
+        for (int i = 0; i < 1000; i++) {
+            NSLog(@"Simulate delay");
+        }
+    }
+    
+    [btnLogin setEnabled:TRUE];
+    [self.tableView setAllowsSelection:TRUE];
+    //[aivLogin stopAnimating];
+}
+
+- (BOOL)isValidLoginAction {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *hasAuthenticated = [userDefaults objectForKey:@"hasAuthenticated"];
+    NSString *hasEstablishedPin = [userDefaults objectForKey:@"hasEstablishedPin"];
+    NSString *authenticatedPin = [userDefaults objectForKey:@"authenticatedPin"];
+    
+    if ([txfUsername.text isEqualToString:@""]) {
+        NSLog(@"Username must not be blank");
+        return FALSE;
+    }
+    if ([txfPassword.text isEqualToString:@""]) {
+        NSLog(@"Password must not be blank");
+        return FALSE;
+    }
+    
+    if ([hasAuthenticated isEqualToString:@"TRUE"]) {
+        if([hasEstablishedPin isEqualToString:@"TRUE"]) {
+            if ([txfPin.text isEqualToString:@""]) {
+                NSLog(@"If a PIN has been established, PIN must not be blank");
+                return FALSE;
+            }
+            else if (![txfPin.text isEqualToString:authenticatedPin]) {
+                NSLog(@"Entered PIN does not match authenticated PIN");
+                return FALSE;
+            }
+        }
+    }
+    return TRUE;
 }
 
 @end

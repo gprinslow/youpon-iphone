@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GroupedEditTableViewController.h"
+#import "TextEntryTableViewCell.h"
 
 @interface LoginRootTableViewController : GroupedEditTableViewController {
     UITextField *txfUsername;
@@ -16,14 +17,17 @@
     UIButton *btnLogin;
     UIActivityIndicatorView *aivLogin;
     UISwitch *swtRememberMe;
+    TextEntryTableViewCell *cellUsername;
 }
 
 
 - (IBAction)usernameEditingDidEndOnExit:(id)sender;
 - (IBAction)passwordEditingDidEndOnExit:(id)sender;
 - (IBAction)pinEditingDidEndOnExit:(id)sender;
+- (IBAction)rememberMeSwitchValueChanged:(id)sender;
 
 - (IBAction)switchToRegistration;
 - (IBAction)doLoginAction;
+- (BOOL)isValidLoginAction;
 
 @end
