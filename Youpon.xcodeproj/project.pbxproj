@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8540D89113F4C0FF005367AA /* RegistrationRootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8540D88F13F4C0FF005367AA /* RegistrationRootTableViewController.m */; };
+		8540D89213F4C0FF005367AA /* RegistrationRootTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8540D89013F4C0FF005367AA /* RegistrationRootTableViewController.xib */; };
 		8592B9E213F09EA500E19E03 /* GroupedEditTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */; };
 		8596AB0F13EB27A000878D01 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AAF713EB27A000878D01 /* NSObject+SBJson.m */; };
 		8596AB1013EB27A000878D01 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AAFA13EB27A000878D01 /* SBJsonParser.m */; };
@@ -72,6 +74,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8540D88E13F4C0FF005367AA /* RegistrationRootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationRootTableViewController.h; sourceTree = "<group>"; };
+		8540D88F13F4C0FF005367AA /* RegistrationRootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationRootTableViewController.m; sourceTree = "<group>"; };
+		8540D89013F4C0FF005367AA /* RegistrationRootTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegistrationRootTableViewController.xib; sourceTree = "<group>"; };
 		8592B9E013F09EA500E19E03 /* GroupedEditTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedEditTableView.h; sourceTree = "<group>"; };
 		8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedEditTableView.m; sourceTree = "<group>"; };
 		8596AAF513EB27A000878D01 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -215,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				8596AB8113EC677E00878D01 /* LoginRootTableViewController.xib */,
+				8540D89013F4C0FF005367AA /* RegistrationRootTableViewController.xib */,
 				85A09B9813E9EF24008AC0F3 /* MainWindow.xib */,
 			);
 			name = Interface;
@@ -288,6 +294,8 @@
 			children = (
 				8596AB7F13EC677E00878D01 /* LoginRootTableViewController.h */,
 				8596AB8013EC677E00878D01 /* LoginRootTableViewController.m */,
+				8540D88E13F4C0FF005367AA /* RegistrationRootTableViewController.h */,
+				8540D88F13F4C0FF005367AA /* RegistrationRootTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -457,6 +465,7 @@
 				8596AB3D13EB288A00878D01 /* 172-pricetag.png in Resources */,
 				8596AB3E13EB288A00878D01 /* 191-collection.png in Resources */,
 				8596AB8313EC677E00878D01 /* LoginRootTableViewController.xib in Resources */,
+				8540D89213F4C0FF005367AA /* RegistrationRootTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +525,7 @@
 				8596AB8213EC677E00878D01 /* LoginRootTableViewController.m in Sources */,
 				85A06B2413F0743100ADB6E4 /* TextEntryTableViewCell.m in Sources */,
 				8592B9E213F09EA500E19E03 /* GroupedEditTableView.m in Sources */,
+				8540D89113F4C0FF005367AA /* RegistrationRootTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
