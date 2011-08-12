@@ -27,18 +27,33 @@
     
 	if (backgroundTouched) {
 		for (id cell in self.visibleCells) {
-			// The first subview is the text field inside the cell
-			//[[cell.contentView.subviews objectAtIndex:0] resignFirstResponder];
-            
             if ([cell isKindOfClass:[TextEntryTableViewCell class]]) {
                 TextEntryTableViewCell *tCell = (TextEntryTableViewCell *)cell;
                 
                 [tCell.textField resignFirstResponder];
             }
+            else {
+                UITableViewCell *aCell = (UITableViewCell *)cell;
+                [aCell resignFirstResponder];
+            }
 		}
 	}
 	
 	[super touchesBegan:touches withEvent:event];
+}
+
+- (void)resignAllFirstResponders {
+    for (id cell in self.visibleCells) {
+        if ([cell isKindOfClass:[TextEntryTableViewCell class]]) {
+            TextEntryTableViewCell *tCell = (TextEntryTableViewCell *)cell;
+            
+            [tCell.textField resignFirstResponder];
+        }
+        else {
+            UITableViewCell *aCell = (UITableViewCell *)cell;
+            [aCell resignFirstResponder];
+        }
+    }
 }
 
 @end

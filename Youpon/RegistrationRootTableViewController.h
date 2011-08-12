@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GroupedEditTableViewController.h"
 
-
-@interface RegistrationRootTableViewController : UITableViewController {
+@interface RegistrationRootTableViewController : GroupedEditTableViewController {
     
+    @private
+    NSArray *rowPlaceholderText;
 }
 
-- (IBAction)doRegistrationAction;
+- (IBAction)startRegistrationAction;
+- (void)doRegistrationAction;
+- (BOOL)isValidRegistrationAction;
 - (IBAction)cancelRegistration;
 
 @end

@@ -7,6 +7,10 @@
 //
 
 #import "RegistrationRootTableViewController.h"
+#import "NSArray+NestedArray.h"
+#import "StringValueDisplay.h"
+#import "TableRowDetailEditController.h"
+#import "TextEntryTableViewCell.h"
 
 
 @implementation RegistrationRootTableViewController
@@ -22,6 +26,7 @@
 
 - (void)dealloc
 {
+    [rowPlaceholderText release];
     [super dealloc];
 }
 
@@ -51,6 +56,182 @@
     
     self.navigationItem.leftBarButtonItem = cancelButtonItem;
     
+    sectionNames = [[NSArray alloc] initWithObjects:
+                    NSLocalizedString(@"Login Info", "Login Info"),
+                    NSLocalizedString(@"Name", @"Name"),
+                    NSLocalizedString(@"Demographics", @"Demographics"),
+                    [NSNull null],
+                    nil];
+    
+    rowLabels = [[NSArray alloc] initWithObjects:
+                 
+                 //Section 1 - Login
+                 [NSArray arrayWithObjects:
+                  NSLocalizedString(@"Username", @"Username"),
+                  NSLocalizedString(@"Password", @"Password"),
+                  NSLocalizedString(@"Password", @"Password"),
+                  NSLocalizedString(@"PIN", @"PIN"),
+                  NSLocalizedString(@"Email", @"Email"),
+                  NSLocalizedString(@"Remember Me", @"Remember Me"),
+                  nil],
+                 
+                 //Section 2 - Name
+                 [NSArray arrayWithObjects:
+                  NSLocalizedString(@"First Name", @"First Name"),
+                  NSLocalizedString(@"Middle Initial", @"Middle Initial"),
+                  NSLocalizedString(@"Last Name", @"Last Name"),
+                  nil],
+                 
+                 //Section 3 - Demographics
+                 [NSArray arrayWithObjects:
+                  NSLocalizedString(@"Zip Code", @"Zip Code"),
+                  NSLocalizedString(@"Birthday", @"Birthday"),
+                  NSLocalizedString(@"Gender", @"Gender"),
+                  NSLocalizedString(@"User Type", @"User Type"),
+                  nil],
+                    
+                 //Section 4 - Registration Button
+                 [NSArray arrayWithObjects:
+                  [NSNull null],
+                  nil],
+                 
+                 nil];
+    
+    rowKeys = [[NSArray alloc] initWithObjects:
+                 
+                 //Section 1 - Login
+                 [NSArray arrayWithObjects:
+                  @"username",
+                  @"password",
+                  @"passwordConfirm",
+                  @"pin",
+                  @"email",
+                  @"rememberMe",
+                  nil],
+                 
+                 //Section 2 - Name
+                 [NSArray arrayWithObjects:
+                  @"nameFirst",
+                  @"nameMiddleInitial",
+                  @"nameLast",
+                  nil],
+                 
+                 //Section 3 - Demographics
+                 [NSArray arrayWithObjects:
+                  @"zipCode",
+                  @"birthday",
+                  @"gender",
+                  @"userType",
+                  nil],
+                 
+                 //Section 4 - Registration Button
+                 [NSArray arrayWithObjects:
+                  @"registrationButton",
+                  nil],
+                 
+                 nil];
+    
+    rowPlaceholderText = [[NSArray alloc] initWithObjects:
+                
+                          //Section 1 - Login
+                          [NSArray arrayWithObjects:
+                           @"Enter a username (e.g. email address)",
+                           @"Enter a password",
+                           @"Confirm the password",
+                           @"Enter a PIN for easier re-entry",
+                           @"Enter a email address",
+                           @"Remember your login info",
+                           nil],
+                          
+                          //Section 2 - Name
+                          [NSArray arrayWithObjects:
+                           @"Enter your first name",
+                           @"Optional",
+                           @"Enter your last name",
+                           nil],
+                          
+                          //Section 3 - Demographics
+                          [NSArray arrayWithObjects:
+                           @"Enter your home zip code",
+                           @"Enter your birthday",
+                           @"Enter your gender",
+                           @"Select your user type",
+                           nil],
+                          
+                          //Section 4 - Registration Button
+                          [NSArray arrayWithObjects:
+                           @"Register",
+                           nil],
+                          
+                          nil];
+    
+    rowControllers = [[NSArray alloc] initWithObjects:
+               
+               //Section 1 - Login
+               [NSArray arrayWithObjects:
+                @"TextEntryTableViewCell",
+                @"TextEntryTableViewCell",
+                @"TextEntryTableViewCell",
+                @"TextEntryTableViewCell",
+                @"TextEntryTableViewCell",
+                @"SwitchTableViewCell",
+                nil],
+               
+               //Section 2 - Name
+               [NSArray arrayWithObjects:
+                @"TextEntryTableViewCell",
+                @"TextEntryTableViewCell",
+                @"TextEntryTableViewCell",
+                nil],
+               
+               //Section 3 - Demographics
+               [NSArray arrayWithObjects:
+                @"TextEntryTableViewCell",
+                @"TableRowDetailEditDateController",
+                @"TableRowDetailEditSingleSelectionListController",
+                @"TableRowDetailEditSingleSelectionListController",
+                nil],
+               
+               //Section 4 - Registration Button
+               [NSArray arrayWithObjects:
+                @"ButtonTableViewCell",
+                nil],
+               
+               nil];
+    
+    rowArguments = [[NSArray alloc] initWithObjects:
+                      
+                      //Section 1 - Login
+                      [NSArray arrayWithObjects:
+                       [NSNull null],
+                       [NSNull null],
+                       [NSNull null],
+                       [NSNull null],
+                       [NSNull null],
+                       [NSNull null],
+                       nil],
+                      
+                      //Section 2 - Name
+                      [NSArray arrayWithObjects:
+                       [NSNull null],
+                       [NSNull null],
+                       [NSNull null],
+                       nil],
+                      
+                      //Section 3 - Demographics
+                      [NSArray arrayWithObjects:
+                       [NSNull null],
+                       [NSNull null],
+                       [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Female", @"Male", @"Prefer not to say", nil] forKey:@"list"],
+                       [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Customer", @"Business", @"Customer & Business", nil] forKey:@"list"],
+                       nil],
+                      
+                      //Section 4 - Registration Button
+                      [NSArray arrayWithObjects:
+                       [NSNull null],
+                       nil],
+                      
+                      nil];    
     
     
 }
@@ -65,6 +246,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -92,70 +275,77 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return [sectionNames count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [rowLabels countOfNestedArray:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    NSString *rowKey = [rowKeys nestedObjectAtIndexPath:indexPath];
+    NSString *rowLabel = [rowLabels nestedObjectAtIndexPath:indexPath];
+    id rowController = [rowControllers nestedObjectAtIndexPath:indexPath];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    static NSString *RegistrationRootTableViewControllerCellIdentifier = @"RegistrationRootTableViewControllerCellIdentifier";
+    
+    if (rowController != [NSNull null]) {
+        NSString *rowControllerString = (NSString *)rowController;
+        
+        if ([rowControllerString isEqualToString:@"TextEntryTableViewCell"]) {
+            TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+            
+            if (cell == nil) {
+                cell = [[[TextEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+            }
+            
+            //Text entry defaults - overridden by if statements below
+            
+            
+            
+        }
+        else if ([rowControllerString isEqualToString:@"SwitchTableViewCell"]) {
+            
+        }
+        else if ([rowControllerString isEqualToString:@"ButtonTableViewCell"]) {
+            
+        }
+        else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+            }
+            
+            id <StringValueDisplay, NSObject> rowValue = [data valueForKey:rowKey];
+            
+            cell.detailTextLabel.text = [rowValue stringValueDisplay];
+            cell.textLabel.text = rowLabel;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            return cell;
+        }
+    }
+    else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+        if (cell == nil) {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+        }
+        
+        id <StringValueDisplay, NSObject> rowValue = [data valueForKey:rowKey];
+        
+        cell.detailTextLabel.text = [rowValue stringValueDisplay];
+        cell.textLabel.text = rowLabel;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        return cell;
     }
     
-    // Configure the cell...
-    
-    return cell;
+    return nil;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -171,10 +361,19 @@
      */
 }
 
+#pragma mark - Table view - added methods
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    id title = [sectionNames objectAtIndex:section];
+    if ([title isKindOfClass:[NSNull class]]) {
+        return nil;
+    }
+    return title;
+}
+
 
 #pragma mark - Custom action methods
 
-- (IBAction)doRegistrationAction {
+- (IBAction)startRegistrationAction {
     //TODO: Registration validation
     //TODO: Registration service call
     

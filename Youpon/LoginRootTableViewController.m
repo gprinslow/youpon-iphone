@@ -505,15 +505,17 @@
 }
 
 - (IBAction)startLoginAction {
+    [txfUsername resignFirstResponder];
+    [txfPassword resignFirstResponder];
+    [txfPin resignFirstResponder];
+    
     [aivLogin startAnimating];
     
     [self performSelector:@selector(doLoginAction) withObject:nil afterDelay:0.5];
 }
 
 - (void)doLoginAction {
-    [txfUsername resignFirstResponder];
-    [txfPassword resignFirstResponder];
-    [txfPin resignFirstResponder];
+
     
     [btnLogin setEnabled:FALSE];
     [self.tableView setAllowsSelection:FALSE];
