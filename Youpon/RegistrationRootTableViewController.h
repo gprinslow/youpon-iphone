@@ -13,4 +13,7 @@
     
 }
 
+- (IBAction)doRegistrationAction;
+- (IBAction)cancelRegistration;
+
 @end

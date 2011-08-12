@@ -44,6 +44,15 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.title = NSLocalizedString(@"Registration", @"Registration");
+    
+    UIBarButtonItem *cancelButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelRegistration)] autorelease];
+    
+    self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    
+    
+    
 }
 
 - (void)viewDidUnload
@@ -160,6 +169,22 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+}
+
+
+#pragma mark - Custom action methods
+
+- (IBAction)doRegistrationAction {
+    //TODO: Registration validation
+    //TODO: Registration service call
+    
+    NSLog(@"Registration completed");
+    
+    [self.parentViewController dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)cancelRegistration {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

@@ -336,7 +336,7 @@
         aivLogin = loginActivityIndicatorView;
         
         UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [loginButton addTarget:self action:@selector(doLoginAction) forControlEvents:UIControlEventTouchUpInside];
+        [loginButton addTarget:self action:@selector(startLoginAction) forControlEvents:UIControlEventTouchUpInside];
         [loginButton setTitle:@"Log in" forState:UIControlStateNormal];
         loginButton.frame = CGRectMake(10.0f, 7.0f, 240.0f, 30.0f);
         [cell.contentView addSubview:loginButton];
@@ -449,7 +449,7 @@
             [txfPin resignFirstResponder];
             
             if ([btnLogin isEnabled]) {
-                [self doLoginAction];
+                [self startLoginAction];
             }
         }
         else if ([rowKey isEqualToString:@"rememberMe"]) {
@@ -504,31 +504,31 @@
     //TODO: Switch to Registration screen
 }
 
-- (IBAction)doLoginAction {
-    //TODO: Login Action
-    NSLog(@"Login action");
+- (IBAction)startLoginAction {
+    [aivLogin startAnimating];
     
+    [self performSelector:@selector(doLoginAction) withObject:nil afterDelay:0.5];
+}
+
+- (void)doLoginAction {
     [txfUsername resignFirstResponder];
     [txfPassword resignFirstResponder];
     [txfPin resignFirstResponder];
     
-    [aivLogin startAnimating];
     [btnLogin setEnabled:FALSE];
     [self.tableView setAllowsSelection:FALSE];
     
     //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
-
-
+    
+    
     if ([self isValidLoginAction]) {
         NSLog(@"Valid Login Action - call service here");
-        for (int i = 0; i < 1000; i++) {
-            NSLog(@"Simulate delay");
-        }
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
     }
     
     [btnLogin setEnabled:TRUE];
     [self.tableView setAllowsSelection:TRUE];
-    //[aivLogin stopAnimating];
+    [aivLogin stopAnimating];
 }
 
 - (BOOL)isValidLoginAction {
@@ -559,6 +559,7 @@
             }
         }
     }
+    
     return TRUE;
 }
 

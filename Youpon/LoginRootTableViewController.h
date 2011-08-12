@@ -27,7 +27,8 @@
 - (IBAction)rememberMeSwitchValueChanged:(id)sender;
 
 - (IBAction)switchToRegistration;
-- (IBAction)doLoginAction;
+- (IBAction)startLoginAction;
+- (void)doLoginAction;
 - (BOOL)isValidLoginAction;
 
 @end
