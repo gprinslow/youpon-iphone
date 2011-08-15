@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GroupedEditTableViewController.h"
 #import "TextEntryTableViewCell.h"
+#import "RegistrationRootTableViewController.h"
 
 @interface LoginRootTableViewController : GroupedEditTableViewController {
     UITextField *txfUsername;
@@ -18,8 +19,12 @@
     UIActivityIndicatorView *aivLogin;
     UISwitch *swtRememberMe;
     TextEntryTableViewCell *cellUsername;
+    
+    RegistrationRootTableViewController *_registrationRootTableViewController;
 }
 
+
+@property (nonatomic, retain) IBOutlet RegistrationRootTableViewController *registrationRootTableViewController;
 
 - (IBAction)usernameEditingDidEndOnExit:(id)sender;
 - (IBAction)passwordEditingDidEndOnExit:(id)sender;

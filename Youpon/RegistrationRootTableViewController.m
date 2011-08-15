@@ -12,6 +12,20 @@
 #import "TableRowDetailEditController.h"
 #import "TextEntryTableViewCell.h"
 
+#define kUsernameCellTag 1
+#define kPasswordCellTag 2
+#define kPasswordConfirmCellTag 3
+#define kPinCellTag 4
+#define kEmailCellTag 5
+#define kRememberMeCellTag 6
+#define kNameFirstCellTag 7
+#define kNameMiddleCellTag 8
+#define kNameLastCellTag 9
+#define kZipCodeCellTag 10
+#define kBirthdayCellTag 11
+#define kGenderCellTag 12
+#define kUserTypeCellTag 13
+#define kRegisterButtonCellTag 14
 
 @implementation RegistrationRootTableViewController
 
@@ -26,7 +40,7 @@
 
 - (void)dealloc
 {
-    [rowPlaceholderText release];
+    [rowPlaceholders release];
     [super dealloc];
 }
 
@@ -126,12 +140,12 @@
                  
                  //Section 4 - Registration Button
                  [NSArray arrayWithObjects:
-                  @"registrationButton",
+                  @"registerButton",
                   nil],
                  
                  nil];
     
-    rowPlaceholderText = [[NSArray alloc] initWithObjects:
+    rowPlaceholders = [[NSArray alloc] initWithObjects:
                 
                           //Section 1 - Login
                           [NSArray arrayWithObjects:
@@ -233,7 +247,6 @@
                       
                       nil];    
     
-    
 }
 
 - (void)viewDidUnload
@@ -295,7 +308,7 @@
     
     if (rowController != [NSNull null]) {
         NSString *rowControllerString = (NSString *)rowController;
-        
+                
         if ([rowControllerString isEqualToString:@"TextEntryTableViewCell"]) {
             TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
             
@@ -303,16 +316,111 @@
                 cell = [[[TextEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
             }
             
+            cell.textLabel.text = rowLabel;
+            
             //Text entry defaults - overridden by if statements below
+            cell.textField.adjustsFontSizeToFitWidth = TRUE;
+            cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+            cell.textField.backgroundColor = [UIColor whiteColor];
+            cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            cell.textField.keyboardType = UIKeyboardTypeDefault;
+            cell.textField.returnKeyType = UIReturnKeyNext;
+            cell.textField.secureTextEntry = FALSE;
             
+            cell.textField.placeholder = [rowPlaceholders nestedObjectAtIndexPath:indexPath];
+            cell.textField.text = [data valueForKey:rowKey];
             
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
+            if ([rowKey isEqualToString:@"username"]) {
+                cell.tag = kUsernameCellTag;
+                txfUsername = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"password"]){
+                cell.tag = kPasswordCellTag;
+                txfPassword = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"passwordConfirm"]) {
+                cell.tag = kPasswordConfirmCellTag;
+                txfPasswordConfirm = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"pin"]) {
+                cell.tag = kPinCellTag;
+                txfPin = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"email"]) {
+                cell.tag = kEmailCellTag;
+                txfEmail = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"nameFirst"]) {
+                cell.tag = kNameFirstCellTag;
+                txfNameFirst = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"nameMiddle"]) {
+                cell.tag = kNameMiddleCellTag;
+                txfNameMiddle = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"nameLast"]) {
+                cell.tag = kNameLastCellTag;
+                txfNameLast = cell.textField;
+            }
+            else if ([rowKey isEqualToString:@"zipCode"]) {
+                cell.tag = kZipCodeCellTag;
+                txfZipCode = cell.textField;
+            }
+            
+            return cell;
         }
         else if ([rowControllerString isEqualToString:@"SwitchTableViewCell"]) {
             
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+            }
+            
+            CGFloat cellCenter = cell.frame.size.height/2.0;
+            
+            cell.detailTextLabel.text = rowLabel;
+            cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:14.0];
+            cell.detailTextLabel.textColor = [UIColor colorWithRed:0.318 green:0.4 blue:0.569 alpha:1.0];
+            
+            if ([rowKey isEqualToString:@"rememberMe"]) {
+                cell.tag = kRememberMeCellTag;
+                
+                UISwitch *rememberMeSwitch = [[[UISwitch alloc] initWithFrame:CGRectMake(0.0f, cellCenter, 24.0f, 24.0f)] autorelease];
+                [rememberMeSwitch addTarget:self action:@selector(rememberMeSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
+                cell.accessoryView = rememberMeSwitch;
+                
+                swtRememberMe = rememberMeSwitch;
+            }
+            
+            return cell;
         }
         else if ([rowControllerString isEqualToString:@"ButtonTableViewCell"]) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+            if (cell == nil) {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+            }
             
+            CGFloat cellCenter = cell.frame.size.height/2.0;
+            
+            if ([rowKey isEqualToString:@"registerButton"]) {
+                cell.tag = kRegisterButtonCellTag;
+                
+                UIActivityIndicatorView *registerActivityIndicatorView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+                [registerActivityIndicatorView setFrame:CGRectMake(0.0f, cellCenter, 24.0f, 24.0f)];
+                cell.accessoryView = registerActivityIndicatorView;
+                aivRegister = registerActivityIndicatorView;
+                
+                UIButton *registerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                [registerButton addTarget:self action:@selector(startRegistrationAction) forControlEvents:UIControlEventTouchUpInside];
+                [registerButton setTitle:@"Register" forState:UIControlStateNormal];
+                registerButton.frame = CGRectMake(10.0f, 7.0f, 240.0f, 30.0f);
+                [cell.contentView addSubview:registerButton];
+                btnRegister = registerButton;
+            }
+            
+            return cell;
         }
         else {
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
@@ -352,13 +460,41 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    
+    id controllerClassName = [rowControllers nestedObjectAtIndexPath:indexPath];
+    NSString *rowLabel  = [rowLabels nestedObjectAtIndexPath:indexPath];
+    NSString *rowKey = [rowKeys nestedObjectAtIndexPath:indexPath];
+    
+    //Conditional allocation of controllers here
+    if (controllerClassName != [NSNull null]) {
+        
+        NSString *controllerClassString = (NSString *)controllerClassName;
+        
+        if (![controllerClassString isEqualToString:@"TextEntryTableViewCell"] && ![controllerClassString isEqualToString:@"SwitchTableViewCell"] && ![controllerClassString isEqualToString:@"ButtonTableViewCell"]) {
+            
+            Class controllerClass = NSClassFromString(controllerClassString);
+            TableRowDetailEditController *controller = [controllerClass alloc];
+            controller = [controller initWithStyle:UITableViewStyleGrouped];
+            controller.keyPath = rowKey;
+            controller.data = self.data;
+            controller.rowLabel = rowLabel;
+            controller.title = rowLabel;
+            
+            NSDictionary *args = [rowArguments nestedObjectAtIndexPath:indexPath];
+            if ([args isKindOfClass:[NSDictionary class]]) {
+                if (args != nil) {
+                    for (NSString *oneKey in args) {
+                        id oneArg = [args objectForKey:oneKey];
+                        [controller setValue:oneArg forKey:oneKey];
+                    }
+                }
+            }
+            
+            [self.navigationController pushViewController:controller animated:YES];
+            
+            [controller release];
+        }
+    }
 }
 
 #pragma mark - Table view - added methods
@@ -382,8 +518,20 @@
     [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
+- (void)doRegistrationAction {
+    
+}
+- (BOOL)isValidRegistrationAction {
+    
+    return TRUE;
+}
+
 - (IBAction)cancelRegistration {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)rememberMeSwitchValueChanged:(id)sender {
+    
 }
 
 @end

@@ -10,9 +10,27 @@
 #import "GroupedEditTableViewController.h"
 
 @interface RegistrationRootTableViewController : GroupedEditTableViewController {
+    UITextField *txfUsername;
+    UITextField *txfPassword;
+    UITextField *txfPasswordConfirm;
+    UITextField *txfPin;
+    UITextField *txfEmail;
+    UISwitch *swtRememberMe;
+    
+    UITextField *txfNameFirst;
+    UITextField *txfNameMiddle;
+    UITextField *txfNameLast;
+    
+    UITextField *txfZipCode;
+    
+    UIButton *btnRegister;
+    UIActivityIndicatorView *aivRegister;
+ 
+
+    
     
     @private
-    NSArray *rowPlaceholderText;
+    NSArray *rowPlaceholders;
 }
 
 - (IBAction)startRegistrationAction;

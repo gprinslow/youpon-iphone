@@ -14,6 +14,8 @@
 
 @implementation LoginRootTableViewController
 
+@synthesize registrationRootTableViewController = _registrationRootTableViewController;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -502,6 +504,12 @@
 
 - (IBAction)switchToRegistration {
     //TODO: Switch to Registration screen
+    
+    self.registrationRootTableViewController = [[RegistrationRootTableViewController alloc] initWithNibName:@"RegistrationRootTableViewController" bundle:nil];
+    
+    self.registrationRootTableViewController.data = self.data;
+    
+    [self.navigationController pushViewController:self.registrationRootTableViewController animated:YES];
 }
 
 - (IBAction)startLoginAction {
