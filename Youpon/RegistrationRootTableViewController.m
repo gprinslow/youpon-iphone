@@ -70,6 +70,8 @@
     
     self.navigationItem.leftBarButtonItem = cancelButtonItem;
     
+    groupedEditTableView = (GroupedEditTableView *)self.tableView;
+    
     sectionNames = [[NSArray alloc] initWithObjects:
                     NSLocalizedString(@"Login Info", "Login Info"),
                     NSLocalizedString(@"Name", @"Name"),
@@ -467,6 +469,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    [groupedEditTableView resignAllFirstResponders];
+    
     // Navigation logic may go here. Create and push another view controller.
     
     id controllerClassName = [rowControllers nestedObjectAtIndexPath:indexPath];
@@ -520,6 +525,8 @@
 - (IBAction)startRegistrationAction {
     //TODO: Registration validation
     //TODO: Registration service call
+    
+    [groupedEditTableView resignAllFirstResponders];
     
     NSLog(@"Registration request");
     

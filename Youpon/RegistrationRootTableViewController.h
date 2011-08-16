@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GroupedEditTableViewController.h"
+#import "GroupedEditTableView.h"
 
 @interface RegistrationRootTableViewController : GroupedEditTableViewController {
     UITextField *txfUsername;
@@ -26,7 +27,7 @@
     UIButton *btnRegister;
     UIActivityIndicatorView *aivRegister;
  
-
+    GroupedEditTableView *groupedEditTableView;
     
     
     @private
