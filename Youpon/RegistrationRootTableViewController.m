@@ -308,12 +308,15 @@
     
     if (rowController != [NSNull null]) {
         NSString *rowControllerString = (NSString *)rowController;
-                
+        
         if ([rowControllerString isEqualToString:@"TextEntryTableViewCell"]) {
-            TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+
+            static NSString *RegistrationRootTableViewControllerCellIdentifierTxf = @"RegistrationRootTableViewControllerCellIdentifierTxf";
+            
+            TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifierTxf];
             
             if (cell == nil) {
-                cell = [[[TextEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+                cell = [[[TextEntryTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifierTxf] autorelease];
             }
             
             cell.textLabel.text = rowLabel;
@@ -373,9 +376,11 @@
         }
         else if ([rowControllerString isEqualToString:@"SwitchTableViewCell"]) {
             
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+            static NSString *RegistrationRootTableViewControllerCellIdentifierSwt = @"RegistrationRootTableViewControllerCellIdentifierSwt";
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifierSwt];
             if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifierSwt] autorelease];
             }
             
             CGFloat cellCenter = cell.frame.size.height/2.0;
@@ -397,9 +402,12 @@
             return cell;
         }
         else if ([rowControllerString isEqualToString:@"ButtonTableViewCell"]) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifier];
+            
+            static NSString *RegistrationRootTableViewControllerCellIdentifierBtn = @"RegistrationRootTableViewControllerCellIdentifierBtn";            
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RegistrationRootTableViewControllerCellIdentifierBtn];
             if (cell == nil) {
-                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifier] autorelease];
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:RegistrationRootTableViewControllerCellIdentifierBtn] autorelease];
             }
             
             CGFloat cellCenter = cell.frame.size.height/2.0;
@@ -513,13 +521,23 @@
     //TODO: Registration validation
     //TODO: Registration service call
     
-    NSLog(@"Registration completed");
+    NSLog(@"Registration request");
     
-    [self.parentViewController dismissModalViewControllerAnimated:YES];
+    [aivRegister startAnimating];
+    
+    [self performSelector:@selector(doRegistrationAction) withObject:nil afterDelay:0.5];
 }
 
 - (void)doRegistrationAction {
     
+    if ([self isValidRegistrationAction]) {
+        NSLog(@"Registration completed");
+        
+        [aivRegister stopAnimating];
+        [self.parentViewController dismissModalViewControllerAnimated:YES];
+    }
+    
+    [aivRegister stopAnimating];
 }
 - (BOOL)isValidRegistrationAction {
     
