@@ -61,6 +61,8 @@
 		85A09BAB13E9EF24008AC0F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85A09BA913E9EF24008AC0F3 /* InfoPlist.strings */; };
 		85A09BAE13E9EF24008AC0F3 /* YouponTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 85A09BAD13E9EF24008AC0F3 /* YouponTests.h */; };
 		85A09BB013E9EF24008AC0F3 /* YouponTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A09BAF13E9EF24008AC0F3 /* YouponTests.m */; };
+		85EFA02B142CF5C8002230EB /* RailsServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */; };
+		85EFA02E142CF5DC002230EB /* RailsServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA02D142CF5DC002230EB /* RailsServiceResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +159,10 @@
 		85A09BAC13E9EF24008AC0F3 /* YouponTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YouponTests-Prefix.pch"; sourceTree = "<group>"; };
 		85A09BAD13E9EF24008AC0F3 /* YouponTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YouponTests.h; sourceTree = "<group>"; };
 		85A09BAF13E9EF24008AC0F3 /* YouponTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouponTests.m; sourceTree = "<group>"; };
+		85EFA029142CF5C8002230EB /* RailsServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsServiceRequest.h; sourceTree = "<group>"; };
+		85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsServiceRequest.m; sourceTree = "<group>"; };
+		85EFA02C142CF5DC002230EB /* RailsServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsServiceResponse.h; sourceTree = "<group>"; };
+		85EFA02D142CF5DC002230EB /* RailsServiceResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsServiceResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,6 +343,7 @@
 				8596AB7E13EC671000878D01 /* Controllers */,
 				8596AB6E13EB763500878D01 /* Classes */,
 				8596AB6713EB4ED400878D01 /* Categories */,
+				85EFA027142CF59C002230EB /* Services */,
 				8596AB1D13EB286A00878D01 /* Images */,
 				8596AAF413EB27A000878D01 /* SBJSON */,
 				8596AB1C13EB27C600878D01 /* Interface */,
@@ -374,6 +381,17 @@
 				85A09BAC13E9EF24008AC0F3 /* YouponTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		85EFA027142CF59C002230EB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				85EFA029142CF5C8002230EB /* RailsServiceRequest.h */,
+				85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */,
+				85EFA02C142CF5DC002230EB /* RailsServiceResponse.h */,
+				85EFA02D142CF5DC002230EB /* RailsServiceResponse.m */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -526,6 +544,8 @@
 				85A06B2413F0743100ADB6E4 /* TextEntryTableViewCell.m in Sources */,
 				8592B9E213F09EA500E19E03 /* GroupedEditTableView.m in Sources */,
 				8540D89113F4C0FF005367AA /* RegistrationRootTableViewController.m in Sources */,
+				85EFA02B142CF5C8002230EB /* RailsServiceRequest.m in Sources */,
+				85EFA02E142CF5DC002230EB /* RailsServiceResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
