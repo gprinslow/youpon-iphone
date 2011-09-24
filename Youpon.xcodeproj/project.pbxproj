@@ -63,6 +63,7 @@
 		85A09BB013E9EF24008AC0F3 /* YouponTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A09BAF13E9EF24008AC0F3 /* YouponTests.m */; };
 		85EFA02B142CF5C8002230EB /* RailsServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */; };
 		85EFA02E142CF5DC002230EB /* RailsServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA02D142CF5DC002230EB /* RailsServiceResponse.m */; };
+		85EFA031142D03E8002230EB /* RailsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA030142D03E8002230EB /* RailsService.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -163,6 +164,8 @@
 		85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsServiceRequest.m; sourceTree = "<group>"; };
 		85EFA02C142CF5DC002230EB /* RailsServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsServiceResponse.h; sourceTree = "<group>"; };
 		85EFA02D142CF5DC002230EB /* RailsServiceResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsServiceResponse.m; sourceTree = "<group>"; };
+		85EFA02F142D03E8002230EB /* RailsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsService.h; sourceTree = "<group>"; };
+		85EFA030142D03E8002230EB /* RailsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,6 +389,8 @@
 		85EFA027142CF59C002230EB /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				85EFA02F142D03E8002230EB /* RailsService.h */,
+				85EFA030142D03E8002230EB /* RailsService.m */,
 				85EFA029142CF5C8002230EB /* RailsServiceRequest.h */,
 				85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */,
 				85EFA02C142CF5DC002230EB /* RailsServiceResponse.h */,
@@ -546,6 +551,7 @@
 				8540D89113F4C0FF005367AA /* RegistrationRootTableViewController.m in Sources */,
 				85EFA02B142CF5C8002230EB /* RailsServiceRequest.m in Sources */,
 				85EFA02E142CF5DC002230EB /* RailsServiceResponse.m in Sources */,
+				85EFA031142D03E8002230EB /* RailsService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

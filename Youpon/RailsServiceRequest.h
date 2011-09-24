@@ -10,14 +10,14 @@
 
 
 @interface RailsServiceRequest : NSObject {
-    NSString *_requestModel;
-    NSString *_requestAction;
+    int _requestModelCode;
+    int _requestActionCode;
     NSMutableDictionary *_requestData;
     NSString *_requestResponseNotificationName;
 }
 
-@property (nonatomic, retain) NSString *requestModel;
-@property (nonatomic, retain) NSString *requestAction;
+@property (nonatomic) int requestModelCode;
+@property (nonatomic) int requestActionCode;
 @property (nonatomic, retain) NSMutableDictionary *requestData;
 @property (nonatomic, retain) NSString *requestResponseNotificationName;
 

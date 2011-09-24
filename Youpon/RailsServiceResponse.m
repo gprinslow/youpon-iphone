@@ -40,6 +40,8 @@
     [_responseString release];
     [_responseCode release];
     [_responseError release];
+    
+    [super dealloc];
 }
 
 @end
