@@ -94,16 +94,25 @@ static NSString *const HTTP_DELETE = @"DELETE";
     [super dealloc];
 }
 
+#pragma mark - Publicly Accessible Service Call
 
-- (RailsServiceResponse *)callServiceWithRequest:(RailsServiceRequest *)railsServiceRequest {
+/**
+ * Publicly accessible service call
+ * Return : BOOL : Can only tell you that the URL connection was made (response asynchronous)
+ */
+- (BOOL)callServiceWithRequest:(RailsServiceRequest *)railsServiceRequest andResponsePointer:(RailsServiceResponse *)remoteRailsServiceResponse {
     
-    RailsServiceResponse *railsServiceResponse = [[[RailsServiceResponse alloc] init] autorelease];
+    /*
+     * Retain pointer to the remoteRailsServiceResponse
+     * NOTE: This is not allocated or initialized here...
+     */
+    __railsServiceResponse = remoteRailsServiceResponse;
     
     NSString *model;
     NSString *action;
 
-    //Parse Model
     /*
+     * Parse the model from the code
      * This must be updated for each model supported
      * TODO: Evaluate use of public static strings instead...
      */
@@ -118,7 +127,10 @@ static NSString *const HTTP_DELETE = @"DELETE";
             break;
     }
     
-    //Parse Action --> variables --> private method   
+    /*
+     * Parse the Action parameter for the URL...
+     * ...and establish HTTP Method
+     */
     switch (railsServiceRequest.requestActionCode) {
         case kActionGETindex:
             action = [[NSString alloc] initWithString:@""];
@@ -144,8 +156,14 @@ static NSString *const HTTP_DELETE = @"DELETE";
             break;
     }
     
+    /*
+     * URL and MutableURL Request
+     */
     //Set Action URL String
     self.requestActionURLString = [NSString stringWithFormat:@"%@%@", model, action];
+    //Memory cleanup
+    [model release];
+    [action release];
     
     //Set Full URL
     self.requestURLString = [NSString stringWithFormat:@"%@%@%@", [self requestServerURLString], [self requestActionURLString], REQUEST_URL_EXTENSION];
@@ -154,14 +172,114 @@ static NSString *const HTTP_DELETE = @"DELETE";
     //Set Mutable URL Request
     self.requestMutableURLRequest = [NSMutableURLRequest requestWithURL:[self requestURL]];
     
+    //Set (CONSTANT) Mutable Request Parameters
+    [[self requestMutableURLRequest] setValue:REQUEST_HTTP_HEADER_FIELD_VALUE forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD];
     
-    //Memory cleanup
-    [model release];
-    [action release];
+    //Set Method Parameter (as determined above)
+    [[self requestMutableURLRequest] setHTTPMethod:[self requestHTTPMethod]];
     
-    return railsServiceResponse;
+
+    
+    /*
+     * End of common code between GET and POST/PUT/DELETE
+     * Marshalls the service calls
+     */
+    
+    if ([self.requestHTTPMethod isEqualToString:HTTP_GET]) {
+        return [self sendRailsServiceRequest:railsServiceRequest mutableURLRequest:[self requestMutableURLRequest]];
+    } 
+    else if ([self.requestHTTPMethod isEqualToString:HTTP_POST]) {
+        return [self sendRailsServiceRequest:railsServiceRequest 
+                           mutableURLRequest:[self requestMutableURLRequest] 
+                       requestHTTPParameters:nil];
+    }
+    else {
+        return FALSE;
+    }
 }
 
+
+#pragma mark - PRIVATE internal methods
+
+/*
+ * Used for GET actions
+ */
+- (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest {
+
+    self.requestURLConnection = [NSURLConnection connectionWithRequest:[self requestMutableURLRequest] delegate:self];
+    
+    if (self.requestURLConnection != nil) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/*
+ * Used for POST/PUT/DELETE
+ */
+- (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest requestHTTPParameters:(NSString *)requestHTTPParameters {
+    
+    
+    return FALSE;
+}
+
+
+#pragma mark - NSURLConnection Delegate methods - REQUIRED
+
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    //TODO: Does this need to be changed for HTTPS??
+    return YES;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    //Upon response - clear existing data
+    [self.responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)newData {
+    //Upon data reception - append the data
+    [self.responseData appendData:newData];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    //TODO: Identify what to do in non-development situation
+    NSLog(@"Error on URL Connection: %@", [error description]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    
+    //Convert response from data into string (of JSON values)
+    NSString *responseString = [[NSString alloc] initWithData:[self responseData] encoding:NSUTF8StringEncoding];
+    
+    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+    
+    NSDictionary *parsedJson = [jsonParser objectWithString:responseString];
+    
+    /**
+     * !!! CHANGE BELOW
+     */
+    
+    if (!parsedJson) {
+        NSLog(@"-JSONValue failed.  Error is: %@", [[jsonParser error] description]);
+    }
+//    else {
+//        //Store set of items retrieved
+//        self.items = [parsedJson objectForKey:@"items"];
+//        
+//        //Post notification that items were updated
+//        [[NSNotificationCenter defaultCenter] postNotificationName:[self itemsUpdatedNotificationName] object:self];
+//    }
+//    
+//    //TODO: REMOVE DEBUG ENTRY
+//    for (id item in self.items) {
+//        NSLog(@"item: %@ ", item);
+//    }
+//    
+    
+    //Memory management
+    [responseString release];
+    [jsonParser release];
+}
 
 
 

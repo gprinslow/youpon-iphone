@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RailsServiceRequest.h"
 #import "RailsServiceResponse.h"
+#import "SBJson.h"
 
 //TODO: Refactor with private ivars and methods...
 
@@ -29,7 +30,12 @@
     NSData *_requestJSONData;
     
     NSMutableData *_responseData;
+    
+    @private
+    RailsServiceResponse *__railsServiceResponse;   //Note: This is just a pointer; must be alloc'd by caller
+    
 }
+
 
 
 @property (nonatomic, retain) NSString *requestServerURLString;
@@ -47,6 +53,12 @@
 
 @property (nonatomic, retain) NSMutableData *responseData;
 
-- (RailsServiceResponse *)callServiceWithRequest:(RailsServiceRequest *)railsServiceRequest;
+- (BOOL)callServiceWithRequest:(RailsServiceRequest *)railsServiceRequest andResponsePointer:(RailsServiceResponse *)remoteRailsServiceResponse;
+
+//THESE SHOULD BE PRIVATE
+- (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest;
+
+- (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest requestHTTPParameters:(NSString *)requestHTTPParameters;
+
 
 @end
