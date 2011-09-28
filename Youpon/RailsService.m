@@ -8,8 +8,21 @@
 
 #import "RailsService.h"
 
-#define kUnsecureServerURL "http://0.0.0.0:3000/"
-#define kSecureServerURL "https://0.0.0.0:3001/"
+
+/*
+ * Private constants
+ */
+
+static NSString *const UNSECURE_SERVER_URL = @"http://0.0.0.0:3000/";
+static NSString *const SECURE_SERVER_URL = @"https://0.0.0.0:3001/";
+static NSString *const REQUEST_URL_EXTENSION = @".json";
+static NSString *const REQUEST_HTTP_HEADER_FIELD = @"Content-Type";
+static NSString *const REQUEST_HTTP_HEADER_FIELD_VALUE = @"application/json";
+static NSString *const HTTP_GET = @"GET";
+static NSString *const HTTP_POST = @"POST";
+static NSString *const HTTP_PUT = @"PUT";
+static NSString *const HTTP_DELETE = @"DELETE";
+
 #define kUseSecureServerURL 1       //1 = true, 0 = false
 
 //Models
@@ -24,6 +37,8 @@
 #define kActionPOSTcreate 4
 #define kActionPUTupdate 5
 #define kActionDELETEdestroy 6
+
+//*** end private constants
 
 
 @implementation RailsService
@@ -50,10 +65,10 @@
     self = [super init];
     if (self) {
         if (kUseSecureServerURL == 1) {
-            self.requestServerURLString = [[NSString alloc] initWithCString:kSecureServerURL encoding:NSUTF8StringEncoding];
+            self.requestServerURLString = [[NSString alloc] initWithString:SECURE_SERVER_URL];
         }
         else {
-            self.requestServerURLString = [[NSString alloc] initWithCString:kUnsecureServerURL encoding:NSUTF8StringEncoding];
+            self.requestServerURLString = [[NSString alloc] initWithString:UNSECURE_SERVER_URL];
         }
     }
     return self;
@@ -88,6 +103,10 @@
     NSString *action;
 
     //Parse Model
+    /*
+     * This must be updated for each model supported
+     * TODO: Evaluate use of public static strings instead...
+     */
     switch (railsServiceRequest.requestModelCode) {
         case kUsersModel:
             model = [[NSString alloc] initWithString:@"users"];
@@ -103,23 +122,23 @@
     switch (railsServiceRequest.requestActionCode) {
         case kActionGETindex:
             action = [[NSString alloc] initWithString:@""];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:@"GET"];
+            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
             break;
         case kActionGETshow:
             action = [NSString stringWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:@"GET"];
+            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
             break;
         case kActionPOSTcreate:
             action = [[NSString alloc] initWithString:@""];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:@"POST"];
+            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_POST];
             break;
         case kActionPUTupdate:
             action = [NSString stringWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:@"PUT"];
+            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_PUT];
             break;
         case kActionDELETEdestroy:
             action = [NSString stringWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:@"DELETE"];
+            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_DELETE];
             break;
         default:
             break;
@@ -129,10 +148,12 @@
     self.requestActionURLString = [NSString stringWithFormat:@"%@%@", model, action];
     
     //Set Full URL
-    self.requestURL = [NSString stringWithFormat:@"%@%@", [self requestServerURLString], [self requestActionURLString]];
+    self.requestURLString = [NSString stringWithFormat:@"%@%@%@", [self requestServerURLString], [self requestActionURLString], REQUEST_URL_EXTENSION];
+    self.requestURL = [NSURL URLWithString:[self requestURLString]];
     
     //Set Mutable URL Request
-
+    self.requestMutableURLRequest = [NSMutableURLRequest requestWithURL:[self requestURL]];
+    
     
     //Memory cleanup
     [model release];
