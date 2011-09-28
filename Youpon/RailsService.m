@@ -17,6 +17,7 @@ static NSString *const UNSECURE_SERVER_URL = @"http://0.0.0.0:3000/";
 static NSString *const SECURE_SERVER_URL = @"https://0.0.0.0:3001/";
 static NSString *const REQUEST_URL_EXTENSION = @".json";
 static NSString *const REQUEST_HTTP_HEADER_FIELD = @"Content-Type";
+static NSString *const REQUEST_HTTP_HEADER_FIELD_LENGTH = @"Content-Length";
 static NSString *const REQUEST_HTTP_HEADER_FIELD_VALUE = @"application/json";
 static NSString *const HTTP_GET = @"GET";
 static NSString *const HTTP_POST = @"POST";
@@ -185,13 +186,18 @@ static NSString *const HTTP_DELETE = @"DELETE";
      * Marshalls the service calls
      */
     
-    if ([self.requestHTTPMethod isEqualToString:HTTP_GET]) {
+    if (railsServiceRequest.requestActionCode == kActionGETindex 
+        || railsServiceRequest.requestActionCode == kActionGETshow) {
+        
         return [self sendRailsServiceRequest:railsServiceRequest mutableURLRequest:[self requestMutableURLRequest]];
     } 
-    else if ([self.requestHTTPMethod isEqualToString:HTTP_POST]) {
+    else if (railsServiceRequest.requestActionCode == kActionPOSTcreate 
+             || railsServiceRequest.requestActionCode == kActionPUTupdate 
+             || railsServiceRequest.requestActionCode == kActionDELETEdestroy) {
+        
         return [self sendRailsServiceRequest:railsServiceRequest 
                            mutableURLRequest:[self requestMutableURLRequest] 
-                       requestHTTPParameters:nil];
+                       requestHTTPParameters:[railsServiceRequest.requestData JSONRepresentation]];
     }
     else {
         return FALSE;
@@ -206,7 +212,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
  */
 - (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest {
 
-    self.requestURLConnection = [NSURLConnection connectionWithRequest:[self requestMutableURLRequest] delegate:self];
+    self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
     
     if (self.requestURLConnection != nil) {
         return TRUE;
@@ -219,7 +225,18 @@ static NSString *const HTTP_DELETE = @"DELETE";
  */
 - (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest requestHTTPParameters:(NSString *)requestHTTPParameters {
     
+    self.requestJSONData = [[NSData alloc] initWithData:[requestHTTPParameters dataUsingEncoding:NSUTF8StringEncoding]];
     
+    [mutableURLRequest setValue:[[NSNumber numberWithInt:[self.requestJSONData length]] stringValue] 
+             forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD_LENGTH];
+    
+    [mutableURLRequest setHTTPBody:[self requestJSONData]];    
+    
+    self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
+    
+    if (self.requestURLConnection != nil) {
+        return TRUE;
+    }
     return FALSE;
 }
 
