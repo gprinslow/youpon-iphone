@@ -11,14 +11,17 @@
 
 @implementation RailsServiceRequest
 
-@synthesize requestModelCode=_requestModelCode;
 @synthesize requestActionCode=_requestActionCode;
+@synthesize requestModel=_requestModel;
 @synthesize requestData=_requestData;
 @synthesize requestResponseNotificationName=_requestResponseNotificationName;
 
 - (id)init {
     self = [super init];
     if (self) {
+        if (![self requestModel]) {
+            self.requestModel = [[NSString alloc] init];
+        }
         if (![self requestData]) {
             self.requestData = [[NSMutableDictionary alloc] init];
         }
@@ -30,6 +33,7 @@
 }
 
 - (void)dealloc {
+    [_requestModel release];
     [_requestData release];
     [_requestResponseNotificationName release];
     

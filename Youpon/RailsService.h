@@ -13,6 +13,18 @@
 
 //TODO: Refactor with private ivars and methods...
 
+/*
+ * Rails Models
+ */
+extern NSString *const RAILS_MODEL_USERS;
+extern NSString *const RAILS_MODEL_OFFERS;
+
+/*
+ * Notification String Constants
+ */
+
+
+//extern NSString *const 
 
 @interface RailsService : NSObject {
 

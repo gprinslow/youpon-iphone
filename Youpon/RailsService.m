@@ -8,6 +8,12 @@
 
 #import "RailsService.h"
 
+/*
+ * Public Constants
+ */
+
+NSString *const RAILS_MODEL_USERS = @"users";
+NSString *const RAILS_MODEL_OFFERS = @"offers";
 
 /*
  * Private constants
@@ -109,24 +115,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
      */
     __railsServiceResponse = remoteRailsServiceResponse;
     
-    NSString *model;
     NSString *action;
-
-    /*
-     * Parse the model from the code
-     * This must be updated for each model supported
-     * TODO: Evaluate use of public static strings instead...
-     */
-    switch (railsServiceRequest.requestModelCode) {
-        case kUsersModel:
-            model = [[NSString alloc] initWithString:@"users"];
-            break;
-        case kOffersModel:
-            model = [[NSString alloc] initWithString:@"offers"];
-            break;
-        default:
-            break;
-    }
     
     /*
      * Parse the Action parameter for the URL...
@@ -161,10 +150,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
      * URL and MutableURL Request
      */
     //Set Action URL String
-    self.requestActionURLString = [NSString stringWithFormat:@"%@%@", model, action];
-    //Memory cleanup
-    [model release];
-    [action release];
+    self.requestActionURLString = [NSString stringWithFormat:@"%@%@", [railsServiceRequest requestModel], action];
     
     //Set Full URL
     self.requestURLString = [NSString stringWithFormat:@"%@%@%@", [self requestServerURLString], [self requestActionURLString], REQUEST_URL_EXTENSION];
@@ -179,7 +165,8 @@ static NSString *const HTTP_DELETE = @"DELETE";
     //Set Method Parameter (as determined above)
     [[self requestMutableURLRequest] setHTTPMethod:[self requestHTTPMethod]];
     
-
+    //**Memory cleanup**
+    [action release];
     
     /*
      * End of common code between GET and POST/PUT/DELETE
@@ -263,35 +250,40 @@ static NSString *const HTTP_DELETE = @"DELETE";
     NSLog(@"Error on URL Connection: %@", [error description]);
 }
 
+/*
+ * This method is invoked asynchronously upon a completed response
+ */
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     
-    //Convert response from data into string (of JSON values)
+    //Data to responseString
     NSString *responseString = [[NSString alloc] initWithData:[self responseData] encoding:NSUTF8StringEncoding];
     
+    //Temporary jsonParser
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
-    NSDictionary *parsedJson = [jsonParser objectWithString:responseString];
+    //Parser converts String --> NSDictionary
+    NSDictionary *parsedJsonDictionary = [jsonParser objectWithString:responseString];
     
     /**
      * !!! CHANGE BELOW
      */
     
-    if (!parsedJson) {
+    if (!parsedJsonDictionary) {
         NSLog(@"-JSONValue failed.  Error is: %@", [[jsonParser error] description]);
     }
-//    else {
-//        //Store set of items retrieved
-//        self.items = [parsedJson objectForKey:@"items"];
-//        
-//        //Post notification that items were updated
-//        [[NSNotificationCenter defaultCenter] postNotificationName:[self itemsUpdatedNotificationName] object:self];
-//    }
-//    
-//    //TODO: REMOVE DEBUG ENTRY
-//    for (id item in self.items) {
-//        NSLog(@"item: %@ ", item);
-//    }
-//    
+    else {
+        //Store set of items retrieved
+        __railsServiceResponse.responseData = [parsedJsonDictionary objectForKey:@"items"];
+        
+        //Post notification that items were updated
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"FILL THIS IN" object:self];
+    }
+    
+    //TODO: REMOVE DEBUG ENTRY
+    for (id item in __railsServiceResponse.responseData) {
+        NSLog(@"item: %@ ", item);
+    }
+    
     
     //Memory management
     [responseString release];
