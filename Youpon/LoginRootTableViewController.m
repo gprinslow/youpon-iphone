@@ -11,6 +11,11 @@
 #import "StringValueDisplay.h"
 #import "TableRowDetailEditController.h"
 #import "TextEntryTableViewCell.h"
+#import "YouponAppDelegate.h"
+#import "RailsServiceRequest.h"
+#import "RailsServiceResponse.h"
+
+static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_USERS_NOTIFICATION";
 
 @implementation LoginRootTableViewController
 
@@ -184,6 +189,11 @@
 //        NSLog(@"%@ is %@", key, [self.data objectForKey:key]);
 //    }
     
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(getIndexResponseReceived) 
+     name:RAILS_GET_INDEX_USERS_NOTIFICATION 
+     object:nil];
 }
 
 - (void)viewDidUnload
@@ -533,12 +543,35 @@
     
     if ([self isValidLoginAction]) {
         NSLog(@"Valid Login Action - call service here");
+        
+        RailsServiceRequest *request = [[RailsServiceRequest alloc] init];
+        RailsServiceResponse *response = [[RailsServiceResponse alloc] init];
+        
+        request.requestActionCode = 0;
+        request.requestModel = RAILS_MODEL_USERS;
+        request.requestResponseNotificationName = RAILS_GET_INDEX_USERS_NOTIFICATION;
+        
+        YouponAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        if ([[delegate railsService] callServiceWithRequest:request andResponsePointer:response]) {
+            NSLog(@"Response: %@", response.responseString);
+        }
+        else {
+            NSLog(@"Call failed");
+        }
+        
+        
+        
         [self.parentViewController dismissModalViewControllerAnimated:YES];
     }
     
     [btnLogin setEnabled:TRUE];
     [self.tableView setAllowsSelection:TRUE];
     [aivLogin stopAnimating];
+}
+
+- (void)getIndexResponseReceived {
+    NSLog(@"Reponse was received");
 }
 
 - (BOOL)isValidLoginAction {

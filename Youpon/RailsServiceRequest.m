@@ -26,7 +26,7 @@
             self.requestData = [[NSMutableDictionary alloc] init];
         }
         if (![self requestResponseNotificationName]) {
-            self.requestResponseNotificationName = [[NSMutableDictionary alloc] init];
+            self.requestResponseNotificationName = [[NSString alloc] init];
         }
     }
     return self;

@@ -14,11 +14,16 @@
 @synthesize rootTabBarController = _rootTabBarController;
 @synthesize loginNavigationController = _loginNavigationController;
 @synthesize loginRootTableViewController = _loginRootTableViewController;
+@synthesize railsService = _railsService;
 @synthesize window=_window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    //Alloc & init the railsService for later use
+    self.railsService = [[RailsService alloc] init];
+    
     
     //Init the LoginRootTableView
     self.loginRootTableViewController = [[LoginRootTableViewController alloc] initWithNibName:@"LoginRootTableViewController" bundle:nil];

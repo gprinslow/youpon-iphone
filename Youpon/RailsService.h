@@ -19,12 +19,6 @@
 extern NSString *const RAILS_MODEL_USERS;
 extern NSString *const RAILS_MODEL_OFFERS;
 
-/*
- * Notification String Constants
- */
-
-
-//extern NSString *const 
 
 @interface RailsService : NSObject {
 
@@ -45,7 +39,7 @@ extern NSString *const RAILS_MODEL_OFFERS;
     
     @private
     RailsServiceResponse *__railsServiceResponse;   //Note: This is just a pointer; must be alloc'd by caller
-    
+    RailsServiceRequest *__railsServiceRequest;
 }
 
 

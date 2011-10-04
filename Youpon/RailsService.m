@@ -114,6 +114,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
      * NOTE: This is not allocated or initialized here...
      */
     __railsServiceResponse = remoteRailsServiceResponse;
+    __railsServiceRequest = railsServiceRequest;
     
     NSString *action;
     
@@ -202,6 +203,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
     
     if (self.requestURLConnection != nil) {
+        self.responseData = [[NSData alloc] init];
         return TRUE;
     }
     return FALSE;
@@ -222,6 +224,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
     
     if (self.requestURLConnection != nil) {
+        self.responseData = [[NSData alloc] init];
         return TRUE;
     }
     return FALSE;
@@ -256,16 +259,16 @@ static NSString *const HTTP_DELETE = @"DELETE";
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     
     //Data to responseString
-    NSString *responseString = [[NSString alloc] initWithData:[self responseData] encoding:NSUTF8StringEncoding];
+    __railsServiceResponse.responseString = [[NSString alloc] initWithData:[self responseData] encoding:NSUTF8StringEncoding];
     
     //Temporary jsonParser
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
     //Parser converts String --> NSDictionary
-    NSDictionary *parsedJsonDictionary = [jsonParser objectWithString:responseString];
+    NSDictionary *parsedJsonDictionary = [jsonParser objectWithString:__railsServiceResponse.responseString];
     
     /**
-     * !!! CHANGE BELOW
+     * Below the parsing of items is for GET actions...
      */
     
     if (!parsedJsonDictionary) {
@@ -276,7 +279,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
         __railsServiceResponse.responseData = [parsedJsonDictionary objectForKey:@"items"];
         
         //Post notification that items were updated
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"FILL THIS IN" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:[__railsServiceRequest requestResponseNotificationName] object:self];
     }
     
     //TODO: REMOVE DEBUG ENTRY
@@ -286,7 +289,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     
     
     //Memory management
-    [responseString release];
+    //[responseString release];
     [jsonParser release];
 }
 
