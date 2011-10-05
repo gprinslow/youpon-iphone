@@ -551,7 +551,7 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
         request.requestModel = RAILS_MODEL_USERS;
         request.requestResponseNotificationName = RAILS_GET_INDEX_USERS_NOTIFICATION;
         
-        YouponAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
         
         if ([[delegate railsService] callServiceWithRequest:request andResponsePointer:response]) {
             NSLog(@"Response: %@", response.responseString);
@@ -562,7 +562,7 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
         
         
         
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        //[self.parentViewController dismissModalViewControllerAnimated:YES];
     }
     
     [btnLogin setEnabled:TRUE];

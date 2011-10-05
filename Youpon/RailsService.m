@@ -203,7 +203,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
     
     if (self.requestURLConnection != nil) {
-        self.responseData = [[NSData alloc] init];
+        self.responseData = [[NSMutableData alloc] init];
         return TRUE;
     }
     return FALSE;
@@ -224,7 +224,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
     
     if (self.requestURLConnection != nil) {
-        self.responseData = [[NSData alloc] init];
+        self.responseData = [[NSMutableData alloc] init];
         return TRUE;
     }
     return FALSE;
