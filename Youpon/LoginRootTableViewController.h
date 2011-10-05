@@ -10,6 +10,8 @@
 #import "GroupedEditTableViewController.h"
 #import "TextEntryTableViewCell.h"
 #import "RegistrationRootTableViewController.h"
+#import "RailsServiceRequest.h"
+#import "RailsServiceResponse.h"
 
 @interface LoginRootTableViewController : GroupedEditTableViewController {
     UITextField *txfUsername;
@@ -21,6 +23,10 @@
     TextEntryTableViewCell *cellUsername;
     
     RegistrationRootTableViewController *_registrationRootTableViewController;
+    
+    //Added for service calls
+    RailsServiceRequest *loginServiceRequest;
+    RailsServiceResponse *loginServiceResponse;
 }
 
 

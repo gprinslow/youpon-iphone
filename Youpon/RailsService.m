@@ -116,7 +116,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     __railsServiceResponse = remoteRailsServiceResponse;
     __railsServiceRequest = railsServiceRequest;
     
-    NSString *action;
+    NSString *action = @"";
     
     /*
      * Parse the Action parameter for the URL...
@@ -128,7 +128,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
             self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
             break;
         case kActionGETshow:
-            action = [NSString stringWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
+            action = [[NSString alloc] initWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
             self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
             break;
         case kActionPOSTcreate:
@@ -136,11 +136,11 @@ static NSString *const HTTP_DELETE = @"DELETE";
             self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_POST];
             break;
         case kActionPUTupdate:
-            action = [NSString stringWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
+            action = [[NSString alloc] initWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
             self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_PUT];
             break;
         case kActionDELETEdestroy:
-            action = [NSString stringWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
+            action = [[NSString alloc] initWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
             self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_DELETE];
             break;
         default:
@@ -289,8 +289,16 @@ static NSString *const HTTP_DELETE = @"DELETE";
     }
     
     //TODO: REMOVE DEBUG ENTRY
+    NSLog(@"Response: %@", __railsServiceResponse.responseString);
     for (id item in __railsServiceResponse.responseData) {
-        NSLog(@"item: %@ ", item);
+        NSLog(@"Item: %@ ", item);
+        //TODO: Fix this, not working as printing out
+        if ([item isKindOfClass:[NSMutableDictionary class]]) {
+            NSMutableDictionary *items = (NSMutableDictionary *)item;
+            for (id subitem in items) {
+                NSLog(@"Subitem: %@", subitem);
+            }
+        }
     }
     
     

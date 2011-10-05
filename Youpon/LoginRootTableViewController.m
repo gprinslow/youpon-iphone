@@ -12,8 +12,7 @@
 #import "TableRowDetailEditController.h"
 #import "TextEntryTableViewCell.h"
 #import "YouponAppDelegate.h"
-#import "RailsServiceRequest.h"
-#import "RailsServiceResponse.h"
+
 
 static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_USERS_NOTIFICATION";
 
@@ -544,17 +543,57 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
     if ([self isValidLoginAction]) {
         NSLog(@"Valid Login Action - call service here");
         
-        RailsServiceRequest *request = [[RailsServiceRequest alloc] init];
-        RailsServiceResponse *response = [[RailsServiceResponse alloc] init];
+        loginServiceRequest = [[RailsServiceRequest alloc] init];
+        loginServiceResponse = [[RailsServiceResponse alloc] init];
         
-        request.requestActionCode = 0;
-        request.requestModel = RAILS_MODEL_USERS;
-        request.requestResponseNotificationName = RAILS_GET_INDEX_USERS_NOTIFICATION;
+        /*
+         * GET - Index
+         */
+        loginServiceRequest.requestActionCode = 0;
+        loginServiceRequest.requestModel = RAILS_MODEL_USERS;
+        loginServiceRequest.requestResponseNotificationName = RAILS_GET_INDEX_USERS_NOTIFICATION;
+        
+        /*
+         * GET - Show (with an id parameter)
+         */
+//        loginServiceRequest.requestActionCode = 1;
+//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
+//        [loginServiceRequest.requestData setValue:@"11" forKey:@"id"];
+        
+        /*
+         * POST - Create
+         */
+//        loginServiceRequest.requestActionCode = 4;
+//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
+//        [self.data setValue:@"foo@bar.com" forKey:@"email"];
+//        [self.data setValue:@"foo@bar.com" forKey:@"username"];
+//        [self.data setValue:@"foobar" forKey:@"password"];
+//        [loginServiceRequest.requestData setValue:self.data forKey:@"user"];
+        
+        /*
+         * PUT - Update
+         */
+//        loginServiceRequest.requestActionCode = 5;
+//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
+//        [self.data setValue:@"iamupdated" forKey:@"first_name"];
+//        [self.data setValue:@"foo@bar.com" forKey:@"username"];
+//        [self.data setValue:@"foobar" forKey:@"password"];
+//        [loginServiceRequest.requestData setValue:@"18" forKey:@"id"];
+//        [loginServiceRequest.requestData setValue:self.data forKey:@"user"];
+        
+        /*
+         * DELETE - Destroy
+         */
+//        loginServiceRequest.requestActionCode = 6;
+//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
+//        [loginServiceRequest.requestData setValue:@"18" forKey:@"id"];
+
+        //TODO: when to dealloc/release request/response?
         
         YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
         
-        if ([[delegate railsService] callServiceWithRequest:request andResponsePointer:response]) {
-            NSLog(@"Response: %@", response.responseString);
+        if ([[delegate railsService] callServiceWithRequest:loginServiceRequest andResponsePointer:loginServiceResponse]) {
+            NSLog(@"Called service");
         }
         else {
             NSLog(@"Call failed");
@@ -572,6 +611,9 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
 
 - (void)getIndexResponseReceived {
     NSLog(@"Reponse was received");
+    for (id item in loginServiceResponse.responseData) {
+        NSLog(@"Item: %@", item);
+    }
 }
 
 - (BOOL)isValidLoginAction {
