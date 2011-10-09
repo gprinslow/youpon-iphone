@@ -340,10 +340,12 @@
             if ([rowKey isEqualToString:@"username"]) {
                 cell.tag = kUsernameCellTag;
                 txfUsername = cell.textField;
+                txfUsername.text = [[self data] valueForKey:rowKey];
             }
             else if ([rowKey isEqualToString:@"password"]){
                 cell.tag = kPasswordCellTag;
                 txfPassword = cell.textField;
+                txfPassword.text = [[self data] valueForKey:rowKey];
             }
             else if ([rowKey isEqualToString:@"passwordConfirm"]) {
                 cell.tag = kPasswordConfirmCellTag;

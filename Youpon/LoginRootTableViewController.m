@@ -14,7 +14,7 @@
 #import "YouponAppDelegate.h"
 
 
-static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_USERS_NOTIFICATION";
+static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSION_NOTIFICATION";
 
 UIAlertView *__loginErrorAlertView;
 
@@ -181,8 +181,8 @@ UIAlertView *__loginErrorAlertView;
     
     [[NSNotificationCenter defaultCenter] 
      addObserver:self 
-     selector:@selector(getIndexResponseReceived) 
-     name:RAILS_GET_INDEX_USERS_NOTIFICATION 
+     selector:@selector(createSessionResponseReceived) 
+     name:RAILS_CREATE_SESSION_NOTIFICATION 
      object:nil];
 }
 
@@ -529,16 +529,45 @@ UIAlertView *__loginErrorAlertView;
 }
 
 
-#pragma mark - Custom methods
+#pragma mark - Switch to Registration Screen
+
+-(void)saveDataOnTransferToRegistration {
+    [[self data] setValue:txfUsername.text forKey:@"username"];
+    [[self data] setValue:txfPassword.text forKey:@"password"];
+}
 
 - (IBAction)switchToRegistration {
-    //TODO: Switch to Registration screen
     
     self.registrationRootTableViewController = [[RegistrationRootTableViewController alloc] initWithNibName:@"RegistrationRootTableViewController" bundle:nil];
     
-    self.registrationRootTableViewController.data = self.data;
+    [self saveDataOnTransferToRegistration];
+    
+    //TODO: Figure out why this data gets zeroed when the regController shows up
+    self.registrationRootTableViewController.data = [[NSMutableDictionary alloc] initWithDictionary:[self data] copyItems:TRUE];
     
     [self.navigationController pushViewController:self.registrationRootTableViewController animated:YES];
+}
+
+#pragma mark - Login Action & Service Call & Handle Response
+
+- (void)checkForDeleteRememberedAuthenticationData {
+    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+    
+    if ([rememberMe isEqualToString:@"TRUE"] && !swtRememberMe.on) {
+        
+        [userDefaults setValue:@"" forKey:@"hasEstablishedPin"];
+        [userDefaults setValue:@"" forKey:@"hasAuthenticated"];
+        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPin"];
+        [userDefaults setValue:@"FALSE" forKey:@"rememberMe"];
+        
+        NSString *hasAuthenticated = [userDefaults objectForKey:];
+        NSString *hasEstablishedPin = [userDefaults objectForKey:@"hasEstablishedPin"];
+        NSString *authenticatedPin = [userDefaults objectForKey:@"authenticatedPin"];
+    }
 }
 
 - (IBAction)startLoginAction {
@@ -551,16 +580,24 @@ UIAlertView *__loginErrorAlertView;
     [self performSelector:@selector(doLoginAction) withObject:nil afterDelay:0.5];
 }
 
+/*
+ * Steps:   1) store user/pass in self.data
+ *          2) call sessions with user/pass
+ *          3)a: if failure, return alert message
+ *          3)b: if success, do the following:
+ *                  store authenticated user/pass (and pin, if rememberMe isOn)
+ *                  set the sessionToken in App Delegate
+ *                  store the currentUser in App Delegate
+ */
+
 - (void)doLoginAction {
 
     [self disableInteractions];
     
-    
-    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
-    
+    [self checkForDeleteRememberedAuthenticationData];
     
     if ([self isValidLoginAction]) {
-        NSLog(@"Valid Login Action - call service here");
+        NSLog(@"Valid Login Action - calling service");
         
         loginServiceRequest = [[RailsServiceRequest alloc] init];
         loginServiceResponse = [[RailsServiceResponse alloc] init];
@@ -570,7 +607,7 @@ UIAlertView *__loginErrorAlertView;
          */
         loginServiceRequest.requestActionCode = 0;
         loginServiceRequest.requestModel = RAILS_MODEL_USERS;
-        loginServiceRequest.requestResponseNotificationName = RAILS_GET_INDEX_USERS_NOTIFICATION;
+        loginServiceRequest.requestResponseNotificationName = RAILS_CREATE_SESSION_NOTIFICATION;
         
         /*
          * GET - Show (with an id parameter)
@@ -617,25 +654,43 @@ UIAlertView *__loginErrorAlertView;
         else {
             NSLog(@"Call failed");
         }
-        
-        
-        
-        //[self.parentViewController dismissModalViewControllerAnimated:YES];
     }
     
     
+
+}
+
+/*
+ * Response was received from service -- do actions/transitions depending on result
+ */
+- (void)createSessionResponseReceived {
+    NSLog(@"Reponse was received");
+    for (id item in loginServiceResponse.responseData) {
+        NSLog(@"Response Item: %@", item);
+    }
+    
+    
+    
+    //SAVE the authenticated credentials if the user has turned on "Remember Me"
+    
+    
+    //DO the things below AFTER successful login
     [self enableInteractions];
     
     [aivLogin stopAnimating];
+    
+    [self.parentViewController dismissModalViewControllerAnimated:YES];
 }
 
-- (void)getIndexResponseReceived {
-    NSLog(@"Reponse was received");
-    for (id item in loginServiceResponse.responseData) {
-        NSLog(@"Item: %@", item);
-    }
+-(void)saveDataOnSuccessfulLogin {
+    
 }
 
+#pragma mark - Validation & Error Alerts
+
+/*
+ * Alert View for Errors
+ */
 - (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles {
     
     __loginErrorAlertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
@@ -646,8 +701,10 @@ UIAlertView *__loginErrorAlertView;
     return FALSE;
 }
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
+/*
+ * Validation
+ */
 - (BOOL)isValidLoginAction {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
