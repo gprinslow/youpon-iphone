@@ -15,6 +15,7 @@
 @synthesize loginNavigationController = _loginNavigationController;
 @synthesize loginRootTableViewController = _loginRootTableViewController;
 @synthesize railsService = _railsService;
+@synthesize sessionToken = _sessionToken;
 @synthesize window=_window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

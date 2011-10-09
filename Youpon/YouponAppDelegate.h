@@ -18,6 +18,7 @@
     LoginRootTableViewController *_loginRootTableViewController;
     //added
     RailsService *_railsService;
+    NSString *_sessionToken;
 }
 
 @property (nonatomic, retain) IBOutlet UITabBarController *rootTabBarController;
@@ -25,6 +26,7 @@
 @property (nonatomic, retain) IBOutlet LoginRootTableViewController *loginRootTableViewController;
 //added
 @property (nonatomic, retain) RailsService *railsService;
+@property (nonatomic, retain) NSString *sessionToken;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

@@ -16,6 +16,8 @@
 
 static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_USERS_NOTIFICATION";
 
+UIAlertView *__loginErrorAlertView;
+
 @implementation LoginRootTableViewController
 
 @synthesize registrationRootTableViewController = _registrationRootTableViewController;
@@ -63,8 +65,7 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
     
     
     sectionNames = [[NSArray alloc] initWithObjects:
-                    [NSNull null], 
-                    [NSNull null], 
+                    [NSNull null],
                     NSLocalizedString(@"Options", @"Options"), 
                     nil];
     
@@ -75,13 +76,10 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
                   NSLocalizedString(@"Username", @"Username"),
                   NSLocalizedString(@"Password", @"Password"),
                   NSLocalizedString(@"PIN", @"PIN"),
+                  NSLocalizedString(@"", @"LoginButton"),
                   nil],
                  
                  //Section 2
-                 [NSArray arrayWithObjects:@"",
-                  nil],
-                 
-                 //Section 3
                  [NSArray arrayWithObjects:
                   NSLocalizedString(@"Remember Me", @"Remember Me"),
                   nil],
@@ -95,13 +93,10 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
                 @"username",
                 @"password",
                 @"pin",
+                @"loginButton",
                 nil],
                
                //Section 2
-               [NSArray arrayWithObject:
-                @"loginButton"],
-               
-               //Section 3
                [NSArray arrayWithObject:
                 @"rememberMe"],
                
@@ -114,12 +109,10 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
                   [NSNull null],
                   [NSNull null],
                   [NSNull null],
+                  [NSNull null],
                   nil],
                  
                  //Section 2
-                 [NSArray arrayWithObject:[NSNull null]],
-                 
-                 //Section 3
                  [NSArray arrayWithObject:[NSNull null]],
                  
                  nil];
@@ -131,12 +124,10 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
                      [NSNull null], 
                      [NSNull null],
                      [NSNull null],
+                     [NSNull null],
                      nil],
 
                       //Section 2
-                    [NSArray arrayWithObject:[NSNull null]],
-                      
-                      //Section 3
                     [NSArray arrayWithObject:[NSNull null]],
                       
                       nil];
@@ -349,7 +340,7 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
         UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [loginButton addTarget:self action:@selector(startLoginAction) forControlEvents:UIControlEventTouchUpInside];
         [loginButton setTitle:@"Log in" forState:UIControlStateNormal];
-        loginButton.frame = CGRectMake(10.0f, 7.0f, 240.0f, 30.0f);
+        loginButton.frame = CGRectMake(50.0f, 7.0f, 200.0f, 30.0f);
         [cell.contentView addSubview:loginButton];
         btnLogin = loginButton;
         
@@ -486,9 +477,15 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
 
 - (IBAction)usernameEditingDidEndOnExit:(id)sender {
     [sender resignFirstResponder];
+    
+    [[self data] setValue:txfUsername.text forKey:@"username"];
+    
     [txfPassword becomeFirstResponder];
 }
 - (IBAction)passwordEditingDidEndOnExit:(id)sender {
+    
+    [[self data] setValue:txfPassword.text forKey:@"password"];
+    
     [sender resignFirstResponder];
 }
 - (IBAction)pinEditingDidEndOnExit:(id)sender {
@@ -508,6 +505,29 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
         [txfPin setEnabled:TRUE];
     }
 }
+
+#pragma mark - Disable and Enable Interactions
+
+- (void)disableInteractions {
+    [btnLogin setEnabled:FALSE];
+    [txfUsername setEnabled:FALSE];
+    [txfPassword setEnabled:FALSE];
+    [txfPin setEnabled:FALSE];
+    
+    [self.tableView setUserInteractionEnabled:FALSE];    
+    [self.tableView setAllowsSelection:FALSE];
+}
+
+- (void)enableInteractions {
+    [btnLogin setEnabled:TRUE];
+    [txfUsername setEnabled:TRUE];
+    [txfPassword setEnabled:TRUE];
+    [txfPin setEnabled:TRUE];
+    
+    [self.tableView setUserInteractionEnabled:TRUE];
+    [self.tableView setAllowsSelection:TRUE];
+}
+
 
 #pragma mark - Custom methods
 
@@ -533,9 +553,8 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
 
 - (void)doLoginAction {
 
+    [self disableInteractions];
     
-    [btnLogin setEnabled:FALSE];
-    [self.tableView setAllowsSelection:FALSE];
     
     //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
     
@@ -604,8 +623,9 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
         //[self.parentViewController dismissModalViewControllerAnimated:YES];
     }
     
-    [btnLogin setEnabled:TRUE];
-    [self.tableView setAllowsSelection:TRUE];
+    
+    [self enableInteractions];
+    
     [aivLogin stopAnimating];
 }
 
@@ -616,6 +636,18 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
     }
 }
 
+- (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles {
+    
+    __loginErrorAlertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
+    
+    [__loginErrorAlertView show];
+    [__loginErrorAlertView release];
+    
+    return FALSE;
+}
+
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+
 - (BOOL)isValidLoginAction {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -625,22 +657,26 @@ static NSString *const RAILS_GET_INDEX_USERS_NOTIFICATION = @"RAILS_GET_INDEX_US
     
     if ([txfUsername.text isEqualToString:@""]) {
         NSLog(@"Username must not be blank");
-        return FALSE;
+        
+        return [self alertViewForError:@"Username must not be blank" title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
     if ([txfPassword.text isEqualToString:@""]) {
         NSLog(@"Password must not be blank");
-        return FALSE;
+        
+        return [self alertViewForError:@"Password must not be blank" title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
     
     if ([hasAuthenticated isEqualToString:@"TRUE"]) {
         if([hasEstablishedPin isEqualToString:@"TRUE"]) {
             if ([txfPin.text isEqualToString:@""]) {
-                NSLog(@"If a PIN has been established, PIN must not be blank");
-                return FALSE;
+                NSLog(@"If a PIN has been established, it must not be blank");
+                
+                return [self alertViewForError:@"If a PIN has been established, it must not be blank" title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             }
             else if (![txfPin.text isEqualToString:authenticatedPin]) {
                 NSLog(@"Entered PIN does not match authenticated PIN");
-                return FALSE;
+                
+                return [self alertViewForError:@"Entered PIN does not match authenticated PIN" title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             }
         }
     }
