@@ -478,13 +478,13 @@ UIAlertView *__loginErrorAlertView;
 - (IBAction)usernameEditingDidEndOnExit:(id)sender {
     [sender resignFirstResponder];
     
-    [[self data] setValue:txfUsername.text forKey:@"username"];
+    [self.data setValue:txfUsername.text forKey:@"username"];
     
     [txfPassword becomeFirstResponder];
 }
 - (IBAction)passwordEditingDidEndOnExit:(id)sender {
     
-    [[self data] setValue:txfPassword.text forKey:@"password"];
+    [self.data setValue:txfPassword.text forKey:@"password"];
     
     [sender resignFirstResponder];
 }
@@ -576,72 +576,43 @@ UIAlertView *__loginErrorAlertView;
     [self performSelector:@selector(doLoginAction) withObject:nil afterDelay:0.5];
 }
 
-/*
- * Steps:   1) store user/pass in self.data
- *          2) call sessions with user/pass
- *          3)a: if failure, return alert message
- *          3)b: if success, do the following:
- *                  store authenticated user/pass (and pin, if rememberMe isOn)
- *                  set the sessionToken in App Delegate
- *                  store the currentUser in App Delegate
- */
-
 - (void)doLoginAction {
 
     [self disableInteractions];
     
-    [self checkForDeleteRememberedAuthenticationData];
+    /*
+     * Steps:   1) store user/pass in self.data
+     *          2) call sessions with user/pass
+     *          3)a: if failure, return alert message
+     *          3)b: if success, do the following:
+     *                  store authenticated user/pass (and pin, if rememberMe isOn)
+     *                  set the sessionToken in App Delegate
+     *                  store the currentUser in App Delegate
+     */
     
     if ([self isValidLoginAction]) {
         NSLog(@"Valid Login Action - calling service");
         
+        /*
+         * Step:   1) store user/pass in self.data
+         */
+        [self checkForDeleteRememberedAuthenticationData];
+        
+        [self.data setValue:txfUsername.text forKey:@"username"];
+        [self.data setValue:txfPassword.text forKey:@"password"];
+        
+        /*
+         * Step:    2) call sessions with user/pass
+         */
         loginServiceRequest = [[RailsServiceRequest alloc] init];
         loginServiceResponse = [[RailsServiceResponse alloc] init];
         
-        /*
-         * GET - Index
-         */
-        loginServiceRequest.requestActionCode = 0;
-        loginServiceRequest.requestModel = RAILS_MODEL_USERS;
+        loginServiceRequest.requestActionCode = 4;
+        loginServiceRequest.requestModel = RAILS_MODEL_SESSIONS;
         loginServiceRequest.requestResponseNotificationName = RAILS_CREATE_SESSION_NOTIFICATION;
+        [loginServiceRequest.requestData setValue:self.data forKey:@"session"];
         
-        /*
-         * GET - Show (with an id parameter)
-         */
-//        loginServiceRequest.requestActionCode = 1;
-//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
-//        [loginServiceRequest.requestData setValue:@"11" forKey:@"id"];
-        
-        /*
-         * POST - Create
-         */
-//        loginServiceRequest.requestActionCode = 4;
-//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
-//        [self.data setValue:@"foo@bar.com" forKey:@"email"];
-//        [self.data setValue:@"foo@bar.com" forKey:@"username"];
-//        [self.data setValue:@"foobar" forKey:@"password"];
-//        [loginServiceRequest.requestData setValue:self.data forKey:@"user"];
-        
-        /*
-         * PUT - Update
-         */
-//        loginServiceRequest.requestActionCode = 5;
-//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
-//        [self.data setValue:@"iamupdated" forKey:@"first_name"];
-//        [self.data setValue:@"foo@bar.com" forKey:@"username"];
-//        [self.data setValue:@"foobar" forKey:@"password"];
-//        [loginServiceRequest.requestData setValue:@"18" forKey:@"id"];
-//        [loginServiceRequest.requestData setValue:self.data forKey:@"user"];
-        
-        /*
-         * DELETE - Destroy
-         */
-//        loginServiceRequest.requestActionCode = 6;
-//        loginServiceRequest.requestData = [[NSMutableDictionary alloc] initWithCapacity:1];
-//        [loginServiceRequest.requestData setValue:@"18" forKey:@"id"];
-
-        //TODO: when to dealloc/release request/response?
-        
+        //Can now call rails service singleton - see "createSessionResponseReceived"
         YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
         
         if ([[delegate railsService] callServiceWithRequest:loginServiceRequest andResponsePointer:loginServiceResponse]) {
@@ -651,9 +622,11 @@ UIAlertView *__loginErrorAlertView;
             NSLog(@"Call failed");
         }
     }
-    
-    
-
+    else {
+        NSLog(@"Failed validation");
+        [self enableInteractions];
+        [aivLogin stopAnimating];
+    }
 }
 
 /*
@@ -665,7 +638,7 @@ UIAlertView *__loginErrorAlertView;
         NSLog(@"Response Item: %@", item);
     }
     
-    
+    NSLog(@"Response String: %@", loginServiceResponse.responseString);
     
     //SAVE the authenticated credentials if the user has turned on "Remember Me"
     
