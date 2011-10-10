@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LoginRootTableViewController.h"
 #import "RailsService.h"
-#import "RailsServiceRequest.h"
-#import "RailsServiceResponse.h"
+
 
 @interface YouponAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UITabBarController *_rootTabBarController;

@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SBJson.h"
 #import "RailsServiceRequest.h"
 #import "RailsServiceResponse.h"
-#import "SBJson.h"
 
 //TODO: Refactor with private ivars and methods...
 
@@ -18,6 +18,7 @@
  */
 extern NSString *const RAILS_MODEL_USERS;
 extern NSString *const RAILS_MODEL_OFFERS;
+extern NSString *const RAILS_MODEL_SESSIONS;
 
 
 @interface RailsService : NSObject {

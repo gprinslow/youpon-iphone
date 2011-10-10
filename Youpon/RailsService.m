@@ -7,6 +7,7 @@
 //
 
 #import "RailsService.h"
+#import "YouponAppDelegate.h"
 
 /*
  * Public Constants
@@ -14,6 +15,7 @@
 
 NSString *const RAILS_MODEL_USERS = @"users";
 NSString *const RAILS_MODEL_OFFERS = @"offers";
+NSString *const RAILS_MODEL_SESSIONS = @"sessions";
 
 /*
  * Private constants
@@ -35,6 +37,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
 //Models
 #define kUsersModel 0
 #define kOffersModel 1
+#define kSessionsModel 2
 
 //Actions
 #define kActionGETindex 0
@@ -247,6 +250,27 @@ static NSString *const HTTP_DELETE = @"DELETE";
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     //Upon response - clear existing data
     [self.responseData setLength:0];
+    
+    //ONLY for Session Model
+    if (__railsServiceRequest.requestActionCode == kActionPOSTcreate) {
+        if ([__railsServiceRequest.requestModel isEqualToString:RAILS_MODEL_SESSIONS]) {
+            
+            NSHTTPURLResponse *httpURLResponse = (NSHTTPURLResponse *)response;
+            
+            if ([response respondsToSelector:@selector(allHeaderFields)]) {
+                NSDictionary *headerFields = [httpURLResponse allHeaderFields];
+                
+                NSLog(@"Response %@", [headerFields description]);
+                
+                NSString *sessionToken = [headerFields objectForKey:@"Set-Cookie"];
+                
+                if (sessionToken != nil) {
+                    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+                    delegate.sessionToken=[[NSString alloc] initWithString:sessionToken];
+                }
+            }
+        }
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)newData {

@@ -563,10 +563,6 @@ UIAlertView *__loginErrorAlertView;
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
         [userDefaults setValue:@"FALSE" forKey:@"rememberMe"];
-        
-        NSString *hasAuthenticated = [userDefaults objectForKey:];
-        NSString *hasEstablishedPin = [userDefaults objectForKey:@"hasEstablishedPin"];
-        NSString *authenticatedPin = [userDefaults objectForKey:@"authenticatedPin"];
     }
 }
 
