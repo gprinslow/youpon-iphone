@@ -18,6 +18,7 @@
     //added
     RailsService *_railsService;
     NSString *_sessionToken;
+    NSDictionary *_currentUser;
 }
 
 @property (nonatomic, retain) IBOutlet UITabBarController *rootTabBarController;
@@ -26,6 +27,7 @@
 //added
 @property (nonatomic, retain) RailsService *railsService;
 @property (nonatomic, retain) NSString *sessionToken;
+@property (nonatomic, retain) NSDictionary *currentUser;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

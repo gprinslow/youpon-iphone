@@ -550,15 +550,18 @@ UIAlertView *__loginErrorAlertView;
 
 #pragma mark - Login Action & Service Call & Handle Response
 
-- (void)checkForDeleteRememberedAuthenticationData {
+- (void)updateRememberMeOrDeleteRememberedData {
     //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
     
-    if ([rememberMe isEqualToString:@"TRUE"] && !swtRememberMe.on) {
+    if ([swtRememberMe isOn]) {
+        [userDefaults setValue:@"TRUE" forKey:@"rememberMe"];
+    }
+    else if ([rememberMe isEqualToString:@"TRUE"] && ![swtRememberMe isOn]) {
         
-        [userDefaults setValue:@"" forKey:@"hasEstablishedPin"];
-        [userDefaults setValue:@"" forKey:@"hasAuthenticated"];
+        [userDefaults setValue:@"FALSE" forKey:@"hasEstablishedPin"];
+        [userDefaults setValue:@"FALSE" forKey:@"hasAuthenticated"];
         [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
@@ -586,7 +589,6 @@ UIAlertView *__loginErrorAlertView;
      *          3)a: if failure, return alert message
      *          3)b: if success, do the following:
      *                  store authenticated user/pass (and pin, if rememberMe isOn)
-     *                  set the sessionToken in App Delegate
      *                  store the currentUser in App Delegate
      */
     
@@ -596,10 +598,11 @@ UIAlertView *__loginErrorAlertView;
         /*
          * Step:   1) store user/pass in self.data
          */
-        [self checkForDeleteRememberedAuthenticationData];
+        [self updateRememberMeOrDeleteRememberedData];
         
         [self.data setValue:txfUsername.text forKey:@"username"];
         [self.data setValue:txfPassword.text forKey:@"password"];
+        [self.data setValue:txfPin.text forKey:@"pin"];
         
         /*
          * Step:    2) call sessions with user/pass
@@ -634,26 +637,79 @@ UIAlertView *__loginErrorAlertView;
  */
 - (void)createSessionResponseReceived {
     NSLog(@"Reponse was received");
+    
+
+    /*  Steps:  3)a: if failure, return alert message
+     *          3)b: if success, do the following:
+     *                  IF rememberMe isOn: store authenticated user/pass (and pin if not blank)
+     *                  store the currentUser in App Delegate
+     *                  verify Delegate has non-nil Token
+     */
     for (id item in loginServiceResponse.responseData) {
         NSLog(@"Response Item: %@", item);
     }
-    
-    NSLog(@"Response String: %@", loginServiceResponse.responseString);
-    
-    //SAVE the authenticated credentials if the user has turned on "Remember Me"
-    
-    
-    //DO the things below AFTER successful login
-    [self enableInteractions];
-    
-    [aivLogin stopAnimating];
-    
-    [self.parentViewController dismissModalViewControllerAnimated:YES];
+    //*  Step:  3)a: if failure, return alert message
+    if ([loginServiceResponse.responseData objectForKey:@"error"]) {
+        NSString *errorMessage = (NSString *)[loginServiceResponse.responseData objectForKey:@"error"];
+        
+        NSLog(@"Error Response: %@", errorMessage);
+        
+        [self alertViewForError:errorMessage title:@"Login Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+
+        [self enableInteractions];
+        
+        [aivLogin stopAnimating];
+    }
+    //*          3)b: if success, do the following:
+    else {
+        /* IF rememberMe isOn: store authenticated user/pass (and pin if not blank)
+         */                  
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+        if ([rememberMe isEqualToString:@"TRUE"]) {            
+            
+            [userDefaults setValue:@"TRUE" forKey:@"hasAuthenticated"];
+            [userDefaults setValue:[self.data objectForKey:@"username"] forKey:@"authenticatedUsername"];
+            
+            if (![[self.data objectForKey:@"pin"] isEqualToString:@""]) {
+                [userDefaults setValue:txfPin.text forKey:@"authenticatedPin"];
+                [userDefaults setValue:@"TRUE" forKey:@"hasEstablishedPin"];
+                
+                [userDefaults setValue:[self.data objectForKey:@"password"] forKey:@"authenticatedPassword"];
+            }
+        }
+        
+        //* verify Delegate has non-nil Token
+        YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        if (delegate.sessionToken != nil) {
+            
+            //* store the currentUser in App Delegate
+            
+            delegate.currentUser = [[NSDictionary alloc] 
+                                    initWithDictionary:[loginServiceResponse.responseData objectForKey:@"user"] copyItems:TRUE];
+            
+            NSLog(@"Fully successful login");
+            
+            [self enableInteractions];
+            
+            [aivLogin stopAnimating];
+            
+            [self.parentViewController dismissModalViewControllerAnimated:YES];
+        }
+        else {
+            //Some kind of error occurred, can't proceed
+            NSLog(@"Login Error: session token is nil");
+            
+            [self enableInteractions];
+            
+            [aivLogin stopAnimating];
+            
+            [self alertViewForError:@"Session token was not received" title:@"Login Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        }
+    }
 }
 
--(void)saveDataOnSuccessfulLogin {
-    
-}
 
 #pragma mark - Validation & Error Alerts
 

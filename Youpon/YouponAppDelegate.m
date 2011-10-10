@@ -16,6 +16,7 @@
 @synthesize loginRootTableViewController = _loginRootTableViewController;
 @synthesize railsService = _railsService;
 @synthesize sessionToken = _sessionToken;
+@synthesize currentUser = _currentUser;
 @synthesize window=_window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -89,6 +90,10 @@
     [_rootTabBarController release];
     [_loginNavigationController release];
     [_loginRootTableViewController release];
+    [_railsService release];
+    [_sessionToken release];
+    [_currentUser release];
+
     [super dealloc];
 }
 

@@ -260,7 +260,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
             if ([response respondsToSelector:@selector(allHeaderFields)]) {
                 NSDictionary *headerFields = [httpURLResponse allHeaderFields];
                 
-                NSLog(@"Response %@", [headerFields description]);
+                NSLog(@"HTTP Response %@", [headerFields description]);
                 
                 NSString *sessionToken = [headerFields objectForKey:@"Set-Cookie"];
                 
@@ -314,16 +314,6 @@ static NSString *const HTTP_DELETE = @"DELETE";
     
     //TODO: REMOVE DEBUG ENTRY
     NSLog(@"Response: %@", __railsServiceResponse.responseString);
-    for (id item in __railsServiceResponse.responseData) {
-        NSLog(@"Item: %@ ", item);
-        //TODO: Fix this, not working as printing out
-        if ([item isKindOfClass:[NSMutableDictionary class]]) {
-            NSMutableDictionary *items = (NSMutableDictionary *)item;
-            for (id subitem in items) {
-                NSLog(@"Subitem: %@", subitem);
-            }
-        }
-    }
     
     
     //Memory management

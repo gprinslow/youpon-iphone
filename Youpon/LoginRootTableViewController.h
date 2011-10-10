@@ -42,4 +42,6 @@
 - (void)doLoginAction;
 - (BOOL)isValidLoginAction;
 
+- (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
+
 @end
