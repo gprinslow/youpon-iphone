@@ -532,8 +532,30 @@ UIAlertView *__loginErrorAlertView;
 #pragma mark - Switch to Registration Screen
 
 -(void)saveDataOnTransferToRegistration {
-    [[self data] setValue:txfUsername.text forKey:@"username"];
-    [[self data] setValue:txfPassword.text forKey:@"password"];
+    [self.data setValue:txfUsername.text forKey:@"username"];
+    [self.data setValue:txfPassword.text forKey:@"password"];
+    [self.data setValue:txfPin.text forKey:@"pin"];
+    
+    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+    
+    if ([swtRememberMe isOn]) {
+        [userDefaults setValue:@"TRUE" forKey:@"rememberMe"];
+        
+        [self.data setValue:txfPin.text forKey:@"pin"];
+    }
+    else if ([rememberMe isEqualToString:@"TRUE"] && ![swtRememberMe isOn]) {
+
+        [userDefaults setValue:@"FALSE" forKey:@"hasEstablishedPin"];
+        [userDefaults setValue:@"FALSE" forKey:@"hasAuthenticated"];
+        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPin"];
+        [userDefaults setValue:@"FALSE" forKey:@"rememberMe"];
+        
+        [self.data setValue:@"" forKey:@"pin"];
+    }
 }
 
 - (IBAction)switchToRegistration {
