@@ -541,7 +541,6 @@ UIAlertView *__loginErrorAlertView;
 -(void)saveDataOnTransferToRegistration {
     [self.data setValue:txfUsername.text forKey:@"username"];
     [self.data setValue:txfPassword.text forKey:@"password"];
-    [self.data setValue:txfPin.text forKey:@"pin"];
      
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
@@ -550,7 +549,7 @@ UIAlertView *__loginErrorAlertView;
     if ([swtRememberMe isOn]) {
         [userDefaults setBool:TRUE forKey:@"rememberMe"];
         
-        [self.data setValue:txfPin.text forKey:@"pin"];
+        [userDefaults setValue:txfPin.text forKey:@"lastEnteredPin"];
     }
     //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
     else if (rememberMe && ![swtRememberMe isOn]) { 
@@ -562,8 +561,7 @@ UIAlertView *__loginErrorAlertView;
         [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
-        
-        [self.data setValue:@"" forKey:@"pin"];
+        [userDefaults setValue:@"" forKey:@"lastEnteredPin"];
     }
 }
 
@@ -590,6 +588,8 @@ UIAlertView *__loginErrorAlertView;
     //IF swtRememberMe isOn then save that
     if ([swtRememberMe isOn]) {
         [userDefaults setBool:TRUE forKey:@"rememberMe"];
+        
+        [userDefaults setValue:txfPin.text forKey:@"lastEnteredPin"];
     }
     //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
     else if (rememberMe && ![swtRememberMe isOn]) {
@@ -601,8 +601,7 @@ UIAlertView *__loginErrorAlertView;
         [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
-        
-        [self.data setValue:@"" forKey:@"pin"];
+        [userDefaults setValue:@"" forKey:@"lastEnteredPin"];
     }
 }
 
@@ -639,7 +638,6 @@ UIAlertView *__loginErrorAlertView;
         
         [self.data setValue:txfUsername.text forKey:@"username"];
         [self.data setValue:txfPassword.text forKey:@"password"];
-        [self.data setValue:txfPin.text forKey:@"pin"];
         
         /*
          * Step:    2) call sessions with user/pass
@@ -699,7 +697,7 @@ UIAlertView *__loginErrorAlertView;
     }
     //*          3)b: if success, do the following:
     else {
-        /* IF rememberMe isOn: store authenticated user/pass (and pin if not blank)
+        /* IF rememberMe isOn: store authenticated user (+pass and pin if not blank)
          */                  
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
@@ -708,11 +706,11 @@ UIAlertView *__loginErrorAlertView;
             [userDefaults setBool:TRUE forKey:@"hasAuthenticated"];
             [userDefaults setValue:[self.data objectForKey:@"username"] forKey:@"authenticatedUsername"];
             
-            //IF PIN was not blank, then store it, and store password
-            if (![[self.data objectForKey:@"pin"] isEqualToString:@""]) {
+            //IF entered PIN was not blank, then store it, and store password
+            if (![[userDefaults objectForKey:@"lastEnteredPin"] isEqualToString:@""]) {
                 
                 [userDefaults setBool:TRUE forKey:@"hasEstablishedPin"];
-                [userDefaults setValue:txfPin.text forKey:@"authenticatedPin"];
+                [userDefaults setValue:[userDefaults objectForKey:@"lastEnteredPin"] forKey:@"authenticatedPin"];
                 
                 [userDefaults setValue:[self.data objectForKey:@"password"] forKey:@"authenticatedPassword"];
             }
