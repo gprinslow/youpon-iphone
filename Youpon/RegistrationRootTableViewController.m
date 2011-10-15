@@ -33,7 +33,7 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        //Custom initialization (which doesn't seem to happen!!)
     }
     return self;
 }
@@ -93,9 +93,9 @@
                  
                  //Section 2 - Name
                  [NSArray arrayWithObjects:
-                  NSLocalizedString(@"First Name", @"First Name"),
-                  NSLocalizedString(@"Middle Initial", @"Middle Initial"),
-                  NSLocalizedString(@"Last Name", @"Last Name"),
+                  NSLocalizedString(@"First", @"First"),
+                  NSLocalizedString(@"Middle", @"Middle"),
+                  NSLocalizedString(@"Last", @"Last"),
                   nil],
                  
                  //Section 3 - Demographics
@@ -103,7 +103,6 @@
                   NSLocalizedString(@"Zip Code", @"Zip Code"),
                   NSLocalizedString(@"Birthday", @"Birthday"),
                   NSLocalizedString(@"Gender", @"Gender"),
-                  NSLocalizedString(@"User Type", @"User Type"),
                   nil],
                     
                  //Section 4 - Registration Button
@@ -119,7 +118,7 @@
                  [NSArray arrayWithObjects:
                   @"username",
                   @"password",
-                  @"passwordConfirm",
+                  @"password_confirmation",
                   @"pin",
                   @"email",
                   @"rememberMe",
@@ -127,17 +126,16 @@
                  
                  //Section 2 - Name
                  [NSArray arrayWithObjects:
-                  @"nameFirst",
-                  @"nameMiddleInitial",
-                  @"nameLast",
+                  @"first_name",
+                  @"middle_name",
+                  @"last_name",
                   nil],
                  
                  //Section 3 - Demographics
                  [NSArray arrayWithObjects:
-                  @"zipCode",
+                  @"zip_code",
                   @"birthday",
                   @"gender",
-                  @"userType",
                   nil],
                  
                  //Section 4 - Registration Button
@@ -151,18 +149,18 @@
                 
                           //Section 1 - Login
                           [NSArray arrayWithObjects:
-                           @"Enter a username (e.g. email address)",
+                           @"Enter a username (e.g. email)",
                            @"Enter a password",
                            @"Confirm the password",
-                           @"Enter a PIN for easier re-entry",
-                           @"Enter a email address",
+                           @"Enter a PIN for quick login",
+                           @"Enter an email address",
                            @"Remember your login info",
                            nil],
                           
                           //Section 2 - Name
                           [NSArray arrayWithObjects:
                            @"Enter your first name",
-                           @"Optional",
+                           @"Enter your middle name",
                            @"Enter your last name",
                            nil],
                           
@@ -171,7 +169,6 @@
                            @"Enter your home zip code",
                            @"Enter your birthday",
                            @"Enter your gender",
-                           @"Select your user type",
                            nil],
                           
                           //Section 4 - Registration Button
@@ -204,7 +201,6 @@
                [NSArray arrayWithObjects:
                 @"TextEntryTableViewCell",
                 @"TableRowDetailEditDateController",
-                @"TableRowDetailEditSingleSelectionListController",
                 @"TableRowDetailEditSingleSelectionListController",
                 nil],
                
@@ -239,7 +235,6 @@
                        [NSNull null],
                        [NSNull null],
                        [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Female", @"Male", @"Prefer not to say", nil] forKey:@"list"],
-                       [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Customer", @"Business", @"Customer & Business", nil] forKey:@"list"],
                        nil],
                       
                       //Section 4 - Registration Button
@@ -347,31 +342,32 @@
                 txfPassword = cell.textField;
                 txfPassword.text = [[self data] valueForKey:rowKey];
             }
-            else if ([rowKey isEqualToString:@"passwordConfirm"]) {
+            else if ([rowKey isEqualToString:@"password_confirmation"]) {
                 cell.tag = kPasswordConfirmCellTag;
                 txfPasswordConfirm = cell.textField;
             }
             else if ([rowKey isEqualToString:@"pin"]) {
                 cell.tag = kPinCellTag;
                 txfPin = cell.textField;
+                txfPin.text = [[self data] valueForKey:rowKey];
             }
             else if ([rowKey isEqualToString:@"email"]) {
                 cell.tag = kEmailCellTag;
                 txfEmail = cell.textField;
             }
-            else if ([rowKey isEqualToString:@"nameFirst"]) {
+            else if ([rowKey isEqualToString:@"first_name"]) {
                 cell.tag = kNameFirstCellTag;
                 txfNameFirst = cell.textField;
             }
-            else if ([rowKey isEqualToString:@"nameMiddle"]) {
+            else if ([rowKey isEqualToString:@"middle_name"]) {
                 cell.tag = kNameMiddleCellTag;
                 txfNameMiddle = cell.textField;
             }
-            else if ([rowKey isEqualToString:@"nameLast"]) {
+            else if ([rowKey isEqualToString:@"last_name"]) {
                 cell.tag = kNameLastCellTag;
                 txfNameLast = cell.textField;
             }
-            else if ([rowKey isEqualToString:@"zipCode"]) {
+            else if ([rowKey isEqualToString:@"zip_code"]) {
                 cell.tag = kZipCodeCellTag;
                 txfZipCode = cell.textField;
             }
@@ -401,6 +397,16 @@
                 cell.accessoryView = rememberMeSwitch;
                 
                 swtRememberMe = rememberMeSwitch;
+                
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+                
+                if ([rememberMe isEqualToString:@"TRUE"]) {
+                    [swtRememberMe setOn:TRUE animated:FALSE];
+                }
+                else {
+                    [swtRememberMe setOn:FALSE animated:FALSE];
+                }
             }
             
             return cell;

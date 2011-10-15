@@ -63,6 +63,8 @@ UIAlertView *__loginErrorAlertView;
     
     self.navigationItem.rightBarButtonItem = registrationButtonItem;
     
+    //-ADDED-
+    data = [[NSMutableDictionary alloc] initWithCapacity:5];
     
     sectionNames = [[NSArray alloc] initWithObjects:
                     [NSNull null],
@@ -560,12 +562,13 @@ UIAlertView *__loginErrorAlertView;
 
 - (IBAction)switchToRegistration {
     
-    self.registrationRootTableViewController = [[RegistrationRootTableViewController alloc] initWithNibName:@"RegistrationRootTableViewController" bundle:nil];
-    
     [self saveDataOnTransferToRegistration];
     
-    //TODO: Figure out why this data gets zeroed when the regController shows up
-    self.registrationRootTableViewController.data = [[NSMutableDictionary alloc] initWithDictionary:[self data] copyItems:TRUE];
+    _registrationRootTableViewController = [[RegistrationRootTableViewController alloc] initWithNibName:@"RegistrationRootTableViewController" bundle:nil];
+    
+    _registrationRootTableViewController.data = [[NSMutableDictionary alloc] initWithCapacity:15];
+    
+    [self.registrationRootTableViewController.data setValuesForKeysWithDictionary:self.data];
     
     [self.navigationController pushViewController:self.registrationRootTableViewController animated:YES];
 }

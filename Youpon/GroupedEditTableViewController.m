@@ -53,10 +53,10 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.data = [[NSMutableDictionary alloc] init];
+
     
     /*
-     * Subclass: initialize sectionNames, rowLabels, rowKeys, rowControllers, rowArguments here
+     * Subclass: initialize DATA, sectionNames, rowLabels, rowKeys, rowControllers, rowArguments here
      */
 }
 
@@ -65,8 +65,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    
-    self.data = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
