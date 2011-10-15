@@ -139,13 +139,15 @@ UIAlertView *__loginErrorAlertView;
      * TODO: Improve security of stored username, password, pin (userDefaults unsecure)
      */
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
     
-    if ([rememberMe isEqualToString:@"TRUE"]) {
-        NSString *hasAuthenticated = [userDefaults objectForKey:@"hasAuthenticated"];
-        NSString *hasEstablishedPin = [userDefaults objectForKey:@"hasEstablishedPin"];
-        
-        if ([hasAuthenticated isEqualToString:@"TRUE"]) {
+    //IF rememberMe
+    BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
+    
+    if (rememberMe) {
+        //IF hasAuthenticated        
+        BOOL hasAuthenticated = [userDefaults boolForKey:@"hasAuthenticated"];
+
+        if (hasAuthenticated) {
             NSString *authenticatedUsername = [userDefaults objectForKey:@"authenticatedUsername"];
             
             [self.data setValue:authenticatedUsername forKey:@"username"];
@@ -153,7 +155,10 @@ UIAlertView *__loginErrorAlertView;
             //Move control to Password field
             [txfPassword becomeFirstResponder];
             
-            if ([hasEstablishedPin isEqualToString:@"TRUE"]) {
+            //IF hasEstablishedPin
+            BOOL hasEstablishedPin = [userDefaults boolForKey:@"hasEstablishedPin"];
+            
+            if (hasEstablishedPin) {
                 NSString *authenticatedPassword = [userDefaults objectForKey:@"authenticatedPassword"];
                 
                 [self.data setValue:authenticatedPassword forKey:@"password"];
@@ -358,7 +363,7 @@ UIAlertView *__loginErrorAlertView;
         CGFloat cellCenter = cell.frame.size.height/2.0;
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+        BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
         
         cell.detailTextLabel.text = rowLabel;
         cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:14.0];
@@ -367,7 +372,7 @@ UIAlertView *__loginErrorAlertView;
         UISwitch *rememberMeSwitch = [[[UISwitch alloc] initWithFrame:CGRectMake(0.0f, cellCenter, 24.0f, 24.0f)] autorelease];
         [rememberMeSwitch addTarget:self action:@selector(rememberMeSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
         
-        if ([rememberMe isEqualToString:@"TRUE"]) {
+        if (rememberMe) {
             [rememberMeSwitch setOn:YES animated:FALSE];
         }
         else {
@@ -537,24 +542,26 @@ UIAlertView *__loginErrorAlertView;
     [self.data setValue:txfUsername.text forKey:@"username"];
     [self.data setValue:txfPassword.text forKey:@"password"];
     [self.data setValue:txfPin.text forKey:@"pin"];
-    
-    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+    BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
     
+    //IF swtRememberMe isOn then save that and store the entered PIN for the registration screen
     if ([swtRememberMe isOn]) {
-        [userDefaults setValue:@"TRUE" forKey:@"rememberMe"];
+        [userDefaults setBool:TRUE forKey:@"rememberMe"];
         
         [self.data setValue:txfPin.text forKey:@"pin"];
     }
-    else if ([rememberMe isEqualToString:@"TRUE"] && ![swtRememberMe isOn]) {
+    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+    else if (rememberMe && ![swtRememberMe isOn]) { 
 
-        [userDefaults setValue:@"FALSE" forKey:@"hasEstablishedPin"];
-        [userDefaults setValue:@"FALSE" forKey:@"hasAuthenticated"];
+        [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
+        [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
+        [userDefaults setBool:FALSE forKey:@"rememberMe"];
+        
         [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
-        [userDefaults setValue:@"FALSE" forKey:@"rememberMe"];
         
         [self.data setValue:@"" forKey:@"pin"];
     }
@@ -576,21 +583,26 @@ UIAlertView *__loginErrorAlertView;
 #pragma mark - Login Action & Service Call & Handle Response
 
 - (void)updateRememberMeOrDeleteRememberedData {
-    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+    BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
     
+    //IF swtRememberMe isOn then save that
     if ([swtRememberMe isOn]) {
-        [userDefaults setValue:@"TRUE" forKey:@"rememberMe"];
+        [userDefaults setBool:TRUE forKey:@"rememberMe"];
     }
-    else if ([rememberMe isEqualToString:@"TRUE"] && ![swtRememberMe isOn]) {
+    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+    else if (rememberMe && ![swtRememberMe isOn]) {
         
-        [userDefaults setValue:@"FALSE" forKey:@"hasEstablishedPin"];
-        [userDefaults setValue:@"FALSE" forKey:@"hasAuthenticated"];
+        [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
+        [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
+        [userDefaults setBool:FALSE forKey:@"rememberMe"];
+        
         [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
-        [userDefaults setValue:@"FALSE" forKey:@"rememberMe"];
+        
+        [self.data setValue:@"" forKey:@"pin"];
     }
 }
 
@@ -690,15 +702,17 @@ UIAlertView *__loginErrorAlertView;
         /* IF rememberMe isOn: store authenticated user/pass (and pin if not blank)
          */                  
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
-        if ([rememberMe isEqualToString:@"TRUE"]) {            
+        BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
+        if (rememberMe) {            
             
-            [userDefaults setValue:@"TRUE" forKey:@"hasAuthenticated"];
+            [userDefaults setBool:TRUE forKey:@"hasAuthenticated"];
             [userDefaults setValue:[self.data objectForKey:@"username"] forKey:@"authenticatedUsername"];
             
+            //IF PIN was not blank, then store it, and store password
             if (![[self.data objectForKey:@"pin"] isEqualToString:@""]) {
+                
+                [userDefaults setBool:TRUE forKey:@"hasEstablishedPin"];
                 [userDefaults setValue:txfPin.text forKey:@"authenticatedPin"];
-                [userDefaults setValue:@"TRUE" forKey:@"hasEstablishedPin"];
                 
                 [userDefaults setValue:[self.data objectForKey:@"password"] forKey:@"authenticatedPassword"];
             }
@@ -758,9 +772,8 @@ UIAlertView *__loginErrorAlertView;
 - (BOOL)isValidLoginAction {
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *hasAuthenticated = [userDefaults objectForKey:@"hasAuthenticated"];
-    NSString *hasEstablishedPin = [userDefaults objectForKey:@"hasEstablishedPin"];
-    NSString *authenticatedPin = [userDefaults objectForKey:@"authenticatedPin"];
+    BOOL hasAuthenticated = [userDefaults boolForKey:@"hasAuthenticated"];
+    BOOL hasEstablishedPin = [userDefaults boolForKey:@"hasEstablishedPin"];
     
     if ([txfUsername.text isEqualToString:@""]) {
         NSLog(@"Username must not be blank");
@@ -773,8 +786,10 @@ UIAlertView *__loginErrorAlertView;
         return [self alertViewForError:@"Password must not be blank" title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
     
-    if ([hasAuthenticated isEqualToString:@"TRUE"]) {
-        if([hasEstablishedPin isEqualToString:@"TRUE"]) {
+    if (hasAuthenticated) {
+        if(hasEstablishedPin) {
+            NSString *authenticatedPin = [userDefaults objectForKey:@"authenticatedPin"];
+            
             if ([txfPin.text isEqualToString:@""]) {
                 NSLog(@"If a PIN has been established, it must not be blank");
                 
