@@ -399,9 +399,9 @@
                 swtRememberMe = rememberMeSwitch;
                 
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                NSString *rememberMe = [userDefaults objectForKey:@"rememberMe"];
+                BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
                 
-                if ([rememberMe isEqualToString:@"TRUE"]) {
+                if (rememberMe) {
                     [swtRememberMe setOn:TRUE animated:FALSE];
                 }
                 else {
