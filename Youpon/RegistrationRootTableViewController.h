@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "GroupedEditTableViewController.h"
 #import "GroupedEditTableView.h"
+#import "RailsServiceRequest.h"
+#import "RailsServiceResponse.h"
 
 @interface RegistrationRootTableViewController : GroupedEditTableViewController {
     UITextField *txfUsername;
@@ -29,14 +31,21 @@
  
     GroupedEditTableView *groupedEditTableView;
     
+    //Added for service calls
+    RailsServiceRequest *registerServiceRequest;
+    RailsServiceRequest *registerServiceResponse;
     
     @private
     NSArray *rowPlaceholders;
 }
 
+- (IBAction)rememberMeSwitchValueChanged:(id)sender;
+
 - (IBAction)startRegistrationAction;
 - (void)doRegistrationAction;
 - (BOOL)isValidRegistrationAction;
 - (IBAction)cancelRegistration;
+
+- (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
 
 @end

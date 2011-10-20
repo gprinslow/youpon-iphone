@@ -27,6 +27,12 @@
 #define kUserTypeCellTag 13
 #define kRegisterButtonCellTag 14
 
+UIAlertView *__registrationErrorAlertView;
+
+static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTIFICATION";
+
+
+
 @implementation RegistrationRootTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -70,12 +76,15 @@
     
     self.navigationItem.leftBarButtonItem = cancelButtonItem;
     
+    //This reference facilitates resigning first responders
     groupedEditTableView = (GroupedEditTableView *)self.tableView;
+    
+    //Note: data does not need to be initialized, this is done in the Login class
     
     sectionNames = [[NSArray alloc] initWithObjects:
                     NSLocalizedString(@"Login Info", "Login Info"),
-                    NSLocalizedString(@"Name", @"Name"),
-                    NSLocalizedString(@"Demographics", @"Demographics"),
+                    NSLocalizedString(@"Name [Optional]", @"Name [Optional]"),
+                    NSLocalizedString(@"Demographics [Optional]", @"Demographics [Optional]"),
                     [NSNull null],
                     nil];
     
@@ -83,12 +92,12 @@
                  
                  //Section 1 - Login
                  [NSArray arrayWithObjects:
-                  NSLocalizedString(@"Username", @"Username"),
-                  NSLocalizedString(@"Password", @"Password"),
-                  NSLocalizedString(@"Password", @"Password"),
+                  NSLocalizedString(@"Username*", @"Username*"),
+                  NSLocalizedString(@"Password*", @"Password*"),
+                  NSLocalizedString(@"Confirm*", @"Confirm*"),
                   NSLocalizedString(@"PIN", @"PIN"),
-                  NSLocalizedString(@"Email", @"Email"),
-                  NSLocalizedString(@"Remember Me", @"Remember Me"),
+                  NSLocalizedString(@"Email*", @"Email*"),
+                  NSLocalizedString(@"Remember Me*", @"Remember Me*"),
                   nil],
                  
                  //Section 2 - Name
@@ -168,7 +177,7 @@
                           [NSArray arrayWithObjects:
                            @"Enter your home zip code",
                            @"Enter your birthday",
-                           @"Enter your gender",
+                           @"Select your gender",
                            nil],
                           
                           //Section 4 - Registration Button
@@ -234,7 +243,7 @@
                       [NSArray arrayWithObjects:
                        [NSNull null],
                        [NSNull null],
-                       [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Female", @"Male", @"Prefer not to say", nil] forKey:@"list"],
+                       [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Female", @"Male", nil] forKey:@"list"],
                        nil],
                       
                       //Section 4 - Registration Button
@@ -242,7 +251,13 @@
                        [NSNull null],
                        nil],
                       
-                      nil];    
+                      nil];
+    
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(createUserResponseReceived) 
+     name:RAILS_CREATE_USER_NOTIFICATION 
+     object:nil];
     
 }
 
@@ -341,15 +356,18 @@
                 cell.tag = kPasswordCellTag;
                 txfPassword = cell.textField;
                 txfPassword.text = [[self data] valueForKey:rowKey];
+                txfPassword.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"password_confirmation"]) {
                 cell.tag = kPasswordConfirmCellTag;
                 txfPasswordConfirm = cell.textField;
+                txfPassword.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"pin"]) {
                 cell.tag = kPinCellTag;
                 txfPin = cell.textField;
                 txfPin.text = [[self data] valueForKey:rowKey];
+                txfPin.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"email"]) {
                 cell.tag = kEmailCellTag;
@@ -530,13 +548,37 @@
 
 #pragma mark - Custom action methods
 
+- (void)disableInteractions {
+    [groupedEditTableView setUserInteractionEnabled:FALSE];
+    [groupedEditTableView setAllowsSelection:FALSE];
+}
+
+- (void)enableInteractions {
+    [groupedEditTableView setUserInteractionEnabled:TRUE];
+    [groupedEditTableView setAllowsSelection:TRUE];
+}
+
+- (IBAction)cancelRegistration {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)rememberMeSwitchValueChanged:(id)sender {
+    if (![swtRememberMe isOn]) {
+        [txfPin setText:@""];
+        [txfPin setPlaceholder:@"Disabled"];
+        [txfPin setEnabled:FALSE];
+    }
+    else {
+        [txfPin setPlaceholder:@"Enter a PIN for quick login"];
+        [txfPin setEnabled:TRUE];
+    }
+}
+
+#pragma mark - Registration Action & Call
+
 - (IBAction)startRegistrationAction {
-    //TODO: Registration validation
-    //TODO: Registration service call
     
     [groupedEditTableView resignAllFirstResponders];
-    
-    NSLog(@"Registration request");
     
     [aivRegister startAnimating];
     
@@ -545,26 +587,41 @@
 
 - (void)doRegistrationAction {
     
+    [self disableInteractions];
+    
     if ([self isValidRegistrationAction]) {
-        NSLog(@"Registration completed");
+        NSLog(@"Valid Registration Action - calling service");
         
         [aivRegister stopAnimating];
         [self.parentViewController dismissModalViewControllerAnimated:YES];
     }
-    
-    [aivRegister stopAnimating];
+    else {
+        NSLog(@"Failed validation");
+        [self enableInteractions];
+        [aivRegister stopAnimating];
+    }
 }
+
+#pragma mark - Validation & Error Alerts
+
+/*
+ * Alert View for Errors
+ */
+- (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles {
+    
+    __registrationErrorAlertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
+    
+    [__registrationErrorAlertView show];
+    [__registrationErrorAlertView release];
+    
+    return FALSE;
+}
+
 - (BOOL)isValidRegistrationAction {
     
     return TRUE;
 }
 
-- (IBAction)cancelRegistration {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
-- (IBAction)rememberMeSwitchValueChanged:(id)sender {
-    
-}
 
 @end
