@@ -160,9 +160,9 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
                           [NSArray arrayWithObjects:
                            @"Enter a username (e.g. email)",
                            @"Enter a password",
-                           @"Confirm the password",
+                           @"Confirm your password",
                            @"Enter a PIN for quick login",
-                           @"Enter an email address",
+                           @"Enter your email address",
                            @"Remember your login info",
                            nil],
                           
@@ -350,23 +350,23 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
             if ([rowKey isEqualToString:@"username"]) {
                 cell.tag = kUsernameCellTag;
                 txfUsername = cell.textField;
-                txfUsername.text = [[self data] valueForKey:rowKey];
+//                txfUsername.text = [[self data] valueForKey:rowKey];
             }
             else if ([rowKey isEqualToString:@"password"]){
                 cell.tag = kPasswordCellTag;
                 txfPassword = cell.textField;
-                txfPassword.text = [[self data] valueForKey:rowKey];
+//                txfPassword.text = [[self data] valueForKey:rowKey];
                 txfPassword.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"password_confirmation"]) {
                 cell.tag = kPasswordConfirmCellTag;
                 txfPasswordConfirm = cell.textField;
-                txfPassword.secureTextEntry = TRUE;
+                txfPasswordConfirm.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"pin"]) {
                 cell.tag = kPinCellTag;
                 txfPin = cell.textField;
-                txfPin.text = [[self data] valueForKey:rowKey];
+//                txfPin.text = [[self data] valueForKey:rowKey];
                 txfPin.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"email"]) {
@@ -592,14 +592,179 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
     if ([self isValidRegistrationAction]) {
         NSLog(@"Valid Registration Action - calling service");
         
-        [aivRegister stopAnimating];
-        [self.parentViewController dismissModalViewControllerAnimated:YES];
+        /*
+         * Step:    1) store entered data in self.data
+         */
+        [self updateRememberMeOrDeleteRememberedData];
+        [self storeEnteredData];
+        
+        /*
+         * Step:    2) call registration with self.data
+         */
+        
+        registerServiceRequest = [[RailsServiceRequest alloc] init];
+        registerServiceResponse = [[RailsServiceResponse alloc] init];
+        
+        registerServiceRequest.requestActionCode = 4; //POST
+        registerServiceRequest.requestModel = RAILS_MODEL_USERS;
+        registerServiceRequest.requestResponseNotificationName = RAILS_CREATE_USER_NOTIFICATION;
+        [registerServiceRequest.requestData setValue:self.data forKey:@"user"];
+        
+        //Call rails service singleton - see "...ResponseReceived" method
+        YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        if ([[delegate railsService] callServiceWithRequest:registerServiceRequest andResponsePointer:registerServiceResponse]) {
+            NSLog(@"Called service");
+        }
+        else {
+            NSLog(@"Call failed");
+        }        
     }
     else {
         NSLog(@"Failed validation");
         [self enableInteractions];
         [aivRegister stopAnimating];
     }
+}
+
+- (void)createUserResponseReceived {
+    NSLog(@"Response was received");
+    
+    /*  Steps:  3)a: if failure, return alert message
+     *          3)b: if success, do the following:
+     *                  IF rememberMe isOn: store authenticated user/pass (and pin if not blank)
+     *                  store the currentUser in App Delegate
+     *                  verify Delegate has non-nil Token
+     */
+    for (id item in registerServiceResponse.responseData) {
+        NSLog(@"Response Item: %@", item);
+    }
+    //*  Step:  3)a: if failure, return alert message
+    if ([registerServiceResponse.responseData objectForKey:@"error"]) {
+        NSString *errorMessage = (NSString *)[registerServiceResponse.responseData objectForKey:@"error"];
+        
+        NSLog(@"Error Response: %@", errorMessage);
+        
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
+        [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
+        
+        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPin"];
+        
+        txfPassword.text = @"";
+        txfPasswordConfirm.text = @"";
+        txfPin.text = @"";
+        
+        [self alertViewForError:errorMessage title:@"Registration Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [self enableInteractions];
+        [aivRegister stopAnimating];
+    }
+    //*          3)b: if success, do the following:
+    else {
+        /* IF rememberMe isOn: store authenticated user (+pass and pin if not blank)
+         */                  
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
+        if (rememberMe) {            
+            
+            [userDefaults setBool:TRUE forKey:@"hasAuthenticated"];
+            [userDefaults setValue:[self.data objectForKey:@"username"] forKey:@"authenticatedUsername"];
+            
+            //IF entered PIN was not blank, then store it, and store password
+            if ([userDefaults objectForKey:@"lastEnteredPin"] && ![[userDefaults objectForKey:@"lastEnteredPin"] isEqualToString:@""]) {
+                
+                [userDefaults setBool:TRUE forKey:@"hasEstablishedPin"];
+                [userDefaults setValue:[userDefaults objectForKey:@"lastEnteredPin"] forKey:@"authenticatedPin"];
+                
+                [userDefaults setValue:[self.data objectForKey:@"password"] forKey:@"authenticatedPassword"];
+            }
+        }
+        
+        //* verify Delegate has non-nil Token
+        YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        if (delegate.sessionToken != nil) {
+            
+            //* store the currentUser in App Delegate
+            
+            delegate.currentUser = [[NSDictionary alloc] 
+                                    initWithDictionary:[registerServiceResponse.responseData objectForKey:@"user"] copyItems:TRUE];
+            
+            NSLog(@"Fully successful registration");
+            
+            [self enableInteractions];
+            
+            [aivRegister stopAnimating];
+            
+            [self.parentViewController dismissModalViewControllerAnimated:YES];
+        }
+        else {
+            //Some kind of error occurred, can't proceed
+            NSLog(@"Login Error: session token is nil");
+            
+            [self enableInteractions];
+            
+            [aivRegister stopAnimating];
+            
+            [self alertViewForError:@"Session token was not received" title:@"Login Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        }
+    }
+}
+
+#pragma mark - Registration helper methods
+
+- (void)updateRememberMeOrDeleteRememberedData {
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
+    
+    //IF swtRememberMe isOn then save that
+    if ([swtRememberMe isOn]) {
+        [userDefaults setBool:TRUE forKey:@"rememberMe"];
+        
+        [userDefaults setValue:txfPin.text forKey:@"lastEnteredPin"];
+    }
+    //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
+    else if (rememberMe && ![swtRememberMe isOn]) {
+        
+        [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
+        [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
+        [userDefaults setBool:FALSE forKey:@"rememberMe"];
+        
+        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
+        [userDefaults setValue:@"" forKey:@"authenticatedPin"];
+        [userDefaults setValue:@"" forKey:@"lastEnteredPin"];
+    }
+}
+
+- (void)storeEnteredData {
+    
+    //TODO: The below could probably work, not sure if more efficient though...
+    
+//    for (NSIndexPath *path in groupedEditTableView.indexPathsForVisibleRows) {
+//        [[self data] setValue:@"" forKey:[rowKeys nestedObjectAtIndexPath:path]];
+//        
+//        TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[groupedEditTableView cellForRowAtIndexPath:path];
+//        
+//        [self.tableView ce
+//    }
+    
+    [[self data] setValue:txfUsername.text forKey:@"username"];
+    [[self data] setValue:txfPassword.text forKey:@"password"];
+    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
+    //Pin stored in user defaults in other method
+    [[self data] setValue:txfEmail.text forKey:@"email"];
+    [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
+    [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
+    [[self data] setValue:txfNameLast.text forKey:@"last_name"];
+    [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
+    //Birthday & Gender should already be set (By Detail editor)
+
 }
 
 #pragma mark - Validation & Error Alerts
@@ -619,7 +784,7 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
 
 - (BOOL)isValidRegistrationAction {
     
-    return TRUE;
+    return FALSE;
 }
 
 
