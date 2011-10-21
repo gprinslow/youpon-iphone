@@ -7,10 +7,7 @@
 //
 
 #import "RegistrationRootTableViewController.h"
-#import "NSArray+NestedArray.h"
-#import "StringValueDisplay.h"
-#import "TableRowDetailEditController.h"
-#import "TextEntryTableViewCell.h"
+#import "YouponAppDelegate.h"
 
 #define kUsernameCellTag 1
 #define kPasswordCellTag 2

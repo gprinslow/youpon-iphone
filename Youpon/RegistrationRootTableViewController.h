@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "GroupedEditTableViewController.h"
 #import "GroupedEditTableView.h"
+#import "NSArray+NestedArray.h"
+#import "StringValueDisplay.h"
+#import "TableRowDetailEditController.h"
+#import "TextEntryTableViewCell.h"
+
 #import "RailsService.h"
-#import "YouponAppDelegate.h"
 
 @interface RegistrationRootTableViewController : GroupedEditTableViewController {
     UITextField *txfUsername;

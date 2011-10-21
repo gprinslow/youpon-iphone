@@ -7,7 +7,7 @@
 //
 
 #import "LoginRootTableViewController.h"
-
+#import "YouponAppDelegate.h"
 
 static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSION_NOTIFICATION";
 

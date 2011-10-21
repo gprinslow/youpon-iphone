@@ -14,8 +14,7 @@
 #import "TableRowDetailEditController.h"        //OK
 #import "TextEntryTableViewCell.h"              //OK
 
-
-#import "YouponAppDelegate.h"
+#import "RailsService.h"
 #import "RegistrationRootTableViewController.h" //??
 
 
