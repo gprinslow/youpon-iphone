@@ -751,15 +751,26 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
 //        [self.tableView ce
 //    }
     
-    [[self data] setValue:txfUsername.text forKey:@"username"];
-    [[self data] setValue:txfPassword.text forKey:@"password"];
-    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
+//    [[self data] setValue:txfUsername.text forKey:@"username"];
+//    [[self data] setValue:txfPassword.text forKey:@"password"];
+//    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
+//    //Pin stored in user defaults in other method
+//    [[self data] setValue:txfEmail.text forKey:@"email"];
+//    [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
+//    [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
+//    [[self data] setValue:txfNameLast.text forKey:@"last_name"];
+//    [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
+    
+    [[self data] setValue:@"inew1" forKey:@"username"];
+    [[self data] setValue:@"foobar" forKey:@"password"];
+    [[self data] setValue:@"foobar" forKey:@"password_confirmation"];
     //Pin stored in user defaults in other method
-    [[self data] setValue:txfEmail.text forKey:@"email"];
+    [[self data] setValue:@"inew1@example.com" forKey:@"email"];
     [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
     [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
     [[self data] setValue:txfNameLast.text forKey:@"last_name"];
     [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
+    
     //Birthday & Gender should already be set (By Detail editor)
 
 }
@@ -781,7 +792,7 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
 
 - (BOOL)isValidRegistrationAction {
     
-    return FALSE;
+    return TRUE;
 }
 
 
