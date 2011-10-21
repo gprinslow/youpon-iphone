@@ -7,11 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GroupedEditTableViewController.h"
-#import "TextEntryTableViewCell.h"
-#import "RegistrationRootTableViewController.h"
-#import "RailsServiceRequest.h"
-#import "RailsServiceResponse.h"
+#import "GroupedEditTableViewController.h"      //OK
+#import "TextEntryTableViewCell.h"              //OK
+#import "NSArray+NestedArray.h"                 //OK
+#import "StringValueDisplay.h"                  //OK
+#import "TableRowDetailEditController.h"        //OK
+#import "TextEntryTableViewCell.h"              //OK
+
+
+#import "YouponAppDelegate.h"
+#import "RegistrationRootTableViewController.h" //??
+
 
 @interface LoginRootTableViewController : GroupedEditTableViewController {
     UITextField *txfUsername;
