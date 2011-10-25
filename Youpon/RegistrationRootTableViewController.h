@@ -48,8 +48,13 @@
 
 - (IBAction)startRegistrationAction;
 - (void)doRegistrationAction;
+- (void)createUserResponseReceived;
 - (BOOL)isValidRegistrationAction;
 - (IBAction)cancelRegistration;
+
+- (IBAction)startLoginAction;
+- (void)doLoginAction;
+- (void)createSessionResponseReceived;
 
 - (void)updateRememberMeOrDeleteRememberedData;
 - (void)storeEnteredData;

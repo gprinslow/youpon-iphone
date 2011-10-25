@@ -27,7 +27,7 @@
 UIAlertView *__registrationErrorAlertView;
 
 static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTIFICATION";
-
+static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSION_NOTIFICATION";
 
 
 @implementation RegistrationRootTableViewController
@@ -254,6 +254,12 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
      addObserver:self 
      selector:@selector(createUserResponseReceived) 
      name:RAILS_CREATE_USER_NOTIFICATION 
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(createSessionResponseReceived) 
+     name:RAILS_CREATE_SESSION_NOTIFICATION 
      object:nil];
     
 }
@@ -630,7 +636,7 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
          * Step:    1) store entered data in self.data
          */
         [self updateRememberMeOrDeleteRememberedData];
-        [self storeEnteredData];
+        //[self storeEnteredData];  Apparently this is no longer needed?
         
         /*
          * Step:    2) call registration with self.data
@@ -648,10 +654,10 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
         YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
         
         if ([[delegate railsService] callServiceWithRequest:registerServiceRequest andResponsePointer:registerServiceResponse]) {
-            NSLog(@"Called service");
+            NSLog(@"Called service - Register");
         }
         else {
-            NSLog(@"Call failed");
+            NSLog(@"Call failed - Register");
         }        
     }
     else {
@@ -715,12 +721,79 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
                 [userDefaults setValue:[userDefaults objectForKey:@"lastEnteredPin"] forKey:@"authenticatedPin"];
                 
                 [userDefaults setValue:[self.data objectForKey:@"password"] forKey:@"authenticatedPassword"];
+                
+                
+                NSLog(@"%@", [userDefaults objectForKey:@"lastEnteredPin"]);
+                
+                NSLog(@"%i", [userDefaults boolForKey:@"hasEstablishedPin"]);
+                NSLog(@"%i", [userDefaults boolForKey:@"hasAuthenticated"]);
+                
+                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedUsername"]);
+                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedPassword"]);
+                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedPin"]);
+                
             }
         }
+     
+        /*
+         * User created, call login (create session) to establish token & current user
+         */
+        [self doLoginAction];
+    }
+}
+
+#pragma mark - Login (Session create call) methods
+
+- (IBAction)startLoginAction {
+    
+    [groupedEditTableView resignAllFirstResponders];
+    
+    [self performSelector:@selector(doLoginAction) withObject:nil afterDelay:0.5];
+}
+
+- (void)doLoginAction {
+    
+    registerServiceRequest.requestActionCode = 4;
+    registerServiceRequest.requestModel = RAILS_MODEL_SESSIONS;
+    registerServiceRequest.requestResponseNotificationName = RAILS_CREATE_SESSION_NOTIFICATION;
+    [registerServiceRequest.requestData setValue:self.data forKey:@"session"];
+    
+    
+    //Can now call rails service singleton - see "createSessionResponseReceived"
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([[delegate railsService] callServiceWithRequest:registerServiceRequest andResponsePointer:registerServiceResponse]) {
+        NSLog(@"Called service - Login");
+    }
+    else {
+        NSLog(@"Call failed - Login");
+    }
+}
+
+- (void)createSessionResponseReceived {
+    
+    NSLog(@"Reponse was received - Session");
+    
+    for (id item in registerServiceResponse.responseData) {
+        NSLog(@"Response Item: %@", item);
+    }
+    
+    //* verify Delegate has non-nil Token
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    //*  Step:  3)a: if failure, return alert message
+    if ([registerServiceResponse.responseData objectForKey:@"error"]) {
+        NSString *errorMessage = (NSString *)[registerServiceResponse.responseData objectForKey:@"error"];
         
-        //* verify Delegate has non-nil Token
-        YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSLog(@"Error Response: %@", errorMessage);
         
+        [self alertViewForError:errorMessage title:@"Login Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [self enableInteractions];
+        
+        [aivRegister stopAnimating];
+    }
+    else {
         if (delegate.sessionToken != nil) {
             
             //* store the currentUser in App Delegate
@@ -734,6 +807,7 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
             
             [aivRegister stopAnimating];
             
+            //FULLY DONE --> Go to main menu
             [self.parentViewController dismissModalViewControllerAnimated:YES];
         }
         else {
@@ -748,6 +822,8 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
         }
     }
 }
+
+
 
 #pragma mark - Registration helper methods
 
@@ -776,29 +852,31 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
     }
 }
 
+/*NOTE: This method had to be disabled because it was zeroing out some data that was "entered" already...?!
+ */
 - (void)storeEnteredData {
     
-    //TODO: The below could probably work, not sure if more efficient though...
-    
-//    for (NSIndexPath *path in groupedEditTableView.indexPathsForVisibleRows) {
-//        [[self data] setValue:@"" forKey:[rowKeys nestedObjectAtIndexPath:path]];
-//        
-//        TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[groupedEditTableView cellForRowAtIndexPath:path];
-//        
-//        [self.tableView ce
-//    }
-    
-    [[self data] setValue:txfUsername.text forKey:@"username"];
-    [[self data] setValue:txfPassword.text forKey:@"password"];
-    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
-    //Pin stored in user defaults in other method
-    [[self data] setValue:txfEmail.text forKey:@"email"];
-    [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
-    [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
-    [[self data] setValue:txfNameLast.text forKey:@"last_name"];
-    [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
-    
-    //Birthday & Gender should already be set (By Detail Editor)
+//    //TODO: The below could probably work, not sure if more efficient though...
+//    
+////    for (NSIndexPath *path in groupedEditTableView.indexPathsForVisibleRows) {
+////        [[self data] setValue:@"" forKey:[rowKeys nestedObjectAtIndexPath:path]];
+////        
+////        TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[groupedEditTableView cellForRowAtIndexPath:path];
+////        
+////        [self.tableView ce
+////    }
+//    
+//    [[self data] setValue:txfUsername.text forKey:@"username"];
+//    [[self data] setValue:txfPassword.text forKey:@"password"];
+//    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
+//    //Pin stored in user defaults in other method
+//    [[self data] setValue:txfEmail.text forKey:@"email"];
+//    [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
+//    [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
+//    [[self data] setValue:txfNameLast.text forKey:@"last_name"];
+//    [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
+//    
+//    //Birthday & Gender should already be set (By Detail Editor)
 
 }
 
