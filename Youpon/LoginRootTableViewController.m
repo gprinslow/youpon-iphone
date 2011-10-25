@@ -9,6 +9,11 @@
 #import "LoginRootTableViewController.h"
 #import "YouponAppDelegate.h"
 
+#define kUsernameCellTag 1
+#define kPasswordCellTag 2
+#define kPinCellTag 4
+#define kRememberMeCellTag 6
+
 static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSION_NOTIFICATION";
 
 UIAlertView *__loginErrorAlertView;
@@ -296,6 +301,11 @@ UIAlertView *__loginErrorAlertView;
         txfUsername = cell.textField;
         [txfUsername addTarget:self action:@selector(usernameEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
+        //Added to get value to stay put
+        txfUsername.tag = kUsernameCellTag;
+        [txfUsername addTarget:self action:@selector(textfieldValueChanged:) forControlEvents:UIControlEventEditingDidEnd];
+        
+        
         return cell;
     }
     else if ([rowKey isEqualToString:@"password"]) {
@@ -322,6 +332,10 @@ UIAlertView *__loginErrorAlertView;
         txfPassword = cell.textField;
         [txfPassword addTarget:self action:@selector(passwordEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
+        //Added to get value to stay put
+        txfPassword.tag = kPasswordCellTag;
+        [txfPassword addTarget:self action:@selector(textfieldValueChanged:) forControlEvents:UIControlEventEditingDidEnd];
+        
         return cell;
     }
     else if ([rowKey isEqualToString:@"pin"]) {
@@ -346,9 +360,12 @@ UIAlertView *__loginErrorAlertView;
         cell.textField.text = [data valueForKey:rowKey];
         
         txfPin = cell.textField;
-        cell.tag = 1;
         
         [txfPin addTarget:self action:@selector(pinEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+        
+        //Added to get value to stay put
+        txfPin.tag = kPinCellTag;
+        [txfPin addTarget:self action:@selector(textfieldValueChanged:) forControlEvents:UIControlEventEditingDidEnd];
         
         return cell;
     }
@@ -552,6 +569,25 @@ UIAlertView *__loginErrorAlertView;
     else {
         [txfPin setPlaceholder:@"Enter your PIN"];
         [txfPin setEnabled:TRUE];
+    }
+}
+
+- (IBAction)textfieldValueChanged:(UITextField *)source {
+    
+    
+    
+    switch (source.tag) {
+        case kUsernameCellTag:
+            [self.data setValue:source.text forKey:@"username"];
+            break;
+        case kPasswordCellTag:
+            [self.data setValue:source.text forKey:@"password"];
+            break;
+        case kPinCellTag:
+            [self.data setValue:source.text forKey:@"pin"];
+            break;
+        default:
+            break;
     }
 }
 

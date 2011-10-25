@@ -41,6 +41,7 @@
 - (IBAction)passwordEditingDidEndOnExit:(id)sender;
 - (IBAction)pinEditingDidEndOnExit:(id)sender;
 - (IBAction)rememberMeSwitchValueChanged:(id)sender;
+- (IBAction)textfieldValueChanged:(UITextField *)source;
 
 - (IBAction)switchToRegistration;
 - (IBAction)startLoginAction;
