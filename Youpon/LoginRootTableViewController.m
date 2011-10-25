@@ -573,9 +573,7 @@ UIAlertView *__loginErrorAlertView;
 }
 
 - (IBAction)textfieldValueChanged:(UITextField *)source {
-    
-    
-    
+    //This makes sure entered values are recorded when scrolling
     switch (source.tag) {
         case kUsernameCellTag:
             [self.data setValue:source.text forKey:@"username"];

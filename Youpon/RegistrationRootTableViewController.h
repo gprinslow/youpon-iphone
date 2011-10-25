@@ -44,6 +44,7 @@
 }
 
 - (IBAction)rememberMeSwitchValueChanged:(id)sender;
+- (IBAction)textfieldValueChanged:(UITextField *)source;
 
 - (IBAction)startRegistrationAction;
 - (void)doRegistrationAction;

@@ -339,20 +339,18 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
             cell.textField.returnKeyType = UIReturnKeyNext;
             cell.textField.secureTextEntry = FALSE;
             
-            cell.textField.placeholder = [rowPlaceholders nestedObjectAtIndexPath:indexPath];
-            cell.textField.text = [data valueForKey:rowKey];
-            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
+            cell.textField.placeholder = [rowPlaceholders nestedObjectAtIndexPath:indexPath];
+            cell.textField.text = [data valueForKey:rowKey];
+                 
             if ([rowKey isEqualToString:@"username"]) {
                 cell.tag = kUsernameCellTag;
                 txfUsername = cell.textField;
-//                txfUsername.text = [[self data] valueForKey:rowKey];
             }
             else if ([rowKey isEqualToString:@"password"]){
                 cell.tag = kPasswordCellTag;
                 txfPassword = cell.textField;
-//                txfPassword.text = [[self data] valueForKey:rowKey];
                 txfPassword.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"password_confirmation"]) {
@@ -363,7 +361,6 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
             else if ([rowKey isEqualToString:@"pin"]) {
                 cell.tag = kPinCellTag;
                 txfPin = cell.textField;
-//                txfPin.text = [[self data] valueForKey:rowKey];
                 txfPin.secureTextEntry = TRUE;
             }
             else if ([rowKey isEqualToString:@"email"]) {
@@ -386,6 +383,11 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
                 cell.tag = kZipCodeCellTag;
                 txfZipCode = cell.textField;
             }
+            
+            //This keeps the value of the edited textfield for re-display
+            cell.textField.tag = cell.tag;
+            [cell.textField addTarget:self action:@selector(textfieldValueChanged:) forControlEvents:UIControlEventEditingDidEnd];
+
             
             return cell;
         }
@@ -571,6 +573,41 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
     }
 }
 
+- (IBAction)textfieldValueChanged:(UITextField *)source {
+    //This makes sure entered values are recorded when scrolling
+    switch (source.tag) {
+        case kUsernameCellTag:
+            [self.data setValue:source.text forKey:@"username"];
+            break;
+        case kPasswordCellTag:
+            [self.data setValue:source.text forKey:@"password"];
+            break;
+        case kPasswordConfirmCellTag:
+            [self.data setValue:source.text forKey:@"password_confirmation"];
+            break;
+        case kPinCellTag:
+            [self.data setValue:source.text forKey:@"pin"];
+            break;
+        case kEmailCellTag:
+            [self.data setValue:source.text forKey:@"email"];
+            break;
+        case kNameFirstCellTag:
+            [self.data setValue:source.text forKey:@"first_name"];
+            break;
+        case kNameMiddleCellTag:
+            [self.data setValue:source.text forKey:@"middle_name"];
+            break;
+        case kNameLastCellTag:
+            [self.data setValue:source.text forKey:@"last_name"];
+            break;
+        case kZipCodeCellTag:
+            [self.data setValue:source.text forKey:@"zip_code"];
+            break;
+        default:
+            break;
+    }
+}
+
 #pragma mark - Registration Action & Call
 
 - (IBAction)startRegistrationAction {
@@ -751,27 +788,17 @@ static NSString *const RAILS_CREATE_USER_NOTIFICATION = @"RAILS_CREATE_USER_NOTI
 //        [self.tableView ce
 //    }
     
-//    [[self data] setValue:txfUsername.text forKey:@"username"];
-//    [[self data] setValue:txfPassword.text forKey:@"password"];
-//    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
-//    //Pin stored in user defaults in other method
-//    [[self data] setValue:txfEmail.text forKey:@"email"];
-//    [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
-//    [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
-//    [[self data] setValue:txfNameLast.text forKey:@"last_name"];
-//    [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
-    
-    [[self data] setValue:@"inew1" forKey:@"username"];
-    [[self data] setValue:@"foobar" forKey:@"password"];
-    [[self data] setValue:@"foobar" forKey:@"password_confirmation"];
+    [[self data] setValue:txfUsername.text forKey:@"username"];
+    [[self data] setValue:txfPassword.text forKey:@"password"];
+    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
     //Pin stored in user defaults in other method
-    [[self data] setValue:@"inew1@example.com" forKey:@"email"];
+    [[self data] setValue:txfEmail.text forKey:@"email"];
     [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
     [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
     [[self data] setValue:txfNameLast.text forKey:@"last_name"];
     [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
     
-    //Birthday & Gender should already be set (By Detail editor)
+    //Birthday & Gender should already be set (By Detail Editor)
 
 }
 
