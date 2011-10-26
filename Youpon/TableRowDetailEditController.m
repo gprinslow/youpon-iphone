@@ -63,23 +63,13 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
-                                     initWithTitle:@"Cancel" 
-                                     style:UIBarButtonSystemItemCancel 
-                                     target:self 
-                                     action:@selector(cancel)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] 
-                                   initWithTitle:@"Done" 
-                                   style:UIBarButtonItemStyleDone 
-                                   target:self
-                                   action:@selector(saveEditedDataLocally)];
-    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(saveEditedDataLocally)];
     self.navigationItem.rightBarButtonItem = doneButton;
     [doneButton release];
-    
     
     [super viewWillAppear:animated];
 }
