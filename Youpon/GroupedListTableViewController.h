@@ -1,17 +1,16 @@
 //
-//  GroupedEditTableViewController.h
+//  GroupedListTableViewController.h
 //  Youpon
 //
-//  Created by Garrison on 8/4/11.
-//  Copyright 2011 Garrison Prinslow. All rights reserved.
+//  Created by Garrison Prinslow on 11/2/11.
+//  Copyright (c) 2011 Garrison Prinslow. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "NSArray+NestedArray.h"
 #import "StringValueDisplay.h"
 
-
-@interface GroupedEditTableViewController : UITableViewController {
+@interface GroupedListTableViewController : UITableViewController {
     NSMutableDictionary *data;
     
     @protected
@@ -23,5 +22,6 @@
 }
 
 @property (nonatomic, retain) NSMutableDictionary *data;
+
 
 @end

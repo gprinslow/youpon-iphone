@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8540D89113F4C0FF005367AA /* RegistrationRootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8540D88F13F4C0FF005367AA /* RegistrationRootTableViewController.m */; };
 		8540D89213F4C0FF005367AA /* RegistrationRootTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8540D89013F4C0FF005367AA /* RegistrationRootTableViewController.xib */; };
+		856904651461BFD900172324 /* GroupedListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 856904641461BFD900172324 /* GroupedListTableViewController.m */; };
 		8592B9E213F09EA500E19E03 /* GroupedEditTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */; };
 		8596AB0F13EB27A000878D01 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AAF713EB27A000878D01 /* NSObject+SBJson.m */; };
 		8596AB1013EB27A000878D01 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8596AAFA13EB27A000878D01 /* SBJsonParser.m */; };
@@ -80,6 +81,8 @@
 		8540D88E13F4C0FF005367AA /* RegistrationRootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationRootTableViewController.h; sourceTree = "<group>"; };
 		8540D88F13F4C0FF005367AA /* RegistrationRootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationRootTableViewController.m; sourceTree = "<group>"; };
 		8540D89013F4C0FF005367AA /* RegistrationRootTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegistrationRootTableViewController.xib; sourceTree = "<group>"; };
+		856904631461BFD900172324 /* GroupedListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedListTableViewController.h; sourceTree = "<group>"; };
+		856904641461BFD900172324 /* GroupedListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedListTableViewController.m; sourceTree = "<group>"; };
 		8592B9E013F09EA500E19E03 /* GroupedEditTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedEditTableView.h; sourceTree = "<group>"; };
 		8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedEditTableView.m; sourceTree = "<group>"; };
 		8596AAF513EB27A000878D01 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -280,8 +283,12 @@
 		8596AB6E13EB763500878D01 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8592B9E013F09EA500E19E03 /* GroupedEditTableView.h */,
+				8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */,
 				8596AB6F13EB76E400878D01 /* GroupedEditTableViewController.h */,
 				8596AB7013EB76E400878D01 /* GroupedEditTableViewController.m */,
+				856904631461BFD900172324 /* GroupedListTableViewController.h */,
+				856904641461BFD900172324 /* GroupedListTableViewController.m */,
 				8596AB7213EB827E00878D01 /* TableRowDetailEditController.h */,
 				8596AB7313EB827E00878D01 /* TableRowDetailEditController.m */,
 				8596AB7513EB8ABB00878D01 /* TableRowDetailEditStringController.h */,
@@ -292,8 +299,6 @@
 				8596AB7C13EC50C700878D01 /* TableRowDetailEditSingleSelectionListController.m */,
 				85A06B2213F0743100ADB6E4 /* TextEntryTableViewCell.h */,
 				85A06B2313F0743100ADB6E4 /* TextEntryTableViewCell.m */,
-				8592B9E013F09EA500E19E03 /* GroupedEditTableView.h */,
-				8592B9E113F09EA500E19E03 /* GroupedEditTableView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -553,6 +558,7 @@
 				85EFA02B142CF5C8002230EB /* RailsServiceRequest.m in Sources */,
 				85EFA02E142CF5DC002230EB /* RailsServiceResponse.m in Sources */,
 				85EFA031142D03E8002230EB /* RailsService.m in Sources */,
+				856904651461BFD900172324 /* GroupedListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,15 +1,15 @@
 //
-//  GroupedEditTableViewController.m
+//  GroupedListTableViewController.m
 //  Youpon
 //
-//  Created by Garrison on 8/4/11.
-//  Copyright 2011 Garrison Prinslow. All rights reserved.
+//  Created by Garrison Prinslow on 11/2/11.
+//  Copyright (c) 2011 Garrison Prinslow. All rights reserved.
 //
 
-#import "GroupedEditTableViewController.h"
+#import "GroupedListTableViewController.h"
 
 
-@implementation GroupedEditTableViewController
+@implementation GroupedListTableViewController
 
 @synthesize data;
 
@@ -51,12 +51,6 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-
-    
-    /*
-     * Subclass: initialize DATA, sectionNames, rowLabels, rowKeys, rowControllers, rowArguments here
-     */
 }
 
 - (void)viewDidUnload
@@ -70,7 +64,7 @@
 {
     [super viewWillAppear:animated];
     
-    //Added to repopulate table data
+    //Repopulate table cells from data
     [self.tableView reloadData];
 }
 
@@ -109,17 +103,25 @@
     return [rowLabels countOfNestedArray:section];
 }
 
+#pragma mark - Table view - added methods (Titling the Sections)
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    id title = [sectionNames objectAtIndex:section];
+    if ([title isKindOfClass:[NSNull class]]) {
+        return nil;
+    }
+    return title;
+}
+
+/*
+ *  Subclass: override this behavior for custom cells
+ */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *GroupedEditTableViewControllerCellIdentifier = @"GroupedEditTableViewControllerCellIdentifier";
+    static NSString *GroupedListTableViewControllerCellIdentifier = @"GroupedListTableViewControllerCellIdentifier";
     
-    /*
-     * Subclass: override this default behavior
-     */
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:GroupedEditTableViewControllerCellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:GroupedListTableViewControllerCellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:GroupedEditTableViewControllerCellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:GroupedListTableViewControllerCellIdentifier] autorelease];
     }
     
     // Configure the cell...
@@ -133,9 +135,11 @@
     cell.textLabel.text = rowLabel;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    
+    //Done configuring the cell
     return cell;
 }
+
+#pragma mark - Editing of rows (moving/inserting/deleting)
 
 /*
 // Override to support conditional editing of the table view.
@@ -176,7 +180,7 @@
 }
 */
 
-#pragma mark - Table view delegate
+#pragma mark - Table view delegate (push to detail controller)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -188,19 +192,6 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
-    
-    /*
-     * Subclass: override - implement detail editing controllers, if necessary
-     */
-}
-
-#pragma mark - Table view - added methods (Titling the Sections)
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    id title = [sectionNames objectAtIndex:section];
-    if ([title isKindOfClass:[NSNull class]]) {
-        return nil;
-    }
-    return title;
 }
 
 @end
