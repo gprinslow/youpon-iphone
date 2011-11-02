@@ -1,17 +1,18 @@
-//
-//  GroupedListTableViewController.m
+ //
+//  OffersRootTableViewController.m
 //  Youpon
 //
 //  Created by Garrison Prinslow on 11/2/11.
 //  Copyright (c) 2011 Garrison Prinslow. All rights reserved.
 //
 
-#import "GroupedListTableViewController.h"
+#import "OffersRootTableViewController.h"
+#import "YouponAppDelegate.h"
 
+//CONSTANTS
+NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETRIEVED";
 
-@implementation GroupedListTableViewController
-
-@synthesize data;
+@implementation OffersRootTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -20,17 +21,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [data release];
-    [sectionHeaders release];
-    [sectionFooters release];
-    [rowLabels release];
-    [rowKeys release];
-    [rowControllers release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,6 +42,38 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    sectionHeaders = [[NSArray alloc] initWithObjects:
+                      @"Coffee",
+                      @"Food",
+                      @"Shopping",
+                      nil];
+    sectionFooters = [[NSArray alloc] initWithObjects:
+                      @"Footer",
+                      @"Footer",
+                      @"Footer",
+                      nil];
+    
+                       
+    
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
+                                             initWithTitle:@"Sign out"
+                                             style:UIBarButtonItemStyleBordered 
+                                             target:self
+                                             action:@selector(doSignOut)];
+    
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] 
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh 
+                                              target:self 
+                                              action:@selector(refreshResults)];
+    
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(remoteOffersRetrieved)
+     name:REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME
+     object:nil];
 }
 
 - (void)viewDidUnload
@@ -64,14 +86,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    //Repopulate table cells from data
-    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    [self refreshResults];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -90,66 +111,35 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Table view data source
+//#pragma mark - Table view data source
+//
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//#warning Potentially incomplete method implementation.
+//    // Return the number of sections.
+//    return 0;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//#warning Incomplete method implementation.
+//    // Return the number of rows in the section.
+//    return 0;
+//}
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return [sectionHeaders count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return [rowLabels countOfNestedArray:section];
-}
-
-#pragma mark - Table view - added methods (Titling the Sections)
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    id title = [sectionHeaders objectAtIndex:section];
-    if ([title isKindOfClass:[NSNull class]]) {
-        return nil;
-    }
-    return title;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    id title = [sectionFooters objectAtIndex:section];
-    if ([title isKindOfClass:[NSNull class]]) {
-        return nil;
-    }
-    return title;
-}
-
-
-/*
- *  Subclass: override this behavior for custom cells
- */
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *GroupedListTableViewControllerCellIdentifier = @"GroupedListTableViewControllerCellIdentifier";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:GroupedListTableViewControllerCellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:GroupedListTableViewControllerCellIdentifier] autorelease];
-    }
-    
-    // Configure the cell...
-    
-    NSString *rowKey = [rowKeys nestedObjectAtIndexPath:indexPath];
-    NSString *rowLabel = [rowLabels nestedObjectAtIndexPath:indexPath];
-    
-    id <StringValueDisplay, NSObject> rowValue = [data valueForKey:rowKey];
-    
-    cell.detailTextLabel.text = [rowValue stringValueDisplay];
-    cell.textLabel.text = rowLabel;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-    //Done configuring the cell
-    return cell;
-}
-
-#pragma mark - Editing of rows (moving/inserting/deleting)
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *CellIdentifier = @"Cell";
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    if (cell == nil) {
+//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+//    }
+//    
+//    // Configure the cell...
+//    
+//    return cell;
+//}
 
 /*
 // Override to support conditional editing of the table view.
@@ -190,7 +180,7 @@
 }
 */
 
-#pragma mark - Table view delegate (push to detail controller)
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -202,6 +192,22 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+}
+                                              
+
+#pragma mark - Methods for Rails Service handling
+
+-(void)remoteOffersRetrieved {
+    
+    //TODO: Do something with new data
+}
+
+- (void)refreshResults {
+    [self.tableView reloadData];
+}
+
+- (void)doSignOut {
+    
 }
 
 @end

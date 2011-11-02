@@ -14,7 +14,8 @@
     NSMutableDictionary *data;
     
     @protected
-    NSArray *sectionNames;
+    NSArray *sectionHeaders;
+    NSArray *sectionFooters;
     NSArray *rowLabels;
     NSArray *rowKeys;
     NSArray *rowControllers;
