@@ -43,19 +43,23 @@ NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETR
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    sectionHeaders = [[NSArray alloc] initWithObjects:
-                      @"Coffee",
-                      @"Food",
-                      @"Shopping",
-                      nil];
-    sectionFooters = [[NSArray alloc] initWithObjects:
-                      @"Footer",
-                      @"Footer",
-                      @"Footer",
-                      nil];
+    data = [[NSMutableDictionary alloc] initWithCapacity:5];
     
-                       
+//    sectionHeaders = [[NSArray alloc] initWithObjects:
+//                      @"Coffee",
+//                      @"Food",
+//                      @"Shopping",
+//                      nil];
+//    sectionFooters = [[NSArray alloc] initWithObjects:
+//                      @"Footer",
+//                      @"Footer",
+//                      @"Footer",
+//                      nil];
     
+    
+    
+    
+    self.navigationController.title = @"Offers";
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
                                              initWithTitle:@"Sign out"
@@ -71,9 +75,29 @@ NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETR
     
     [[NSNotificationCenter defaultCenter] 
      addObserver:self 
-     selector:@selector(remoteOffersRetrieved)
+     selector:@selector(remoteOffersRetrieved:)
      name:REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME
      object:nil];
+    
+    offersServiceRequest = [[RailsServiceRequest alloc] init];
+    offersServiceResponse = [[RailsServiceResponse alloc] init];
+    
+    offersServiceRequest.requestActionCode = 0;
+    offersServiceRequest.requestModel = RAILS_MODEL_OFFERS;
+    offersServiceRequest.requestResponseNotificationName = REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME;
+    offersServiceRequest.requestData = self.data;
+    
+    NSLog(@"I got here");
+    
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([[delegate railsService] callServiceWithRequest:offersServiceRequest andResponsePointer:offersServiceResponse]) {
+        NSLog(@"Called service");
+    }
+    else {
+        NSLog(@"Call failed");
+    }
+
 }
 
 - (void)viewDidUnload
@@ -111,35 +135,39 @@ NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETR
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-//#pragma mark - Table view data source
-//
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 0;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    return 0;
-//}
+#pragma mark - Table view data source
 
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString *CellIdentifier = @"Cell";
-//    
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil) {
-//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-//    }
-//    
-//    // Configure the cell...
-//    
-//    return cell;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return [data count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    // Configure the cell...
+    NSDictionary *offer = [[[NSDictionary alloc] init] autorelease];
+    
+    offer = [data objectForKey:@"offer"];
+    
+    cell.textLabel.text = [offer objectForKey:@"title"];
+    cell.detailTextLabel.text = [offer objectForKey:@"byline"];
+    
+    return cell;
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -200,9 +228,28 @@ NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETR
 -(void)remoteOffersRetrieved {
     
     //TODO: Do something with new data
+    NSLog(@"Response received");
+    
+    for (id item in offersServiceResponse.responseData) {
+        NSLog(@"Response Item: %@", item);
+    }
+    
+    //*  Step:  3)a: if failure, return alert message
+    if ([offersServiceResponse.responseData objectForKey:@"error"]) {
+        NSString *errorMessage = (NSString *)[offersServiceResponse.responseData objectForKey:@"error"];
+        
+        NSLog(@"Error Response: %@", errorMessage);
+    }
+    else {
+        self.data = offersServiceResponse.responseData;
+        [self refreshResults];
+    }
 }
 
 - (void)refreshResults {
+    
+    NSLog(@"I was told to refresh");
+    
     [self.tableView reloadData];
 }
 

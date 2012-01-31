@@ -17,18 +17,13 @@
 #import "RailsService.h"
 
 @interface RegistrationRootTableViewController : GroupedEditTableViewController {
-    UITextField *txfUsername;
+    UITextField *txfEmail;
     UITextField *txfPassword;
     UITextField *txfPasswordConfirm;
     UITextField *txfPin;
-    UITextField *txfEmail;
     UISwitch *swtRememberMe;
     
-    UITextField *txfNameFirst;
-    UITextField *txfNameMiddle;
-    UITextField *txfNameLast;
-    
-    UITextField *txfZipCode;
+    UITextField *txfName;
     
     UIButton *btnRegister;
     UIActivityIndicatorView *aivRegister;

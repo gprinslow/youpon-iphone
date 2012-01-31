@@ -38,7 +38,6 @@
     
     
     //Present the LoginView - modally
-    //[self.rootTabBarController presentModalViewController:self.loginRootTableViewController animated:YES];
     [self.rootTabBarController presentModalViewController:self.loginNavigationController animated:YES];
     
     [self.window makeKeyAndVisible];

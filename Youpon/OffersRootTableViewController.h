@@ -11,7 +11,15 @@
 #import "NSArray+NestedArray.h"
 #import "StringValueDisplay.h"
 
-@interface OffersRootTableViewController : GroupedListTableViewController <UIAlertViewDelegate>
+#import "RailsService.h"
+
+@interface OffersRootTableViewController : GroupedListTableViewController <UIAlertViewDelegate> {
+    
+    
+    //Added for service calls
+    RailsServiceRequest *offersServiceRequest;
+    RailsServiceResponse *offersServiceResponse;
+}
 
 -(void)remoteOffersRetrieved;
 -(void)refreshResults;

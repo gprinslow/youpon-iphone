@@ -238,6 +238,7 @@
 			children = (
 				8596AB8113EC677E00878D01 /* LoginRootTableViewController.xib */,
 				8540D89013F4C0FF005367AA /* RegistrationRootTableViewController.xib */,
+				856904691461C4C700172324 /* OffersRootTableViewController.xib */,
 				85A09B9813E9EF24008AC0F3 /* MainWindow.xib */,
 			);
 			name = Interface;
@@ -317,7 +318,6 @@
 				8540D88F13F4C0FF005367AA /* RegistrationRootTableViewController.m */,
 				856904671461C4C700172324 /* OffersRootTableViewController.h */,
 				856904681461C4C700172324 /* OffersRootTableViewController.m */,
-				856904691461C4C700172324 /* OffersRootTableViewController.xib */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

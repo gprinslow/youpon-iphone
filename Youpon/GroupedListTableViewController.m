@@ -121,7 +121,6 @@
     return title;
 }
 
-
 /*
  *  Subclass: override this behavior for custom cells
  */

@@ -9,19 +9,17 @@
 #import "RegistrationRootTableViewController.h"
 #import "YouponAppDelegate.h"
 
-#define kUsernameCellTag 1
+#define kEmailCellTag 1
 #define kPasswordCellTag 2
 #define kPasswordConfirmCellTag 3
 #define kPinCellTag 4
-#define kEmailCellTag 5
 #define kRememberMeCellTag 6
-#define kNameFirstCellTag 7
-#define kNameMiddleCellTag 8
-#define kNameLastCellTag 9
-#define kZipCodeCellTag 10
+
+#define kNameCellTag 7
+
 #define kBirthdayCellTag 11
 #define kGenderCellTag 12
-#define kUserTypeCellTag 13
+
 #define kRegisterButtonCellTag 14
 
 UIAlertView *__registrationErrorAlertView;
@@ -67,7 +65,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.title = NSLocalizedString(@"Registration", @"Registration");
+    self.title = NSLocalizedString(@"Sign up", @"Sign up");
     
     UIBarButtonItem *cancelButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelRegistration)] autorelease];
     
@@ -80,8 +78,8 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
     
     sectionNames = [[NSArray alloc] initWithObjects:
                     NSLocalizedString(@"Login Info", "Login Info"),
-                    NSLocalizedString(@"Name [Optional]", @"Name [Optional]"),
-                    NSLocalizedString(@"Demographics [Optional]", @"Demographics [Optional]"),
+                    NSLocalizedString(@"Name", @"Name"),
+                    NSLocalizedString(@"Demographics", @"Demographics"),
                     [NSNull null],
                     nil];
     
@@ -89,24 +87,20 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                  
                  //Section 1 - Login
                  [NSArray arrayWithObjects:
-                  NSLocalizedString(@"Username*", @"Username*"),
+                  NSLocalizedString(@"Email*", @"Email*"),
                   NSLocalizedString(@"Password*", @"Password*"),
                   NSLocalizedString(@"Confirm*", @"Confirm*"),
                   NSLocalizedString(@"PIN", @"PIN"),
-                  NSLocalizedString(@"Email*", @"Email*"),
                   NSLocalizedString(@"Remember Me*", @"Remember Me*"),
                   nil],
                  
                  //Section 2 - Name
                  [NSArray arrayWithObjects:
-                  NSLocalizedString(@"First", @"First"),
-                  NSLocalizedString(@"Middle", @"Middle"),
-                  NSLocalizedString(@"Last", @"Last"),
+                  NSLocalizedString(@"Name*", @"Name*"),
                   nil],
                  
                  //Section 3 - Demographics
                  [NSArray arrayWithObjects:
-                  NSLocalizedString(@"Zip Code", @"Zip Code"),
                   NSLocalizedString(@"Birthday", @"Birthday"),
                   NSLocalizedString(@"Gender", @"Gender"),
                   nil],
@@ -122,24 +116,20 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                  
                  //Section 1 - Login
                  [NSArray arrayWithObjects:
-                  @"username",
+                  @"email",
                   @"password",
                   @"password_confirmation",
                   @"pin",
-                  @"email",
                   @"rememberMe",
                   nil],
                  
                  //Section 2 - Name
                  [NSArray arrayWithObjects:
-                  @"first_name",
-                  @"middle_name",
-                  @"last_name",
+                  @"name",
                   nil],
                  
                  //Section 3 - Demographics
                  [NSArray arrayWithObjects:
-                  @"zip_code",
                   @"birthday",
                   @"gender",
                   nil],
@@ -155,24 +145,20 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                 
                           //Section 1 - Login
                           [NSArray arrayWithObjects:
-                           @"Enter a username (e.g. email)",
+                           @"Enter an email",
                            @"Enter a password",
-                           @"Confirm your password",
+                           @"Confirm password",
                            @"Enter a PIN for quick login",
-                           @"Enter your email address",
                            @"Remember your login info",
                            nil],
                           
                           //Section 2 - Name
                           [NSArray arrayWithObjects:
-                           @"Enter your first name",
-                           @"Enter your middle name",
-                           @"Enter your last name",
+                           @"Enter your name",
                            nil],
                           
                           //Section 3 - Demographics
                           [NSArray arrayWithObjects:
-                           @"Enter your home zip code",
                            @"Enter your birthday",
                            @"Select your gender",
                            nil],
@@ -192,20 +178,16 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                 @"TextEntryTableViewCell",
                 @"TextEntryTableViewCell",
                 @"TextEntryTableViewCell",
-                @"TextEntryTableViewCell",
                 @"SwitchTableViewCell",
                 nil],
                
                //Section 2 - Name
                [NSArray arrayWithObjects:
                 @"TextEntryTableViewCell",
-                @"TextEntryTableViewCell",
-                @"TextEntryTableViewCell",
                 nil],
                
                //Section 3 - Demographics
                [NSArray arrayWithObjects:
-                @"TextEntryTableViewCell",
                 @"TableRowDetailEditDateController",
                 @"TableRowDetailEditSingleSelectionListController",
                 nil],
@@ -226,21 +208,17 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                        [NSNull null],
                        [NSNull null],
                        [NSNull null],
-                       [NSNull null],
                        nil],
                       
                       //Section 2 - Name
                       [NSArray arrayWithObjects:
-                       [NSNull null],
-                       [NSNull null],
                        [NSNull null],
                        nil],
                       
                       //Section 3 - Demographics
                       [NSArray arrayWithObjects:
                        [NSNull null],
-                       [NSNull null],
-                       [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Female", @"Male", nil] forKey:@"list"],
+                       [NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Female", @"Male", @"Unspecified", nil] forKey:@"list"],
                        nil],
                       
                       //Section 4 - Registration Button
@@ -350,9 +328,9 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
             cell.textField.placeholder = [rowPlaceholders nestedObjectAtIndexPath:indexPath];
             cell.textField.text = [data valueForKey:rowKey];
                  
-            if ([rowKey isEqualToString:@"username"]) {
-                cell.tag = kUsernameCellTag;
-                txfUsername = cell.textField;
+            if ([rowKey isEqualToString:@"email"]) {
+                cell.tag = kEmailCellTag;
+                txfEmail = cell.textField;
             }
             else if ([rowKey isEqualToString:@"password"]){
                 cell.tag = kPasswordCellTag;
@@ -373,22 +351,11 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                 cell.tag = kEmailCellTag;
                 txfEmail = cell.textField;
             }
-            else if ([rowKey isEqualToString:@"first_name"]) {
-                cell.tag = kNameFirstCellTag;
-                txfNameFirst = cell.textField;
+            else if ([rowKey isEqualToString:@"name"]) {
+                cell.tag = kNameCellTag;
+                txfName = cell.textField;
             }
-            else if ([rowKey isEqualToString:@"middle_name"]) {
-                cell.tag = kNameMiddleCellTag;
-                txfNameMiddle = cell.textField;
-            }
-            else if ([rowKey isEqualToString:@"last_name"]) {
-                cell.tag = kNameLastCellTag;
-                txfNameLast = cell.textField;
-            }
-            else if ([rowKey isEqualToString:@"zip_code"]) {
-                cell.tag = kZipCodeCellTag;
-                txfZipCode = cell.textField;
-            }
+
             
             //This keeps the value of the edited textfield for re-display
             cell.textField.tag = cell.tag;
@@ -582,8 +549,8 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
 - (IBAction)textfieldValueChanged:(UITextField *)source {
     //This makes sure entered values are recorded when scrolling
     switch (source.tag) {
-        case kUsernameCellTag:
-            [self.data setValue:source.text forKey:@"username"];
+        case kEmailCellTag:
+            [self.data setValue:source.text forKey:@"email"];
             break;
         case kPasswordCellTag:
             [self.data setValue:source.text forKey:@"password"];
@@ -594,20 +561,8 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         case kPinCellTag:
             [self.data setValue:source.text forKey:@"pin"];
             break;
-        case kEmailCellTag:
-            [self.data setValue:source.text forKey:@"email"];
-            break;
-        case kNameFirstCellTag:
-            [self.data setValue:source.text forKey:@"first_name"];
-            break;
-        case kNameMiddleCellTag:
-            [self.data setValue:source.text forKey:@"middle_name"];
-            break;
-        case kNameLastCellTag:
-            [self.data setValue:source.text forKey:@"last_name"];
-            break;
-        case kZipCodeCellTag:
-            [self.data setValue:source.text forKey:@"zip_code"];
+        case kNameCellTag:
+            [self.data setValue:source.text forKey:@"name"];
             break;
         default:
             break;
@@ -690,7 +645,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
         [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
         
-        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
         
@@ -712,7 +667,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         if (rememberMe) {            
             
             [userDefaults setBool:TRUE forKey:@"hasAuthenticated"];
-            [userDefaults setValue:[self.data objectForKey:@"username"] forKey:@"authenticatedUsername"];
+            [userDefaults setValue:[self.data objectForKey:@"email"] forKey:@"authenticatedEmail"];
             
             //IF entered PIN was not blank, then store it, and store password
             if ([userDefaults objectForKey:@"lastEnteredPin"] && ![[userDefaults objectForKey:@"lastEnteredPin"] isEqualToString:@""]) {
@@ -728,7 +683,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                 NSLog(@"%i", [userDefaults boolForKey:@"hasEstablishedPin"]);
                 NSLog(@"%i", [userDefaults boolForKey:@"hasAuthenticated"]);
                 
-                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedUsername"]);
+                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedEmail"]);
                 NSLog(@"%@", [userDefaults objectForKey:@"authenticatedPassword"]);
                 NSLog(@"%@", [userDefaults objectForKey:@"authenticatedPin"]);
                 
@@ -845,7 +800,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
         [userDefaults setBool:FALSE forKey:@"rememberMe"];
         
-        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
         [userDefaults setValue:@"" forKey:@"lastEnteredPin"];
