@@ -71,6 +71,8 @@
         }
     }
     
+    pendingValue = [[[NSString alloc] init] autorelease];
+    
     [super viewWillAppear:animated];
 }
 
@@ -151,16 +153,18 @@
         
         [lastIndexPath release];
         lastIndexPath = indexPath;
+        
+        pendingValue = newCell.textLabel.text;
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Super class overrides
 - (IBAction)saveEditedDataLocally {
-    UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:lastIndexPath];
-    NSString *newValue = selectedCell.textLabel.text;
-    
-    [self.data setValue:newValue forKeyPath:self.keyPath];
+//    UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:lastIndexPath];
+//    NSString *newValue = selectedCell.textLabel.text;
+//    
+    [self.data setValue:pendingValue forKeyPath:self.keyPath];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

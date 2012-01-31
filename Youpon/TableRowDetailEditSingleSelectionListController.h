@@ -14,6 +14,7 @@
     
     @private
     NSIndexPath *lastIndexPath;
+    NSString *pendingValue;
 }
 
 @property (nonatomic, retain) NSArray *list;
