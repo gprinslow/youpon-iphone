@@ -32,7 +32,7 @@ static NSString *const HTTP_POST = @"POST";
 static NSString *const HTTP_PUT = @"PUT";
 static NSString *const HTTP_DELETE = @"DELETE";
 
-#define kUseSecureServerURL 1       //1 = true, 0 = false
+#define kUseSecureServerURL 0       //1 = true, 0 = false
 
 //Models
 #define kUsersModel 0

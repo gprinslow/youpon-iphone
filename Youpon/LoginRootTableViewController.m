@@ -9,7 +9,7 @@
 #import "LoginRootTableViewController.h"
 #import "YouponAppDelegate.h"
 
-#define kUsernameCellTag 1
+#define kEmailCellTag 1
 #define kPasswordCellTag 2
 #define kPinCellTag 4
 #define kRememberMeCellTag 6
@@ -57,9 +57,9 @@ UIAlertView *__loginErrorAlertView;
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     //Format navigation bar
-    self.title = NSLocalizedString(@"Youpon - Login", @"Login Page Title");
+    self.title = NSLocalizedString(@"Youpon - Sign in", @"Youpon - Sign in");
     
-    UIBarButtonItem *registrationButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Register" style:UIBarButtonItemStylePlain target:self action:@selector(switchToRegistration)];
+    UIBarButtonItem *registrationButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Sign up" style:UIBarButtonItemStylePlain target:self action:@selector(switchToRegistration)];
     
     self.navigationItem.rightBarButtonItem = registrationButtonItem;
     
@@ -75,7 +75,7 @@ UIAlertView *__loginErrorAlertView;
 
                  //Section 1
                  [NSArray arrayWithObjects:
-                  NSLocalizedString(@"Username", @"Username"),
+                  NSLocalizedString(@"Email", @"Email"),
                   NSLocalizedString(@"Password", @"Password"),
                   NSLocalizedString(@"PIN", @"PIN"),
                   NSLocalizedString(@"", @"LoginButton"),
@@ -92,7 +92,7 @@ UIAlertView *__loginErrorAlertView;
                
                //Section 1
                [NSArray arrayWithObjects:
-                @"username",
+                @"email",
                 @"password",
                 @"pin",
                 @"loginButton",
@@ -136,7 +136,7 @@ UIAlertView *__loginErrorAlertView;
     
     /*
      * Prepare data for LoginView
-     * TODO: Improve security of stored username, password, pin (userDefaults unsecure)
+     * TODO: Improve security of stored email, password, pin (userDefaults unsecure)
      */
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -148,9 +148,9 @@ UIAlertView *__loginErrorAlertView;
         BOOL hasAuthenticated = [userDefaults boolForKey:@"hasAuthenticated"];
 
         if (hasAuthenticated) {
-            NSString *authenticatedUsername = [userDefaults objectForKey:@"authenticatedUsername"];
+            NSString *authenticatedEmail = [userDefaults objectForKey:@"authenticatedEmail"];
             
-            [self.data setValue:authenticatedUsername forKey:@"username"];
+            [self.data setValue:authenticatedEmail forKey:@"email"];
             
             //IF hasEstablishedPin
             BOOL hasEstablishedPin = [userDefaults boolForKey:@"hasEstablishedPin"];
@@ -162,12 +162,12 @@ UIAlertView *__loginErrorAlertView;
             }
         }
         else {
-            [self.data setValue:@"" forKey:@"username"];
+            [self.data setValue:@"" forKey:@"email"];
             [self.data setValue:@"" forKey:@"password"];
         }
     }
     else {
-        [self.data setValue:@"" forKey:@"username"];
+        [self.data setValue:@"" forKey:@"email"];
         [self.data setValue:@"" forKey:@"password"];
     }
     
@@ -238,7 +238,7 @@ UIAlertView *__loginErrorAlertView;
 }
 
 - (void)moveToFirstResponder {
-    [txfUsername resignFirstResponder];
+    [txfEmail resignFirstResponder];
     [txfPassword resignFirstResponder];
     [txfPin resignFirstResponder];
     
@@ -247,7 +247,7 @@ UIAlertView *__loginErrorAlertView;
     //IF rememberMe
     BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
     
-    if (rememberMe && ![txfUsername.text isEqualToString:@""]) {
+    if (rememberMe && ![txfEmail.text isEqualToString:@""]) {
         
         //IF hasAuthenticated        
         BOOL hasAuthenticated = [userDefaults boolForKey:@"hasAuthenticated"];
@@ -264,7 +264,7 @@ UIAlertView *__loginErrorAlertView;
         }
     }
     else {
-        [txfUsername becomeFirstResponder];
+        [txfEmail becomeFirstResponder];
     }
 }
 
@@ -277,7 +277,7 @@ UIAlertView *__loginErrorAlertView;
     
     [self performSelector:@selector(moveToFirstResponder) withObject:nil afterDelay:0.2];
     
-    if ([rowKey isEqualToString:@"username"]) {
+    if ([rowKey isEqualToString:@"email"]) {
         TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[tableView dequeueReusableCellWithIdentifier:LoginRootTableViewControllerCellIdentifier];
         
         if (cell == nil) {
@@ -294,16 +294,16 @@ UIAlertView *__loginErrorAlertView;
         cell.textField.returnKeyType = UIReturnKeyNext;
         cell.textField.secureTextEntry = FALSE;
         
-        cell.textField.placeholder = @"Enter your username";
+        cell.textField.placeholder = @"Enter your email";
         
         cell.textField.text = [data valueForKey:rowKey];
         
-        txfUsername = cell.textField;
-        [txfUsername addTarget:self action:@selector(usernameEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+        txfEmail = cell.textField;
+        [txfEmail addTarget:self action:@selector(emailEditingDidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
         
         //Added to get value to stay put
-        txfUsername.tag = kUsernameCellTag;
-        [txfUsername addTarget:self action:@selector(textfieldValueChanged:) forControlEvents:UIControlEventEditingDidEnd];
+        txfEmail.tag = kEmailCellTag;
+        [txfEmail addTarget:self action:@selector(textfieldValueChanged:) forControlEvents:UIControlEventEditingDidEnd];
         
         
         return cell;
@@ -483,8 +483,8 @@ UIAlertView *__loginErrorAlertView;
     else {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         
-        if ([rowKey isEqualToString:@"username"]) {
-            [txfUsername becomeFirstResponder];
+        if ([rowKey isEqualToString:@"email"]) {
+            [txfEmail becomeFirstResponder];
         }
         else if ([rowKey isEqualToString:@"password"]) {
             [txfPassword becomeFirstResponder];
@@ -493,7 +493,7 @@ UIAlertView *__loginErrorAlertView;
             [txfPin becomeFirstResponder];
         }
         else if ([rowKey isEqualToString:@"loginButton"]) {
-            [txfUsername resignFirstResponder];
+            [txfEmail resignFirstResponder];
             [txfPassword resignFirstResponder];
             [txfPin resignFirstResponder];
             
@@ -502,7 +502,7 @@ UIAlertView *__loginErrorAlertView;
             }
         }
         else if ([rowKey isEqualToString:@"rememberMe"]) {
-            [txfUsername resignFirstResponder];
+            [txfEmail resignFirstResponder];
             [txfPassword resignFirstResponder];
             [txfPin resignFirstResponder];
             
@@ -522,8 +522,8 @@ UIAlertView *__loginErrorAlertView;
 
 #pragma mark - Action methods for resigning keyboard
 
-- (IBAction)usernameEditingDidEndOnExit:(id)sender {
-    [self.data setValue:txfUsername.text forKey:@"username"];
+- (IBAction)emailEditingDidEndOnExit:(id)sender {
+    [self.data setValue:txfEmail.text forKey:@"email"];
     
     [sender resignFirstResponder];
     
@@ -547,7 +547,7 @@ UIAlertView *__loginErrorAlertView;
     
     [sender resignFirstResponder];
     
-    if (![txfUsername.text isEqualToString:@""] && ![txfPassword.text isEqualToString:@""]) {
+    if (![txfEmail.text isEqualToString:@""] && ![txfPassword.text isEqualToString:@""]) {
         [self startLoginAction]; 
     }
 }
@@ -575,8 +575,8 @@ UIAlertView *__loginErrorAlertView;
 - (IBAction)textfieldValueChanged:(UITextField *)source {
     //This makes sure entered values are recorded when scrolling
     switch (source.tag) {
-        case kUsernameCellTag:
-            [self.data setValue:source.text forKey:@"username"];
+        case kEmailCellTag:
+            [self.data setValue:source.text forKey:@"email"];
             break;
         case kPasswordCellTag:
             [self.data setValue:source.text forKey:@"password"];
@@ -593,7 +593,7 @@ UIAlertView *__loginErrorAlertView;
 
 - (void)disableInteractions {
     [btnLogin setEnabled:FALSE];
-    [txfUsername setEnabled:FALSE];
+    [txfEmail setEnabled:FALSE];
     [txfPassword setEnabled:FALSE];
     [txfPin setEnabled:FALSE];
     
@@ -603,7 +603,7 @@ UIAlertView *__loginErrorAlertView;
 
 - (void)enableInteractions {
     [btnLogin setEnabled:TRUE];
-    [txfUsername setEnabled:TRUE];
+    [txfEmail setEnabled:TRUE];
     [txfPassword setEnabled:TRUE];
     [txfPin setEnabled:TRUE];
     
@@ -615,7 +615,7 @@ UIAlertView *__loginErrorAlertView;
 #pragma mark - Switch to Registration Screen
 
 -(void)saveDataOnTransferToRegistration {
-    [self.data setValue:txfUsername.text forKey:@"username"];
+    [self.data setValue:txfEmail.text forKey:@"email"];
     [self.data setValue:txfPassword.text forKey:@"password"];
      
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -634,7 +634,7 @@ UIAlertView *__loginErrorAlertView;
         [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
         [userDefaults setBool:FALSE forKey:@"rememberMe"];
         
-        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
         [userDefaults setValue:@"" forKey:@"lastEnteredPin"];
@@ -674,7 +674,7 @@ UIAlertView *__loginErrorAlertView;
         [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
         [userDefaults setBool:FALSE forKey:@"rememberMe"];
         
-        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
         [userDefaults setValue:@"" forKey:@"lastEnteredPin"];
@@ -682,7 +682,7 @@ UIAlertView *__loginErrorAlertView;
 }
 
 - (IBAction)startLoginAction {
-    [txfUsername resignFirstResponder];
+    [txfEmail resignFirstResponder];
     [txfPassword resignFirstResponder];
     [txfPin resignFirstResponder];
     
@@ -712,7 +712,7 @@ UIAlertView *__loginErrorAlertView;
          */
         [self updateRememberMeOrDeleteRememberedData];
         
-        [self.data setValue:txfUsername.text forKey:@"username"];
+        [self.data setValue:txfEmail.text forKey:@"email"];
         [self.data setValue:txfPassword.text forKey:@"password"];
         
         /*
@@ -770,7 +770,7 @@ UIAlertView *__loginErrorAlertView;
         [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
         [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
         
-        [userDefaults setValue:@"" forKey:@"authenticatedUsername"];
+        [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
         [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
         [userDefaults setValue:@"" forKey:@"authenticatedPin"];
         
@@ -792,7 +792,7 @@ UIAlertView *__loginErrorAlertView;
         if (rememberMe) {            
             
             [userDefaults setBool:TRUE forKey:@"hasAuthenticated"];
-            [userDefaults setValue:[self.data objectForKey:@"username"] forKey:@"authenticatedUsername"];
+            [userDefaults setValue:[self.data objectForKey:@"email"] forKey:@"authenticatedEmail"];
             
             //IF entered PIN was not blank, then store it, and store password
             if ([userDefaults objectForKey:@"lastEnteredPin"] && ![[userDefaults objectForKey:@"lastEnteredPin"] isEqualToString:@""]) {
@@ -861,10 +861,10 @@ UIAlertView *__loginErrorAlertView;
     BOOL hasAuthenticated = [userDefaults boolForKey:@"hasAuthenticated"];
     BOOL hasEstablishedPin = [userDefaults boolForKey:@"hasEstablishedPin"];
     
-    if ([txfUsername.text isEqualToString:@""]) {
-        NSLog(@"Username must not be blank");
+    if ([txfEmail.text isEqualToString:@""]) {
+        NSLog(@"Email must not be blank");
         
-        return [self alertViewForError:@"Username must not be blank" title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        return [self alertViewForError:@"Email must not be blank" title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
     if ([txfPassword.text isEqualToString:@""]) {
         NSLog(@"Password must not be blank");

@@ -19,13 +19,13 @@
 
 
 @interface LoginRootTableViewController : GroupedEditTableViewController {
-    UITextField *txfUsername;
+    UITextField *txfEmail;
     UITextField *txfPassword;
     UITextField *txfPin;
     UIButton *btnLogin;
     UIActivityIndicatorView *aivLogin;
     UISwitch *swtRememberMe;
-    TextEntryTableViewCell *cellUsername;
+    TextEntryTableViewCell *cellEmail;
     
     RegistrationRootTableViewController *_registrationRootTableViewController;
     
@@ -37,7 +37,7 @@
 
 @property (nonatomic, retain) IBOutlet RegistrationRootTableViewController *registrationRootTableViewController;
 
-- (IBAction)usernameEditingDidEndOnExit:(id)sender;
+- (IBAction)emailEditingDidEndOnExit:(id)sender;
 - (IBAction)passwordEditingDidEndOnExit:(id)sender;
 - (IBAction)pinEditingDidEndOnExit:(id)sender;
 - (IBAction)rememberMeSwitchValueChanged:(id)sender;
