@@ -21,7 +21,7 @@
     RailsServiceResponse *offersServiceResponse;
 }
 
--(void)remoteOffersRetrieved;
+-(void)getOffersResponseReceived;
 -(void)refreshResults;
 -(void)doSignOut;
 

@@ -1,4 +1,4 @@
- //
+//
 //  OffersRootTableViewController.m
 //  Youpon
 //
@@ -10,7 +10,7 @@
 #import "YouponAppDelegate.h"
 
 //CONSTANTS
-NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETRIEVED";
+NSString *const GET_OFFERS_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_RESPONSE";
 
 @implementation OffersRootTableViewController
 
@@ -75,29 +75,33 @@ NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETR
     
     [[NSNotificationCenter defaultCenter] 
      addObserver:self 
-     selector:@selector(remoteOffersRetrieved:)
-     name:REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME
+     selector:@selector(getOffersResponseReceived)
+     name:GET_OFFERS_RESPONSE_NOTIFICATION_NAME
      object:nil];
     
-    offersServiceRequest = [[RailsServiceRequest alloc] init];
-    offersServiceResponse = [[RailsServiceResponse alloc] init];
-    
-    offersServiceRequest.requestActionCode = 0;
-    offersServiceRequest.requestModel = RAILS_MODEL_OFFERS;
-    offersServiceRequest.requestResponseNotificationName = REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME;
-    offersServiceRequest.requestData = self.data;
-    
-    NSLog(@"I got here");
-    
-    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if ([[delegate railsService] callServiceWithRequest:offersServiceRequest andResponsePointer:offersServiceResponse]) {
-        NSLog(@"Called service");
-    }
-    else {
-        NSLog(@"Call failed");
-    }
-
+//    offersServiceRequest = [[RailsServiceRequest alloc] init];
+//    offersServiceResponse = [[RailsServiceResponse alloc] init];
+//    
+//    offersServiceRequest.requestActionCode = 0;
+//    offersServiceRequest.requestModel = RAILS_MODEL_OFFERS;
+//    offersServiceRequest.requestResponseNotificationName = GET_OFFERS_RESPONSE_NOTIFICATION_NAME;
+//    offersServiceRequest.requestData = self.data;
+//    
+//    NSLog(@"Arrived at viewDidLoad");
+//    
+//    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    
+//    if ([delegate sessionToken] != nil) {
+//        if ([[delegate railsService] callServiceWithRequest:offersServiceRequest andResponsePointer:offersServiceResponse]) {
+//            NSLog(@"Called service");
+//        }
+//        else {
+//            NSLog(@"Call failed");
+//        }
+//    }
+//    else {
+//        NSLog(@"Must establish session token first");
+//    }
 }
 
 - (void)viewDidUnload
@@ -110,13 +114,37 @@ NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETR
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    offersServiceRequest = [[RailsServiceRequest alloc] init];
+    offersServiceResponse = [[RailsServiceResponse alloc] init];
+    
+    offersServiceRequest.requestActionCode = 0;
+    offersServiceRequest.requestModel = RAILS_MODEL_OFFERS;
+    offersServiceRequest.requestResponseNotificationName = GET_OFFERS_RESPONSE_NOTIFICATION_NAME;
+    offersServiceRequest.requestData = self.data;
+    
+    NSLog(@"Arrived at viewWillAppear");
+    
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([delegate sessionToken] != nil) {
+        if ([[delegate railsService] callServiceWithRequest:offersServiceRequest andResponsePointer:offersServiceResponse]) {
+            NSLog(@"Called service");
+        }
+        else {
+            NSLog(@"Call failed");
+        }
+    }
+    else {
+        NSLog(@"Must establish session token before asking for offers");
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [self refreshResults];
+    //[self refreshResults];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -225,17 +253,19 @@ NSString *const REMOTE_OFFERS_RETRIEVED_NOTIFICATION_NAME = @"REMOTE_OFFERS_RETR
 
 #pragma mark - Methods for Rails Service handling
 
--(void)remoteOffersRetrieved {
+-(void)getOffersResponseReceived {
     
     //TODO: Do something with new data
-    NSLog(@"Response received");
+    NSLog(@"Get Offers Response Received");
     
     for (id item in offersServiceResponse.responseData) {
         NSLog(@"Response Item: %@", item);
     }
     
     //*  Step:  3)a: if failure, return alert message
-    if ([offersServiceResponse.responseData objectForKey:@"error"]) {
+    NSLog(@"%@", [offersServiceResponse.responseData objectForKey:@"error"]);
+    
+    if ([[offersServiceResponse responseData] objectForKey:@"error"]) {
         NSString *errorMessage = (NSString *)[offersServiceResponse.responseData objectForKey:@"error"];
         
         NSLog(@"Error Response: %@", errorMessage);
