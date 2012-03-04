@@ -305,8 +305,17 @@ static NSString *const HTTP_DELETE = @"DELETE";
         NSLog(@"-JSONValue failed.  Error is: %@", [[jsonParser error] description]);
     }
     else {
-        //Store set of items retrieved
-        __railsServiceResponse.responseData = [parsedJsonDictionary objectForKey:@"items"];
+
+        /*
+         *Store set of items retrieved - original approach
+         *NOTE: the object contained in the key "items" may be an array (e.g. @offers)
+         *__railsServiceResponse.responseData = [parsedJsonDictionary objectForKey:@"items"];
+         * This is an alternative but is not init-safe
+         *[__railsServiceResponse.responseData addEntriesFromDictionary:parsedJsonDictionary]; --> @items object w/in dictionary data
+         */
+        
+        //New approach - copy dictionary entries to responseData (no particular key assumed)
+        __railsServiceResponse.responseData = [[NSMutableDictionary alloc] initWithDictionary:parsedJsonDictionary copyItems:TRUE];
         
         //Post notification that items were updated
         [[NSNotificationCenter defaultCenter] postNotificationName:[__railsServiceRequest requestResponseNotificationName] object:self];
@@ -319,6 +328,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     //Memory management
     //[responseString release];
     [jsonParser release];
+    //[parsedJsonDictionary release];
 }
 
 
