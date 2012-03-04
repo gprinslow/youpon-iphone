@@ -730,14 +730,14 @@ UIAlertView *__loginErrorAlertView;
         YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
         
         if ([[delegate railsService] callServiceWithRequest:loginServiceRequest andResponsePointer:loginServiceResponse]) {
-            NSLog(@"Called service");
+            NSLog(@"Called CreateSession");
         }
         else {
-            NSLog(@"Call failed");
+            NSLog(@"Call to CreateSession Failed");
         }
     }
     else {
-        NSLog(@"Failed validation");
+        NSLog(@"Failed login validation");
         [self enableInteractions];
         [aivLogin stopAnimating];
     }
@@ -747,7 +747,7 @@ UIAlertView *__loginErrorAlertView;
  * Response was received from service -- do actions/transitions depending on result
  */
 - (void)createSessionResponseReceived {
-    NSLog(@"Reponse was received");
+    NSLog(@"CreateSession-ResponseReceived");
     
 
     /*  Steps:  3)a: if failure, return alert message
