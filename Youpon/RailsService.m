@@ -27,6 +27,7 @@ static NSString *const REQUEST_URL_EXTENSION = @".json";
 static NSString *const REQUEST_HTTP_HEADER_FIELD = @"Content-Type";
 static NSString *const REQUEST_HTTP_HEADER_FIELD_LENGTH = @"Content-Length";
 static NSString *const REQUEST_HTTP_HEADER_FIELD_VALUE = @"application/json";
+static NSString *const REQUEST_HTTP_HEADER_FIELD_COOKIE = @"Cookie";
 static NSString *const HTTP_GET = @"GET";
 static NSString *const HTTP_POST = @"POST";
 static NSString *const HTTP_PUT = @"PUT";
@@ -169,6 +170,13 @@ static NSString *const HTTP_DELETE = @"DELETE";
     //Set Method Parameter (as determined above)
     [[self requestMutableURLRequest] setHTTPMethod:[self requestHTTPMethod]];
     
+    //IF AppDelegate.sessionToken is set, set for HTTPHeaderField Cookie
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (delegate.sessionToken != nil) {
+        [[self requestMutableURLRequest] setValue:delegate.sessionToken forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD_COOKIE];
+    }
+    
+    
     //**Memory cleanup**
     [action release];
     
@@ -251,7 +259,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
     //Upon response - clear existing data
     [self.responseData setLength:0];
     
-    //ONLY for Session Model
+    //ONLY for Session Model -- Stores Session Cookie in App Delegate
     if (__railsServiceRequest.requestActionCode == kActionPOSTcreate) {
         if ([__railsServiceRequest.requestModel isEqualToString:RAILS_MODEL_SESSIONS]) {
             
