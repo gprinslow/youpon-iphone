@@ -737,8 +737,8 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
     YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     //*  Step:  3)a: if failure, return alert message
-    if ([registerServiceResponse.responseData objectForKey:@"error"]) {
-        NSString *errorMessage = (NSString *)[registerServiceResponse.responseData objectForKey:@"error"];
+    if ([registerServiceResponse.responseData objectForKey:@"errors"]) {
+        NSString *errorMessage = (NSString *)[[[registerServiceResponse responseData] objectForKey:@"errors"] objectForKey:@"error"];
         
         NSLog(@"Error Response: %@", errorMessage);
         

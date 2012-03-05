@@ -760,8 +760,9 @@ UIAlertView *__loginErrorAlertView;
         NSLog(@"Response Item: %@", item);
     }
     //*  Step:  3)a: if failure, return alert message
-    if ([loginServiceResponse.responseData objectForKey:@"error"]) {
-        NSString *errorMessage = (NSString *)[loginServiceResponse.responseData objectForKey:@"error"];
+    if ([loginServiceResponse.responseData objectForKey:@"errors"]) {
+        
+        NSString *errorMessage = (NSString *)[[[loginServiceResponse responseData] objectForKey:@"errors"] objectForKey:@"error"];
         
         NSLog(@"Error Response: %@", errorMessage);
          
