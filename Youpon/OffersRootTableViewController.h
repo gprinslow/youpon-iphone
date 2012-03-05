@@ -15,14 +15,16 @@
 
 @interface OffersRootTableViewController : GroupedListTableViewController <UIAlertViewDelegate> {
     
-    
     //Added for service calls
     RailsServiceRequest *offersServiceRequest;
     RailsServiceResponse *offersServiceResponse;
 }
 
--(void)getOffersResponseReceived;
 -(void)refreshResults;
+-(void)getOffersResponseReceived;
+-(void)reloadTableViewData;
 -(void)doSignOut;
+
+- (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
 
 @end

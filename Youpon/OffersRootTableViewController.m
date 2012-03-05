@@ -12,6 +12,8 @@
 //CONSTANTS
 NSString *const GET_OFFERS_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_RESPONSE";
 
+UIAlertView *__offersErrorAlertView;
+
 @implementation OffersRootTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -57,8 +59,6 @@ NSString *const GET_OFFERS_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_RESPONSE";
 //                      nil];
     
     
-    
-    
     self.navigationController.title = @"Offers";
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
@@ -78,30 +78,7 @@ NSString *const GET_OFFERS_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_RESPONSE";
      selector:@selector(getOffersResponseReceived)
      name:GET_OFFERS_RESPONSE_NOTIFICATION_NAME
      object:nil];
-    
-//    offersServiceRequest = [[RailsServiceRequest alloc] init];
-//    offersServiceResponse = [[RailsServiceResponse alloc] init];
-//    
-//    offersServiceRequest.requestActionCode = 0;
-//    offersServiceRequest.requestModel = RAILS_MODEL_OFFERS;
-//    offersServiceRequest.requestResponseNotificationName = GET_OFFERS_RESPONSE_NOTIFICATION_NAME;
-//    offersServiceRequest.requestData = self.data;
-//    
-//    NSLog(@"Arrived at viewDidLoad");
-//    
-//    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
-//    
-//    if ([delegate sessionToken] != nil) {
-//        if ([[delegate railsService] callServiceWithRequest:offersServiceRequest andResponsePointer:offersServiceResponse]) {
-//            NSLog(@"Called service");
-//        }
-//        else {
-//            NSLog(@"Call failed");
-//        }
-//    }
-//    else {
-//        NSLog(@"Must establish session token first");
-//    }
+
 }
 
 - (void)viewDidUnload
@@ -115,36 +92,12 @@ NSString *const GET_OFFERS_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_RESPONSE";
 {
     [super viewWillAppear:animated];
     
-    offersServiceRequest = [[RailsServiceRequest alloc] init];
-    offersServiceResponse = [[RailsServiceResponse alloc] init];
-    
-    offersServiceRequest.requestActionCode = 0;
-    offersServiceRequest.requestModel = RAILS_MODEL_OFFERS;
-    offersServiceRequest.requestResponseNotificationName = GET_OFFERS_RESPONSE_NOTIFICATION_NAME;
-    offersServiceRequest.requestData = self.data;
-    
-    NSLog(@"Arrived at viewWillAppear");
-    
-    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if ([delegate sessionToken] != nil) {
-        if ([[delegate railsService] callServiceWithRequest:offersServiceRequest andResponsePointer:offersServiceResponse]) {
-            NSLog(@"Called service");
-        }
-        else {
-            NSLog(@"Call failed");
-        }
-    }
-    else {
-        NSLog(@"Must establish session token before asking for offers");
-    }
+    [self refreshResults];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    //[self refreshResults];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -252,10 +205,39 @@ NSString *const GET_OFFERS_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_RESPONSE";
                                               
 
 #pragma mark - Methods for Rails Service handling
+/*
+ * RefreshResults - makes service call on load or upon hitting refresh button
+ */
+- (void)refreshResults {
+    
+    offersServiceRequest = [[RailsServiceRequest alloc] init];
+    offersServiceResponse = [[RailsServiceResponse alloc] init];
+    
+    offersServiceRequest.requestActionCode = 0;
+    offersServiceRequest.requestModel = RAILS_MODEL_OFFERS;
+    offersServiceRequest.requestResponseNotificationName = GET_OFFERS_RESPONSE_NOTIFICATION_NAME;
+    offersServiceRequest.requestData = self.data;
+    
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([delegate sessionToken] != nil) {
+        if ([[delegate railsService] callServiceWithRequest:offersServiceRequest andResponsePointer:offersServiceResponse]) {
+            NSLog(@"Called Get - Offers");
+        }
+        else {
+            NSLog(@"Call Get - Offers Failed");
+        }
+    }
+    else {
+        NSLog(@"Must establish session token before calling get offers");
+    }
+}
 
+/*
+ * Called by notification center when get offers response received
+ */
 -(void)getOffersResponseReceived {
     
-    //TODO: Do something with new data
     NSLog(@"Get Offers Response Received");
     
     for (id item in offersServiceResponse.responseData) {
@@ -263,28 +245,42 @@ NSString *const GET_OFFERS_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_RESPONSE";
     }
     
     //*  Step:  3)a: if failure, return alert message
-    NSLog(@"%@", [offersServiceResponse.responseData objectForKey:@"error"]);
-    
-    if ([[offersServiceResponse responseData] objectForKey:@"error"]) {
-        NSString *errorMessage = (NSString *)[offersServiceResponse.responseData objectForKey:@"error"];
+    if ([[offersServiceResponse responseData] objectForKey:@"errors"]) {
+        NSString *errorMessage = (NSString *)[[offersServiceResponse.responseData objectForKey:@"errors"] objectForKey:@"error"];
         
         NSLog(@"Error Response: %@", errorMessage);
+        
+        [self alertViewForError:errorMessage title:@"Offers Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
-    else {
-        self.data = offersServiceResponse.responseData;
-        [self refreshResults];
-    }
+    
+    self.data = offersServiceResponse.responseData;
+    
+    [self reloadTableViewData];
 }
 
-- (void)refreshResults {
-    
-    NSLog(@"I was told to refresh");
-    
+- (void)reloadTableViewData {
     [self.tableView reloadData];
 }
 
 - (void)doSignOut {
-    
+    //TODO: fix signout
+    NSLog(@"TODO: fix signout");
 }
+
+#pragma mark Alert view
+
+/*
+ * Alert View for Errors
+ */
+- (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles {
+    
+    __offersErrorAlertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
+    
+    [__offersErrorAlertView show];
+    [__offersErrorAlertView release];
+    
+    return FALSE;
+}
+
 
 @end
