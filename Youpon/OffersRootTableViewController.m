@@ -252,10 +252,23 @@ UIAlertView *__offersErrorAlertView;
         
         [self alertViewForError:errorMessage title:@"Offers Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
-    
-    self.data = offersServiceResponse.responseData;
-    
-    [self reloadTableViewData];
+    else {
+        NSArray *offers = [[offersServiceResponse responseData] objectForKey:@"items"];
+        
+        for (id logitem in offers) {
+            NSLog(@"%@", logitem);
+        }
+        
+        for (NSDictionary *offer in offers) {
+            [[self data] setValue:offer forKey:[offer valueForKey:@"id"]];
+        }
+        
+       NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initW
+        
+        //rowKeys = self.data keysSortedByValueUsingSelector:<#(SEL)#>
+        
+        [self reloadTableViewData];
+    }
 }
 
 - (void)reloadTableViewData {
