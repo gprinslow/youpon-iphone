@@ -309,9 +309,7 @@ UIAlertView *__offersErrorAlertView;
         NSArray *sectionKeys = [rowKeys objectAtIndex:0];
         
         for (NSString *key in sectionKeys) {
-            NSLog(@"%@", key);
             NSDictionary *offer = [data objectForKey:key];
-  
             NSString *label = [offer objectForKey:@"title"];
             [sortedLabels addObject:label];
         }
