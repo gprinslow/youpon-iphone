@@ -47,19 +47,19 @@ UIAlertView *__offersErrorAlertView;
     
     data = [[NSMutableDictionary alloc] initWithCapacity:5];
     
-//    sectionHeaders = [[NSArray alloc] initWithObjects:
-//                      @"Coffee",
-//                      @"Food",
-//                      @"Shopping",
-//                      nil];
-//    sectionFooters = [[NSArray alloc] initWithObjects:
-//                      @"Footer",
-//                      @"Footer",
-//                      @"Footer",
-//                      nil];
+    
+    //TODO: Organize by headers (+footers?) based on category/distance etc.
+    sectionHeaders = [[NSArray alloc] initWithObjects:
+                      [NSNull null],
+                      nil];
+    
+    sectionFooters = [[NSArray alloc] initWithObjects:
+                      [NSNull null],
+                      nil];
     
     
     self.navigationController.title = @"Offers";
+    
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
                                              initWithTitle:@"Sign out"
@@ -121,7 +121,7 @@ UIAlertView *__offersErrorAlertView;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return [sectionHeaders count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -132,21 +132,28 @@ UIAlertView *__offersErrorAlertView;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *OffersRootTableViewControllerCellIdentifier = @"OffersRootTableViewControllerCellIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:OffersRootTableViewControllerCellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:OffersRootTableViewControllerCellIdentifier] autorelease];
     }
     
     // Configure the cell...
-    NSDictionary *offer = [[[NSDictionary alloc] init] autorelease];
     
-    offer = [data objectForKey:@"offer"];
+    NSString *rowKey = [rowKeys nestedObjectAtIndexPath:indexPath];
+    NSString *rowLabel = [rowLabels nestedObjectAtIndexPath:indexPath];
     
-    cell.textLabel.text = [offer objectForKey:@"title"];
-    cell.detailTextLabel.text = [offer objectForKey:@"byline"];
+    cell.textLabel.text = rowLabel;
     
+    id <StringValueDisplay, NSObject> rowDetailValue = [[data objectForKey:rowKey] valueForKey:@"byline"];
+    
+    cell.detailTextLabel.text = [rowDetailValue stringValueDisplay];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+
+    //Done confiiguring
     return cell;
 }
 
@@ -240,6 +247,7 @@ UIAlertView *__offersErrorAlertView;
     
     NSLog(@"Get Offers Response Received");
     
+    //TODO: remove debug log
     for (id item in offersServiceResponse.responseData) {
         NSLog(@"Response Item: %@", item);
     }
@@ -252,25 +260,76 @@ UIAlertView *__offersErrorAlertView;
         
         [self alertViewForError:errorMessage title:@"Offers Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
+    //*  Step:  3)b: if success, sort and store data
     else {
+        //Offers array is an array of NSDictionaries (each of which is an offer)
         NSArray *offers = [[offersServiceResponse responseData] objectForKey:@"items"];
         
+        //Update title with count of offers retrieved
+        //self.navigationController.title = [NSString stringWithFormat:@"Offers (%@)", offers.count];
+        
+        
+        //TODO: remove debug log statement
         for (id logitem in offers) {
             NSLog(@"%@", logitem);
         }
         
+        /*
+         * Data now contains all offers; key = id, value = offer (Dictionary)
+         */
         for (NSDictionary *offer in offers) {
-            [[self data] setValue:offer forKey:[offer valueForKey:@"id"]];
+            [data setObject:offer forKey:[offer valueForKey:@"id"]];
         }
         
-       NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initW
+        //**HERE WOULD BE AN OUTER LOOP FOR SECTION**
         
-        //rowKeys = self.data keysSortedByValueUsingSelector:<#(SEL)#>
+        /*
+         * rowKeys are an array of offer id's; rowKeys are sorted by offer(key).title
+         * result is rowKeys contains the sorted order of offer.id
+         */
+        //TODO: if going to use sections, the keys need to be divided by section
+        NSArray *sortedKeyArray = [self.data keysSortedByValueWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSString *sortString1 = [obj1 valueForKey:@"title"];
+            NSString *sortString2 = [obj2 valueForKey:@"title"];
+            
+            return (NSComparisonResult)[sortString1 compare:sortString2 options:NSOrderedAscending];
+        }];
         
+        //TODO: if going to use sections, the keys need to be divided by section
+        rowKeys = [[NSArray alloc] initWithObjects:
+                   [[NSArray alloc] initWithArray:sortedKeyArray copyItems:YES], 
+                   nil];
+        
+        /*
+         * rowLabels are the titles used for each cell (row)
+         * here it iterates through each to set the label in sorted order from keys
+         */
+        //TODO: evaluate this for leaks
+        //TODO: if going to use sections, the keys need to be divided by section
+        NSMutableArray *sortedLabels = [[NSMutableArray alloc] initWithCapacity:rowKeys.count];
+        NSArray *sectionKeys = [rowKeys objectAtIndex:0];
+        
+        for (NSString *key in sectionKeys) {
+            NSLog(@"%@", key);
+            NSDictionary *offer = [data objectForKey:key];
+  
+            NSString *label = [offer objectForKey:@"title"];
+            [sortedLabels addObject:label];
+        }
+        rowLabels = [[NSArray alloc] initWithObjects:
+                     [[NSArray alloc] initWithArray:sortedLabels copyItems:YES], 
+                     nil];
+        
+        //**END OUTER LOOP FOR SECION**
+        
+
         [self reloadTableViewData];
     }
 }
 
+/*
+ * Do reloading of table view data
+ */
 - (void)reloadTableViewData {
     [self.tableView reloadData];
 }
@@ -280,8 +339,8 @@ UIAlertView *__offersErrorAlertView;
     NSLog(@"TODO: fix signout");
 }
 
-#pragma mark Alert view
 
+#pragma mark Alert view
 /*
  * Alert View for Errors
  */
