@@ -58,8 +58,7 @@ UIAlertView *__offersErrorAlertView;
                       nil];
     
     
-    self.navigationController.title = @"Offers";
-    
+    self.title = @"Offers";
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
                                              initWithTitle:@"Sign out"
@@ -136,7 +135,7 @@ UIAlertView *__offersErrorAlertView;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:OffersRootTableViewControllerCellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:OffersRootTableViewControllerCellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:OffersRootTableViewControllerCellIdentifier] autorelease];
     }
     
     // Configure the cell...
@@ -266,8 +265,8 @@ UIAlertView *__offersErrorAlertView;
         NSArray *offers = [[offersServiceResponse responseData] objectForKey:@"items"];
         
         //Update title with count of offers retrieved
-        //self.navigationController.title = [NSString stringWithFormat:@"Offers (%@)", offers.count];
-        
+        NSString *newTitle = [[[NSString alloc] initWithFormat:@"Offers (%d)", offers.count] autorelease];
+        [self setTitle:newTitle];
         
         //TODO: remove debug log statement
         for (id logitem in offers) {
@@ -322,7 +321,8 @@ UIAlertView *__offersErrorAlertView;
         
         //**END OUTER LOOP FOR SECION**
         
-
+        
+        //END: call reload of table view data
         [self reloadTableViewData];
     }
 }
