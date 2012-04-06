@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  OfferRedeemViewController.h
 //  Youpon
 //
 //  Created by Garrison Prinslow on 4/6/12.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface OfferRedeemViewController : UIViewController
 
 @end

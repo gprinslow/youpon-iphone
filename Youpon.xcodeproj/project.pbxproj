@@ -12,12 +12,65 @@
 		8591B95A152FB63400628693 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B959152FB63400628693 /* CoreGraphics.framework */; };
 		8591B960152FB63400628693 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8591B95E152FB63400628693 /* InfoPlist.strings */; };
 		8591B962152FB63400628693 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B961152FB63400628693 /* main.m */; };
-		8591B966152FB63400628693 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B965152FB63400628693 /* AppDelegate.m */; };
 		8591B96E152FB63400628693 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B96D152FB63400628693 /* SenTestingKit.framework */; };
 		8591B96F152FB63400628693 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B955152FB63400628693 /* UIKit.framework */; };
 		8591B970152FB63400628693 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B957152FB63400628693 /* Foundation.framework */; };
 		8591B978152FB63400628693 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8591B976152FB63400628693 /* InfoPlist.strings */; };
 		8591B97B152FB63400628693 /* YouponTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B97A152FB63400628693 /* YouponTests.m */; };
+		8591B9FC152FB68F00628693 /* 06-magnify.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B984152FB68E00628693 /* 06-magnify.png */; };
+		8591B9FD152FB68F00628693 /* 07-map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B985152FB68E00628693 /* 07-map-marker.png */; };
+		8591B9FE152FB68F00628693 /* 15-tags.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B986152FB68E00628693 /* 15-tags.png */; };
+		8591B9FF152FB68F00628693 /* 19-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B987152FB68E00628693 /* 19-gear.png */; };
+		8591BA00152FB68F00628693 /* 20-gear2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B988152FB68E00628693 /* 20-gear2.png */; };
+		8591BA01152FB68F00628693 /* 28-star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B989152FB68E00628693 /* 28-star.png */; };
+		8591BA02152FB68F00628693 /* 71-compass.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B98A152FB68E00628693 /* 71-compass.png */; };
+		8591BA03152FB68F00628693 /* 72-pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B98B152FB68E00628693 /* 72-pin.png */; };
+		8591BA04152FB68F00628693 /* 73-radar.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B98C152FB68E00628693 /* 73-radar.png */; };
+		8591BA05152FB68F00628693 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B98D152FB68E00628693 /* 74-location.png */; };
+		8591BA06152FB68F00628693 /* 111-user.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B98E152FB68E00628693 /* 111-user.png */; };
+		8591BA07152FB68F00628693 /* 112-group.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B98F152FB68E00628693 /* 112-group.png */; };
+		8591BA08152FB68F00628693 /* 123-id-card.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B990152FB68E00628693 /* 123-id-card.png */; };
+		8591BA09152FB68F00628693 /* 145-persondot.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B991152FB68E00628693 /* 145-persondot.png */; };
+		8591BA0A152FB68F00628693 /* 172-pricetag.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B992152FB68E00628693 /* 172-pricetag.png */; };
+		8591BA0B152FB68F00628693 /* 191-collection.png in Resources */ = {isa = PBXBuildFile; fileRef = 8591B993152FB68E00628693 /* 191-collection.png */; };
+		8591BA0C152FB68F00628693 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8591B995152FB68F00628693 /* InfoPlist.strings */; };
+		8591BA0D152FB68F00628693 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8591B997152FB68F00628693 /* MainWindow.xib */; };
+		8591BA0E152FB68F00628693 /* GroupedEditTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B99A152FB68F00628693 /* GroupedEditTableView.m */; };
+		8591BA0F152FB68F00628693 /* GroupedEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B99C152FB68F00628693 /* GroupedEditTableViewController.m */; };
+		8591BA10152FB68F00628693 /* GroupedListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B99E152FB68F00628693 /* GroupedListTableViewController.m */; };
+		8591BA11152FB68F00628693 /* LoginRootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9A0152FB68F00628693 /* LoginRootTableViewController.m */; };
+		8591BA12152FB68F00628693 /* LoginRootTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8591B9A1152FB68F00628693 /* LoginRootTableViewController.xib */; };
+		8591BA14152FB68F00628693 /* NSArray+NestedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9A4152FB68F00628693 /* NSArray+NestedArray.m */; };
+		8591BA15152FB68F00628693 /* OfferDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9A6152FB68F00628693 /* OfferDetailTableViewController.m */; };
+		8591BA16152FB68F00628693 /* OfferDetailTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8591B9A7152FB68F00628693 /* OfferDetailTableViewController.xib */; };
+		8591BA17152FB68F00628693 /* OfferRedeemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9A9152FB68F00628693 /* OfferRedeemViewController.m */; };
+		8591BA18152FB68F00628693 /* OfferRedeemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8591B9AA152FB68F00628693 /* OfferRedeemViewController.xib */; };
+		8591BA19152FB68F00628693 /* OffersRootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9AC152FB68F00628693 /* OffersRootTableViewController.m */; };
+		8591BA1A152FB68F00628693 /* OffersRootTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8591B9AD152FB68F00628693 /* OffersRootTableViewController.xib */; };
+		8591BA1B152FB68F00628693 /* RailsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9AF152FB68F00628693 /* RailsService.m */; };
+		8591BA1C152FB68F00628693 /* RailsServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9B1152FB68F00628693 /* RailsServiceRequest.m */; };
+		8591BA1D152FB68F00628693 /* RailsServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9B3152FB68F00628693 /* RailsServiceResponse.m */; };
+		8591BA1E152FB68F00628693 /* RegistrationRootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9B5152FB68F00628693 /* RegistrationRootTableViewController.m */; };
+		8591BA1F152FB68F00628693 /* RegistrationRootTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8591B9B6152FB68F00628693 /* RegistrationRootTableViewController.xib */; };
+		8591BA20152FB68F00628693 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9BA152FB68F00628693 /* NSObject+SBJson.m */; };
+		8591BA21152FB68F00628693 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9BD152FB68F00628693 /* SBJsonParser.m */; };
+		8591BA22152FB68F00628693 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9BF152FB68F00628693 /* SBJsonStreamParser.m */; };
+		8591BA23152FB68F00628693 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9C1152FB68F00628693 /* SBJsonStreamParserAccumulator.m */; };
+		8591BA24152FB68F00628693 /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9C3152FB68F00628693 /* SBJsonStreamParserAdapter.m */; };
+		8591BA25152FB68F00628693 /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9C5152FB68F00628693 /* SBJsonStreamParserState.m */; };
+		8591BA26152FB68F00628693 /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9C7152FB68F00628693 /* SBJsonStreamWriter.m */; };
+		8591BA27152FB68F00628693 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9C9152FB68F00628693 /* SBJsonStreamWriterAccumulator.m */; };
+		8591BA28152FB68F00628693 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9CB152FB68F00628693 /* SBJsonStreamWriterState.m */; };
+		8591BA29152FB68F00628693 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9CD152FB68F00628693 /* SBJsonTokeniser.m */; };
+		8591BA2A152FB68F00628693 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9CF152FB68F00628693 /* SBJsonUTF8Stream.m */; };
+		8591BA2B152FB68F00628693 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9D1152FB68F00628693 /* SBJsonWriter.m */; };
+		8591BA38152FB68F00628693 /* StringValueDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9ED152FB68F00628693 /* StringValueDisplay.m */; };
+		8591BA39152FB68F00628693 /* TableRowDetailEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9EF152FB68F00628693 /* TableRowDetailEditController.m */; };
+		8591BA3A152FB68F00628693 /* TableRowDetailEditDateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9F1152FB68F00628693 /* TableRowDetailEditDateController.m */; };
+		8591BA3B152FB68F00628693 /* TableRowDetailEditSingleSelectionListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9F3152FB68F00628693 /* TableRowDetailEditSingleSelectionListController.m */; };
+		8591BA3C152FB68F00628693 /* TableRowDetailEditStringController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9F5152FB68F00628693 /* TableRowDetailEditStringController.m */; };
+		8591BA3D152FB68F00628693 /* TextEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9F7152FB68F00628693 /* TextEntryTableViewCell.m */; };
+		8591BA3F152FB68F00628693 /* YouponAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9FB152FB68F00628693 /* YouponAppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,18 +88,103 @@
 		8591B955152FB63400628693 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8591B957152FB63400628693 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8591B959152FB63400628693 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		8591B95D152FB63400628693 /* Youpon-Info.plist */ = {isa = PBXFileReference; path = "Youpon-Info.plist"; sourceTree = "<group>"; };
+		8591B95D152FB63400628693 /* Youpon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Youpon-Info.plist"; sourceTree = "<group>"; };
 		8591B95F152FB63400628693 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8591B961152FB63400628693 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8591B963152FB63400628693 /* Youpon-Prefix.pch */ = {isa = PBXFileReference; path = "Youpon-Prefix.pch"; sourceTree = "<group>"; };
-		8591B964152FB63400628693 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
-		8591B965152FB63400628693 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8591B963152FB63400628693 /* Youpon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Youpon-Prefix.pch"; sourceTree = "<group>"; };
 		8591B96C152FB63400628693 /* YouponTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouponTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8591B96D152FB63400628693 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		8591B975152FB63400628693 /* YouponTests-Info.plist */ = {isa = PBXFileReference; path = "YouponTests-Info.plist"; sourceTree = "<group>"; };
+		8591B975152FB63400628693 /* YouponTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "YouponTests-Info.plist"; sourceTree = "<group>"; };
 		8591B977152FB63400628693 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8591B979152FB63400628693 /* YouponTests.h */ = {isa = PBXFileReference; path = YouponTests.h; sourceTree = "<group>"; };
+		8591B979152FB63400628693 /* YouponTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YouponTests.h; sourceTree = "<group>"; };
 		8591B97A152FB63400628693 /* YouponTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouponTests.m; sourceTree = "<group>"; };
+		8591B984152FB68E00628693 /* 06-magnify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "06-magnify.png"; sourceTree = "<group>"; };
+		8591B985152FB68E00628693 /* 07-map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "07-map-marker.png"; sourceTree = "<group>"; };
+		8591B986152FB68E00628693 /* 15-tags.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "15-tags.png"; sourceTree = "<group>"; };
+		8591B987152FB68E00628693 /* 19-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-gear.png"; sourceTree = "<group>"; };
+		8591B988152FB68E00628693 /* 20-gear2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "20-gear2.png"; sourceTree = "<group>"; };
+		8591B989152FB68E00628693 /* 28-star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "28-star.png"; sourceTree = "<group>"; };
+		8591B98A152FB68E00628693 /* 71-compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "71-compass.png"; sourceTree = "<group>"; };
+		8591B98B152FB68E00628693 /* 72-pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "72-pin.png"; sourceTree = "<group>"; };
+		8591B98C152FB68E00628693 /* 73-radar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "73-radar.png"; sourceTree = "<group>"; };
+		8591B98D152FB68E00628693 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
+		8591B98E152FB68E00628693 /* 111-user.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "111-user.png"; sourceTree = "<group>"; };
+		8591B98F152FB68E00628693 /* 112-group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "112-group.png"; sourceTree = "<group>"; };
+		8591B990152FB68E00628693 /* 123-id-card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card.png"; sourceTree = "<group>"; };
+		8591B991152FB68E00628693 /* 145-persondot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "145-persondot.png"; sourceTree = "<group>"; };
+		8591B992152FB68E00628693 /* 172-pricetag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "172-pricetag.png"; sourceTree = "<group>"; };
+		8591B993152FB68E00628693 /* 191-collection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "191-collection.png"; sourceTree = "<group>"; };
+		8591B996152FB68F00628693 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		8591B998152FB68F00628693 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = MainWindow.xib; sourceTree = "<group>"; };
+		8591B999152FB68F00628693 /* GroupedEditTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedEditTableView.h; sourceTree = "<group>"; };
+		8591B99A152FB68F00628693 /* GroupedEditTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedEditTableView.m; sourceTree = "<group>"; };
+		8591B99B152FB68F00628693 /* GroupedEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedEditTableViewController.h; sourceTree = "<group>"; };
+		8591B99C152FB68F00628693 /* GroupedEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedEditTableViewController.m; sourceTree = "<group>"; };
+		8591B99D152FB68F00628693 /* GroupedListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedListTableViewController.h; sourceTree = "<group>"; };
+		8591B99E152FB68F00628693 /* GroupedListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedListTableViewController.m; sourceTree = "<group>"; };
+		8591B99F152FB68F00628693 /* LoginRootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginRootTableViewController.h; sourceTree = "<group>"; };
+		8591B9A0152FB68F00628693 /* LoginRootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginRootTableViewController.m; sourceTree = "<group>"; };
+		8591B9A1152FB68F00628693 /* LoginRootTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRootTableViewController.xib; sourceTree = "<group>"; };
+		8591B9A3152FB68F00628693 /* NSArray+NestedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+NestedArray.h"; sourceTree = "<group>"; };
+		8591B9A4152FB68F00628693 /* NSArray+NestedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+NestedArray.m"; sourceTree = "<group>"; };
+		8591B9A5152FB68F00628693 /* OfferDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferDetailTableViewController.h; sourceTree = "<group>"; };
+		8591B9A6152FB68F00628693 /* OfferDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferDetailTableViewController.m; sourceTree = "<group>"; };
+		8591B9A7152FB68F00628693 /* OfferDetailTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OfferDetailTableViewController.xib; sourceTree = "<group>"; };
+		8591B9A8152FB68F00628693 /* OfferRedeemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferRedeemViewController.h; sourceTree = "<group>"; };
+		8591B9A9152FB68F00628693 /* OfferRedeemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferRedeemViewController.m; sourceTree = "<group>"; };
+		8591B9AA152FB68F00628693 /* OfferRedeemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OfferRedeemViewController.xib; sourceTree = "<group>"; };
+		8591B9AB152FB68F00628693 /* OffersRootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersRootTableViewController.h; sourceTree = "<group>"; };
+		8591B9AC152FB68F00628693 /* OffersRootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersRootTableViewController.m; sourceTree = "<group>"; };
+		8591B9AD152FB68F00628693 /* OffersRootTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OffersRootTableViewController.xib; sourceTree = "<group>"; };
+		8591B9AE152FB68F00628693 /* RailsService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsService.h; sourceTree = "<group>"; };
+		8591B9AF152FB68F00628693 /* RailsService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsService.m; sourceTree = "<group>"; };
+		8591B9B0152FB68F00628693 /* RailsServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsServiceRequest.h; sourceTree = "<group>"; };
+		8591B9B1152FB68F00628693 /* RailsServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsServiceRequest.m; sourceTree = "<group>"; };
+		8591B9B2152FB68F00628693 /* RailsServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsServiceResponse.h; sourceTree = "<group>"; };
+		8591B9B3152FB68F00628693 /* RailsServiceResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsServiceResponse.m; sourceTree = "<group>"; };
+		8591B9B4152FB68F00628693 /* RegistrationRootTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationRootTableViewController.h; sourceTree = "<group>"; };
+		8591B9B5152FB68F00628693 /* RegistrationRootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationRootTableViewController.m; sourceTree = "<group>"; };
+		8591B9B6152FB68F00628693 /* RegistrationRootTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegistrationRootTableViewController.xib; sourceTree = "<group>"; };
+		8591B9B8152FB68F00628693 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		8591B9B9152FB68F00628693 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
+		8591B9BA152FB68F00628693 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
+		8591B9BB152FB68F00628693 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
+		8591B9BC152FB68F00628693 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		8591B9BD152FB68F00628693 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		8591B9BE152FB68F00628693 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
+		8591B9BF152FB68F00628693 /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParser.m; sourceTree = "<group>"; };
+		8591B9C0152FB68F00628693 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
+		8591B9C1152FB68F00628693 /* SBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
+		8591B9C2152FB68F00628693 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
+		8591B9C3152FB68F00628693 /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
+		8591B9C4152FB68F00628693 /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserState.h; sourceTree = "<group>"; };
+		8591B9C5152FB68F00628693 /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserState.m; sourceTree = "<group>"; };
+		8591B9C6152FB68F00628693 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
+		8591B9C7152FB68F00628693 /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriter.m; sourceTree = "<group>"; };
+		8591B9C8152FB68F00628693 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
+		8591B9C9152FB68F00628693 /* SBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
+		8591B9CA152FB68F00628693 /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterState.h; sourceTree = "<group>"; };
+		8591B9CB152FB68F00628693 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
+		8591B9CC152FB68F00628693 /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonTokeniser.h; sourceTree = "<group>"; };
+		8591B9CD152FB68F00628693 /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonTokeniser.m; sourceTree = "<group>"; };
+		8591B9CE152FB68F00628693 /* SBJsonUTF8Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonUTF8Stream.h; sourceTree = "<group>"; };
+		8591B9CF152FB68F00628693 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
+		8591B9D0152FB68F00628693 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		8591B9D1152FB68F00628693 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		8591B9EC152FB68F00628693 /* StringValueDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringValueDisplay.h; sourceTree = "<group>"; };
+		8591B9ED152FB68F00628693 /* StringValueDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringValueDisplay.m; sourceTree = "<group>"; };
+		8591B9EE152FB68F00628693 /* TableRowDetailEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableRowDetailEditController.h; sourceTree = "<group>"; };
+		8591B9EF152FB68F00628693 /* TableRowDetailEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditController.m; sourceTree = "<group>"; };
+		8591B9F0152FB68F00628693 /* TableRowDetailEditDateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableRowDetailEditDateController.h; sourceTree = "<group>"; };
+		8591B9F1152FB68F00628693 /* TableRowDetailEditDateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditDateController.m; sourceTree = "<group>"; };
+		8591B9F2152FB68F00628693 /* TableRowDetailEditSingleSelectionListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableRowDetailEditSingleSelectionListController.h; sourceTree = "<group>"; };
+		8591B9F3152FB68F00628693 /* TableRowDetailEditSingleSelectionListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditSingleSelectionListController.m; sourceTree = "<group>"; };
+		8591B9F4152FB68F00628693 /* TableRowDetailEditStringController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableRowDetailEditStringController.h; sourceTree = "<group>"; };
+		8591B9F5152FB68F00628693 /* TableRowDetailEditStringController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableRowDetailEditStringController.m; sourceTree = "<group>"; };
+		8591B9F6152FB68F00628693 /* TextEntryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextEntryTableViewCell.h; sourceTree = "<group>"; };
+		8591B9F7152FB68F00628693 /* TextEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextEntryTableViewCell.m; sourceTree = "<group>"; };
+		8591B9FA152FB68F00628693 /* YouponAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouponAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		8591B9FB152FB68F00628693 /* YouponAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YouponAppDelegate.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +244,16 @@
 		8591B95B152FB63400628693 /* Youpon */ = {
 			isa = PBXGroup;
 			children = (
-				8591B964152FB63400628693 /* AppDelegate.h */,
-				8591B965152FB63400628693 /* AppDelegate.m */,
+				8591B9FA152FB68F00628693 /* YouponAppDelegate.h */,
+				8591B9FB152FB68F00628693 /* YouponAppDelegate.m */,
+				8591BA44152FB73700628693 /* Categories */,
+				8591BA46152FB80B00628693 /* Classes */,
+				8591BA43152FB70200628693 /* Controllers */,
+				8591B994152FB68F00628693 /* en.lproj */,
+				8591BA42152FB6BB00628693 /* Images */,
+				85E6BB39152FB89D0035354D /* Interface */,
+				8591BA45152FB7EC00628693 /* Rails Service */,
+				8591B9B7152FB68F00628693 /* SBJSON */,
 				8591B95C152FB63400628693 /* Supporting Files */,
 			);
 			path = Youpon;
@@ -141,6 +287,155 @@
 				8591B976152FB63400628693 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8591B994152FB68F00628693 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				8591B995152FB68F00628693 /* InfoPlist.strings */,
+				8591B997152FB68F00628693 /* MainWindow.xib */,
+			);
+			name = en.lproj;
+			path = ../en.lproj;
+			sourceTree = "<group>";
+		};
+		8591B9B7152FB68F00628693 /* SBJSON */ = {
+			isa = PBXGroup;
+			children = (
+				8591B9B8152FB68F00628693 /* JSON.h */,
+				8591B9B9152FB68F00628693 /* NSObject+SBJson.h */,
+				8591B9BA152FB68F00628693 /* NSObject+SBJson.m */,
+				8591B9BB152FB68F00628693 /* SBJson.h */,
+				8591B9BC152FB68F00628693 /* SBJsonParser.h */,
+				8591B9BD152FB68F00628693 /* SBJsonParser.m */,
+				8591B9BE152FB68F00628693 /* SBJsonStreamParser.h */,
+				8591B9BF152FB68F00628693 /* SBJsonStreamParser.m */,
+				8591B9C0152FB68F00628693 /* SBJsonStreamParserAccumulator.h */,
+				8591B9C1152FB68F00628693 /* SBJsonStreamParserAccumulator.m */,
+				8591B9C2152FB68F00628693 /* SBJsonStreamParserAdapter.h */,
+				8591B9C3152FB68F00628693 /* SBJsonStreamParserAdapter.m */,
+				8591B9C4152FB68F00628693 /* SBJsonStreamParserState.h */,
+				8591B9C5152FB68F00628693 /* SBJsonStreamParserState.m */,
+				8591B9C6152FB68F00628693 /* SBJsonStreamWriter.h */,
+				8591B9C7152FB68F00628693 /* SBJsonStreamWriter.m */,
+				8591B9C8152FB68F00628693 /* SBJsonStreamWriterAccumulator.h */,
+				8591B9C9152FB68F00628693 /* SBJsonStreamWriterAccumulator.m */,
+				8591B9CA152FB68F00628693 /* SBJsonStreamWriterState.h */,
+				8591B9CB152FB68F00628693 /* SBJsonStreamWriterState.m */,
+				8591B9CC152FB68F00628693 /* SBJsonTokeniser.h */,
+				8591B9CD152FB68F00628693 /* SBJsonTokeniser.m */,
+				8591B9CE152FB68F00628693 /* SBJsonUTF8Stream.h */,
+				8591B9CF152FB68F00628693 /* SBJsonUTF8Stream.m */,
+				8591B9D0152FB68F00628693 /* SBJsonWriter.h */,
+				8591B9D1152FB68F00628693 /* SBJsonWriter.m */,
+			);
+			name = SBJSON;
+			path = ../SBJSON;
+			sourceTree = "<group>";
+		};
+		8591BA42152FB6BB00628693 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				8591B984152FB68E00628693 /* 06-magnify.png */,
+				8591B985152FB68E00628693 /* 07-map-marker.png */,
+				8591B986152FB68E00628693 /* 15-tags.png */,
+				8591B987152FB68E00628693 /* 19-gear.png */,
+				8591B988152FB68E00628693 /* 20-gear2.png */,
+				8591B989152FB68E00628693 /* 28-star.png */,
+				8591B98A152FB68E00628693 /* 71-compass.png */,
+				8591B98B152FB68E00628693 /* 72-pin.png */,
+				8591B98C152FB68E00628693 /* 73-radar.png */,
+				8591B98D152FB68E00628693 /* 74-location.png */,
+				8591B98E152FB68E00628693 /* 111-user.png */,
+				8591B98F152FB68E00628693 /* 112-group.png */,
+				8591B990152FB68E00628693 /* 123-id-card.png */,
+				8591B991152FB68E00628693 /* 145-persondot.png */,
+				8591B992152FB68E00628693 /* 172-pricetag.png */,
+				8591B993152FB68E00628693 /* 191-collection.png */,
+			);
+			name = Images;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		8591BA43152FB70200628693 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8591B999152FB68F00628693 /* GroupedEditTableView.h */,
+				8591B99A152FB68F00628693 /* GroupedEditTableView.m */,
+				8591B99B152FB68F00628693 /* GroupedEditTableViewController.h */,
+				8591B99C152FB68F00628693 /* GroupedEditTableViewController.m */,
+				8591B99D152FB68F00628693 /* GroupedListTableViewController.h */,
+				8591B99E152FB68F00628693 /* GroupedListTableViewController.m */,
+				8591B99F152FB68F00628693 /* LoginRootTableViewController.h */,
+				8591B9A0152FB68F00628693 /* LoginRootTableViewController.m */,
+				8591B9A5152FB68F00628693 /* OfferDetailTableViewController.h */,
+				8591B9A6152FB68F00628693 /* OfferDetailTableViewController.m */,
+				8591B9A8152FB68F00628693 /* OfferRedeemViewController.h */,
+				8591B9A9152FB68F00628693 /* OfferRedeemViewController.m */,
+				8591B9AB152FB68F00628693 /* OffersRootTableViewController.h */,
+				8591B9AC152FB68F00628693 /* OffersRootTableViewController.m */,
+				8591B9B4152FB68F00628693 /* RegistrationRootTableViewController.h */,
+				8591B9B5152FB68F00628693 /* RegistrationRootTableViewController.m */,
+			);
+			name = Controllers;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		8591BA44152FB73700628693 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				8591B9A3152FB68F00628693 /* NSArray+NestedArray.h */,
+				8591B9A4152FB68F00628693 /* NSArray+NestedArray.m */,
+				8591B9EC152FB68F00628693 /* StringValueDisplay.h */,
+				8591B9ED152FB68F00628693 /* StringValueDisplay.m */,
+			);
+			name = Categories;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		8591BA45152FB7EC00628693 /* Rails Service */ = {
+			isa = PBXGroup;
+			children = (
+				8591B9AE152FB68F00628693 /* RailsService.h */,
+				8591B9AF152FB68F00628693 /* RailsService.m */,
+				8591B9B0152FB68F00628693 /* RailsServiceRequest.h */,
+				8591B9B1152FB68F00628693 /* RailsServiceRequest.m */,
+				8591B9B2152FB68F00628693 /* RailsServiceResponse.h */,
+				8591B9B3152FB68F00628693 /* RailsServiceResponse.m */,
+			);
+			name = "Rails Service";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		8591BA46152FB80B00628693 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8591B9EE152FB68F00628693 /* TableRowDetailEditController.h */,
+				8591B9EF152FB68F00628693 /* TableRowDetailEditController.m */,
+				8591B9F0152FB68F00628693 /* TableRowDetailEditDateController.h */,
+				8591B9F1152FB68F00628693 /* TableRowDetailEditDateController.m */,
+				8591B9F2152FB68F00628693 /* TableRowDetailEditSingleSelectionListController.h */,
+				8591B9F3152FB68F00628693 /* TableRowDetailEditSingleSelectionListController.m */,
+				8591B9F4152FB68F00628693 /* TableRowDetailEditStringController.h */,
+				8591B9F5152FB68F00628693 /* TableRowDetailEditStringController.m */,
+				8591B9F6152FB68F00628693 /* TextEntryTableViewCell.h */,
+				8591B9F7152FB68F00628693 /* TextEntryTableViewCell.m */,
+			);
+			name = Classes;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		85E6BB39152FB89D0035354D /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				8591B9A1152FB68F00628693 /* LoginRootTableViewController.xib */,
+				8591B9A7152FB68F00628693 /* OfferDetailTableViewController.xib */,
+				8591B9AA152FB68F00628693 /* OfferRedeemViewController.xib */,
+				8591B9AD152FB68F00628693 /* OffersRootTableViewController.xib */,
+				8591B9B6152FB68F00628693 /* RegistrationRootTableViewController.xib */,
+			);
+			name = Interface;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +510,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				8591B960152FB63400628693 /* InfoPlist.strings in Resources */,
+				8591B9FC152FB68F00628693 /* 06-magnify.png in Resources */,
+				8591B9FD152FB68F00628693 /* 07-map-marker.png in Resources */,
+				8591B9FE152FB68F00628693 /* 15-tags.png in Resources */,
+				8591B9FF152FB68F00628693 /* 19-gear.png in Resources */,
+				8591BA00152FB68F00628693 /* 20-gear2.png in Resources */,
+				8591BA01152FB68F00628693 /* 28-star.png in Resources */,
+				8591BA02152FB68F00628693 /* 71-compass.png in Resources */,
+				8591BA03152FB68F00628693 /* 72-pin.png in Resources */,
+				8591BA04152FB68F00628693 /* 73-radar.png in Resources */,
+				8591BA05152FB68F00628693 /* 74-location.png in Resources */,
+				8591BA06152FB68F00628693 /* 111-user.png in Resources */,
+				8591BA07152FB68F00628693 /* 112-group.png in Resources */,
+				8591BA08152FB68F00628693 /* 123-id-card.png in Resources */,
+				8591BA09152FB68F00628693 /* 145-persondot.png in Resources */,
+				8591BA0A152FB68F00628693 /* 172-pricetag.png in Resources */,
+				8591BA0B152FB68F00628693 /* 191-collection.png in Resources */,
+				8591BA0C152FB68F00628693 /* InfoPlist.strings in Resources */,
+				8591BA0D152FB68F00628693 /* MainWindow.xib in Resources */,
+				8591BA12152FB68F00628693 /* LoginRootTableViewController.xib in Resources */,
+				8591BA16152FB68F00628693 /* OfferDetailTableViewController.xib in Resources */,
+				8591BA18152FB68F00628693 /* OfferRedeemViewController.xib in Resources */,
+				8591BA1A152FB68F00628693 /* OffersRootTableViewController.xib in Resources */,
+				8591BA1F152FB68F00628693 /* RegistrationRootTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +568,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				8591B962152FB63400628693 /* main.m in Sources */,
-				8591B966152FB63400628693 /* AppDelegate.m in Sources */,
+				8591BA0E152FB68F00628693 /* GroupedEditTableView.m in Sources */,
+				8591BA0F152FB68F00628693 /* GroupedEditTableViewController.m in Sources */,
+				8591BA10152FB68F00628693 /* GroupedListTableViewController.m in Sources */,
+				8591BA11152FB68F00628693 /* LoginRootTableViewController.m in Sources */,
+				8591BA14152FB68F00628693 /* NSArray+NestedArray.m in Sources */,
+				8591BA15152FB68F00628693 /* OfferDetailTableViewController.m in Sources */,
+				8591BA17152FB68F00628693 /* OfferRedeemViewController.m in Sources */,
+				8591BA19152FB68F00628693 /* OffersRootTableViewController.m in Sources */,
+				8591BA1B152FB68F00628693 /* RailsService.m in Sources */,
+				8591BA1C152FB68F00628693 /* RailsServiceRequest.m in Sources */,
+				8591BA1D152FB68F00628693 /* RailsServiceResponse.m in Sources */,
+				8591BA1E152FB68F00628693 /* RegistrationRootTableViewController.m in Sources */,
+				8591BA20152FB68F00628693 /* NSObject+SBJson.m in Sources */,
+				8591BA21152FB68F00628693 /* SBJsonParser.m in Sources */,
+				8591BA22152FB68F00628693 /* SBJsonStreamParser.m in Sources */,
+				8591BA23152FB68F00628693 /* SBJsonStreamParserAccumulator.m in Sources */,
+				8591BA24152FB68F00628693 /* SBJsonStreamParserAdapter.m in Sources */,
+				8591BA25152FB68F00628693 /* SBJsonStreamParserState.m in Sources */,
+				8591BA26152FB68F00628693 /* SBJsonStreamWriter.m in Sources */,
+				8591BA27152FB68F00628693 /* SBJsonStreamWriterAccumulator.m in Sources */,
+				8591BA28152FB68F00628693 /* SBJsonStreamWriterState.m in Sources */,
+				8591BA29152FB68F00628693 /* SBJsonTokeniser.m in Sources */,
+				8591BA2A152FB68F00628693 /* SBJsonUTF8Stream.m in Sources */,
+				8591BA2B152FB68F00628693 /* SBJsonWriter.m in Sources */,
+				8591BA38152FB68F00628693 /* StringValueDisplay.m in Sources */,
+				8591BA39152FB68F00628693 /* TableRowDetailEditController.m in Sources */,
+				8591BA3A152FB68F00628693 /* TableRowDetailEditDateController.m in Sources */,
+				8591BA3B152FB68F00628693 /* TableRowDetailEditSingleSelectionListController.m in Sources */,
+				8591BA3C152FB68F00628693 /* TableRowDetailEditStringController.m in Sources */,
+				8591BA3D152FB68F00628693 /* TextEntryTableViewCell.m in Sources */,
+				8591BA3F152FB68F00628693 /* YouponAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +635,22 @@
 				8591B977152FB63400628693 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8591B995152FB68F00628693 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8591B996152FB68F00628693 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8591B997152FB68F00628693 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8591B998152FB68F00628693 /* en */,
+			);
+			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -410,6 +774,7 @@
 				8591B980152FB63400628693 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8591B981152FB63400628693 /* Build configuration list for PBXNativeTarget "YouponTests" */ = {
 			isa = XCConfigurationList;
@@ -418,6 +783,7 @@
 				8591B983152FB63400628693 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
