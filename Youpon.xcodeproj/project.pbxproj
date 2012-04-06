@@ -64,6 +64,13 @@
 		85A09BAB13E9EF24008AC0F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85A09BA913E9EF24008AC0F3 /* InfoPlist.strings */; };
 		85A09BAE13E9EF24008AC0F3 /* YouponTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 85A09BAD13E9EF24008AC0F3 /* YouponTests.h */; };
 		85A09BB013E9EF24008AC0F3 /* YouponTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A09BAF13E9EF24008AC0F3 /* YouponTests.m */; };
+<<<<<<< master
+=======
+		85BC7630152E211A006A905E /* OfferDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BC762E152E211A006A905E /* OfferDetailTableViewController.m */; };
+		85BC7631152E211A006A905E /* OfferDetailTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BC762F152E211A006A905E /* OfferDetailTableViewController.xib */; };
+		85BC763A152FB3F2006A905E /* OfferRedeemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BC7638152FB3F2006A905E /* OfferRedeemViewController.m */; };
+		85BC763B152FB3F2006A905E /* OfferRedeemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85BC7639152FB3F2006A905E /* OfferRedeemViewController.xib */; };
+>>>>>>> local
 		85EFA02B142CF5C8002230EB /* RailsServiceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */; };
 		85EFA02E142CF5DC002230EB /* RailsServiceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA02D142CF5DC002230EB /* RailsServiceResponse.m */; };
 		85EFA031142D03E8002230EB /* RailsService.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EFA030142D03E8002230EB /* RailsService.m */; };
@@ -168,6 +175,15 @@
 		85A09BAC13E9EF24008AC0F3 /* YouponTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YouponTests-Prefix.pch"; sourceTree = "<group>"; };
 		85A09BAD13E9EF24008AC0F3 /* YouponTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YouponTests.h; sourceTree = "<group>"; };
 		85A09BAF13E9EF24008AC0F3 /* YouponTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YouponTests.m; sourceTree = "<group>"; };
+<<<<<<< master
+=======
+		85BC762D152E211A006A905E /* OfferDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferDetailTableViewController.h; sourceTree = "<group>"; };
+		85BC762E152E211A006A905E /* OfferDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferDetailTableViewController.m; sourceTree = "<group>"; };
+		85BC762F152E211A006A905E /* OfferDetailTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OfferDetailTableViewController.xib; sourceTree = "<group>"; };
+		85BC7637152FB3F2006A905E /* OfferRedeemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferRedeemViewController.h; sourceTree = "<group>"; };
+		85BC7638152FB3F2006A905E /* OfferRedeemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferRedeemViewController.m; sourceTree = "<group>"; };
+		85BC7639152FB3F2006A905E /* OfferRedeemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OfferRedeemViewController.xib; sourceTree = "<group>"; };
+>>>>>>> local
 		85EFA029142CF5C8002230EB /* RailsServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsServiceRequest.h; sourceTree = "<group>"; };
 		85EFA02A142CF5C8002230EB /* RailsServiceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RailsServiceRequest.m; sourceTree = "<group>"; };
 		85EFA02C142CF5DC002230EB /* RailsServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RailsServiceResponse.h; sourceTree = "<group>"; };
@@ -238,6 +254,11 @@
 			children = (
 				8596AB8113EC677E00878D01 /* LoginRootTableViewController.xib */,
 				8540D89013F4C0FF005367AA /* RegistrationRootTableViewController.xib */,
+<<<<<<< master
+=======
+				85BC762F152E211A006A905E /* OfferDetailTableViewController.xib */,
+				85BC7639152FB3F2006A905E /* OfferRedeemViewController.xib */,
+>>>>>>> local
 				856904691461C4C700172324 /* OffersRootTableViewController.xib */,
 				85A09B9813E9EF24008AC0F3 /* MainWindow.xib */,
 			);
@@ -318,6 +339,8 @@
 				8540D88F13F4C0FF005367AA /* RegistrationRootTableViewController.m */,
 				856904671461C4C700172324 /* OffersRootTableViewController.h */,
 				856904681461C4C700172324 /* OffersRootTableViewController.m */,
+				85BC7637152FB3F2006A905E /* OfferRedeemViewController.h */,
+				85BC7638152FB3F2006A905E /* OfferRedeemViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -504,6 +527,11 @@
 				8596AB8313EC677E00878D01 /* LoginRootTableViewController.xib in Resources */,
 				8540D89213F4C0FF005367AA /* RegistrationRootTableViewController.xib in Resources */,
 				8569046B1461C4C700172324 /* OffersRootTableViewController.xib in Resources */,
+<<<<<<< master
+=======
+				85BC7631152E211A006A905E /* OfferDetailTableViewController.xib in Resources */,
+				85BC763B152FB3F2006A905E /* OfferRedeemViewController.xib in Resources */,
+>>>>>>> local
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +597,11 @@
 				85EFA031142D03E8002230EB /* RailsService.m in Sources */,
 				856904651461BFD900172324 /* GroupedListTableViewController.m in Sources */,
 				8569046A1461C4C700172324 /* OffersRootTableViewController.m in Sources */,
+<<<<<<< master
+=======
+				85BC7630152E211A006A905E /* OfferDetailTableViewController.m in Sources */,
+				85BC763A152FB3F2006A905E /* OfferRedeemViewController.m in Sources */,
+>>>>>>> local
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
