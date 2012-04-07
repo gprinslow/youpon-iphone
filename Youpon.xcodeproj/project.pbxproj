@@ -10,7 +10,6 @@
 		8591B956152FB63400628693 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B955152FB63400628693 /* UIKit.framework */; };
 		8591B958152FB63400628693 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B957152FB63400628693 /* Foundation.framework */; };
 		8591B95A152FB63400628693 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B959152FB63400628693 /* CoreGraphics.framework */; };
-		8591B960152FB63400628693 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8591B95E152FB63400628693 /* InfoPlist.strings */; };
 		8591B962152FB63400628693 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B961152FB63400628693 /* main.m */; };
 		8591B96E152FB63400628693 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B96D152FB63400628693 /* SenTestingKit.framework */; };
 		8591B96F152FB63400628693 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8591B955152FB63400628693 /* UIKit.framework */; };
@@ -89,7 +88,6 @@
 		8591B957152FB63400628693 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8591B959152FB63400628693 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8591B95D152FB63400628693 /* Youpon-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Youpon-Info.plist"; sourceTree = "<group>"; };
-		8591B95F152FB63400628693 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8591B961152FB63400628693 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8591B963152FB63400628693 /* Youpon-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Youpon-Prefix.pch"; sourceTree = "<group>"; };
 		8591B96C152FB63400628693 /* YouponTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouponTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -249,7 +247,6 @@
 				8591BA44152FB73700628693 /* Categories */,
 				8591BA46152FB80B00628693 /* Classes */,
 				8591BA43152FB70200628693 /* Controllers */,
-				8591B994152FB68F00628693 /* en.lproj */,
 				8591BA42152FB6BB00628693 /* Images */,
 				85E6BB39152FB89D0035354D /* Interface */,
 				8591BA45152FB7EC00628693 /* Rails Service */,
@@ -262,8 +259,8 @@
 		8591B95C152FB63400628693 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8591B995152FB68F00628693 /* InfoPlist.strings */,
 				8591B95D152FB63400628693 /* Youpon-Info.plist */,
-				8591B95E152FB63400628693 /* InfoPlist.strings */,
 				8591B961152FB63400628693 /* main.m */,
 				8591B963152FB63400628693 /* Youpon-Prefix.pch */,
 			);
@@ -287,16 +284,6 @@
 				8591B976152FB63400628693 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8591B994152FB68F00628693 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				8591B995152FB68F00628693 /* InfoPlist.strings */,
-				8591B997152FB68F00628693 /* MainWindow.xib */,
-			);
-			name = en.lproj;
-			path = ../en.lproj;
 			sourceTree = "<group>";
 		};
 		8591B9B7152FB68F00628693 /* SBJSON */ = {
@@ -428,6 +415,7 @@
 		85E6BB39152FB89D0035354D /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				8591B997152FB68F00628693 /* MainWindow.xib */,
 				8591B9A1152FB68F00628693 /* LoginRootTableViewController.xib */,
 				8591B9A7152FB68F00628693 /* OfferDetailTableViewController.xib */,
 				8591B9AA152FB68F00628693 /* OfferRedeemViewController.xib */,
@@ -509,7 +497,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8591B960152FB63400628693 /* InfoPlist.strings in Resources */,
 				8591B9FC152FB68F00628693 /* 06-magnify.png in Resources */,
 				8591B9FD152FB68F00628693 /* 07-map-marker.png in Resources */,
 				8591B9FE152FB68F00628693 /* 15-tags.png in Resources */,
@@ -621,14 +608,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		8591B95E152FB63400628693 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8591B95F152FB63400628693 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		8591B976152FB63400628693 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -643,6 +622,7 @@
 				8591B996152FB68F00628693 /* en */,
 			);
 			name = InfoPlist.strings;
+			path = ../en.lproj;
 			sourceTree = "<group>";
 		};
 		8591B997152FB68F00628693 /* MainWindow.xib */ = {
@@ -651,6 +631,7 @@
 				8591B998152FB68F00628693 /* en */,
 			);
 			name = MainWindow.xib;
+			path = en.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

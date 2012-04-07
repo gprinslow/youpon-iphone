@@ -13,11 +13,15 @@
 
 #import "RailsService.h"
 
+#import "OfferDetailTableViewController.h"
+
 @interface OffersRootTableViewController : GroupedListTableViewController <UIAlertViewDelegate> {
     
     //Added for service calls
     RailsServiceRequest *offersServiceRequest;
     RailsServiceResponse *offersServiceResponse;
+    
+    OfferDetailTableViewController *offerDetailTableViewController;
 }
 
 -(void)refreshResults;
