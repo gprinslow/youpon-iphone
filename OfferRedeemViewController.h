@@ -41,7 +41,7 @@
 
 
 //Interface
--(void)refreshInterfaceFor:(NSString *)message isSuccess:(BOOL)success;
+-(void)refreshInterfaceFor:(NSString *)validatingStatusMessage successDetailMessage:(NSString *)successDetailMessage failureDetailMessage:(NSString *)failureDetailMessage isSuccess:(BOOL)isSuccess;
 
 //Alert view
 - (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;

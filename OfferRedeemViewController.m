@@ -12,6 +12,8 @@
 UIAlertView *__offerRedeemErrorAlertView;
 
 
+static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VALIDATION_NOTIFICATION";
+
 @implementation OfferRedeemViewController
 
 @synthesize actValidatingActivityIndicator;
@@ -46,6 +48,8 @@ UIAlertView *__offerRedeemErrorAlertView;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.title = @"";
+    
     [lblValidatingStatusMessage setText:@"Validating with retailer..."];
     [lblValidatingStatusMessage setHidden:FALSE];
     
@@ -57,6 +61,15 @@ UIAlertView *__offerRedeemErrorAlertView;
     
     [lblBackMessage setText:@"To look for more offers, use the back button"];
     
+    
+    //Service-related
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(validateOfferResponseReceived) 
+     name:RAILS_CREATE_VALIDATION_NOTIFICATION
+     object:nil];
+    
+    //Automatically start validation
     [self performSelector:@selector(validateRedemptionRequest) withObject:nil afterDelay:0.5];
 }
 
