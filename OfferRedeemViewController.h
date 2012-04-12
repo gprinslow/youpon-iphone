@@ -7,7 +7,43 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RailsService.h"
 
-@interface OfferRedeemViewController : UIViewController
+@interface OfferRedeemViewController : UIViewController <UIAlertViewDelegate> {
+    NSMutableDictionary *data;
+    
+    RailsServiceRequest *offerValidateServiceRequest;
+    RailsServiceRequest *offerValidateServiceResponse;
+    
+    UIActivityIndicatorView *actValidatingActivityIndicator;    
+    UILabel *lblValidatingStatusMessage;
+    UILabel *lblSuccessMessage;
+    UILabel *lblSuccessDetailMessage;
+    UILabel *lblFailureMessage;
+    UILabel *lblFailureDetailMessage;
+    UILabel *lblBackMessage;
+}
+
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actValidatingActivityIndicator;
+@property (nonatomic, retain) IBOutlet UILabel *lblValidatingStatusMessage;
+@property (nonatomic, retain) IBOutlet UILabel *lblSuccessMessage;
+@property (nonatomic, retain) IBOutlet UILabel *lblSuccessDetailMessage;
+@property (nonatomic, retain) IBOutlet UILabel *lblFailureMessage;
+@property (nonatomic, retain) IBOutlet UILabel *lblFailureDetailMessage;
+@property (nonatomic, retain) IBOutlet UILabel *lblBackMessage;
+
+
+//Action methods
+-(IBAction)validateRedemptionRequest:(id)sender;
+
+//Service response delegate
+-(void)validateOfferResponseReceived;
+
+
+//Interface
+-(void)refreshInterfaceFor:(NSString *)message isSuccess:(BOOL)success;
+
+//Alert view
+- (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
 
 @end
