@@ -16,6 +16,7 @@
 NSString *const RAILS_MODEL_USERS = @"users";
 NSString *const RAILS_MODEL_OFFERS = @"offers";
 NSString *const RAILS_MODEL_SESSIONS = @"sessions";
+NSString *const RAILS_MODEL_VALIDATIONS = @"validations";
 
 /*
  * Private constants
@@ -39,6 +40,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
 #define kUsersModel 0
 #define kOffersModel 1
 #define kSessionsModel 2
+#define kValidationsModel 3
 
 //Actions
 #define kActionGETindex 0

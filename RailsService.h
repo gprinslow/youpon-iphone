@@ -19,6 +19,7 @@
 extern NSString *const RAILS_MODEL_USERS;
 extern NSString *const RAILS_MODEL_OFFERS;
 extern NSString *const RAILS_MODEL_SESSIONS;
+extern NSString *const RAILS_MODEL_VALIDATIONS;
 
 
 @interface RailsService : NSObject {

@@ -13,7 +13,7 @@
     NSMutableDictionary *data;
     
     RailsServiceRequest *offerValidateServiceRequest;
-    RailsServiceRequest *offerValidateServiceResponse;
+    RailsServiceResponse *offerValidateServiceResponse;
     
     UIActivityIndicatorView *actValidatingActivityIndicator;    
     UILabel *lblValidatingStatusMessage;
@@ -22,6 +22,7 @@
     UILabel *lblFailureMessage;
     UILabel *lblFailureDetailMessage;
     UILabel *lblBackMessage;
+    
 }
 
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actValidatingActivityIndicator;
