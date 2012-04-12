@@ -18,6 +18,8 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
 
 @implementation OfferRedeemViewController
 
+@synthesize data;
+
 @synthesize actValidatingActivityIndicator;
 @synthesize lblValidatingStatusMessage;
 @synthesize lblSuccessMessage;
@@ -126,7 +128,9 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
     }
     else {
         //Successful validation
-        [self refreshInterfaceFor:@"Validation succeeded..." successDetailMessage:@"Your request has been validated" failureDetailMessage:nil isSuccess:TRUE];
+        [data setValue:[offerValidateServiceResponse responseData] forKey:@"validation"];
+        
+        [self refreshInterfaceFor:@"Validation succeeded..." successDetailMessage:@"Your request has been validated." failureDetailMessage:nil isSuccess:TRUE];
         
         [actValidatingActivityIndicator stopAnimating];
     }

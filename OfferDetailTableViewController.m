@@ -7,8 +7,12 @@
 //
 
 #import "OfferDetailTableViewController.h"
+#import "YouponAppDelegate.h"
 
 UIAlertView *__offerDetailErrorAlertView;
+UIAlertView *__activityAlertView;
+
+static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUEST_NOTIFICATION";
 
 @implementation OfferDetailTableViewController
 
@@ -168,6 +172,15 @@ UIAlertView *__offerDetailErrorAlertView;
                                               style:UIBarButtonItemStyleDone 
                                               target:self 
                                               action:@selector(redeemOffer:)];
+    
+    actRequestingRedemptionActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    //Service delegate
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(redemptionRequestResponseReceived) 
+     name:RAILS_CREATE_REQUEST_NOTIFICATION
+     object:nil];
 }
 
 - (void)viewDidUnload
@@ -293,9 +306,75 @@ UIAlertView *__offerDetailErrorAlertView;
 }
 
 #pragma mark - UI Action methods
+//Intercepts button action
 -(IBAction)redeemOffer:(id)sender {
-    //TODO: fill in redeemOffer - instantiate validateController & push
     NSLog(@"Offer redemption initiated");
+    
+    __activityAlertView = [[UIAlertView alloc] initWithFrame:CGRectMake(150, 150, 16, 16)];
+    [__activityAlertView addSubview:actRequestingRedemptionActivityIndicator];
+    [actRequestingRedemptionActivityIndicator startAnimating];
+    [__activityAlertView show];
+    [__activityAlertView release];
+    
+    [self performSelector:@selector(createRedemptionRequest) withObject:nil afterDelay:0.5];
+}
+
+-(IBAction)createRedemptionRequest:(id)sender {
+    
+    //Call service
+    
+    offerRedemptionRequest = [[RailsServiceRequest alloc] init];
+    offerRedemptionResponse = [[RailsServiceResponse alloc] init];
+    
+    offerRedemptionRequest.requestActionCode = 4; //POST-create
+    offerRedemptionRequest.requestModel = RAILS_MODEL_REQUESTS;
+    offerRedemptionRequest.requestResponseNotificationName = RAILS_CREATE_REQUEST_NOTIFICATION;
+    [offerRedemptionRequest.requestData setValue:data forKey:@"request"];
+    
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([[delegate railsService] callServiceWithRequest:offerRedemptionRequest andResponsePointer:offerRedemptionResponse]) {
+        NSLog(@"Called CreateRequest");
+    }
+    else {
+        NSLog(@"Call to CreateRequest failed");
+    }
+}
+
+//Service response delegate
+-(void)redemptionRequestResponseReceived {
+    //TODO: fill in redeemOffer - instantiate validateController & push
+    
+    NSLog(@"CreateRequest-ResponseReceived");
+    
+    for (id item in offerRedemptionResponse.responseData) {
+        NSLog(@"Response Item: %@", item);
+    }
+    
+    if ([offerRedemptionResponse.responseData objectForKey:@"errors"]) {
+        NSString *errorMessage = (NSString *)[[[offerRedemptionResponse responseData] objectForKey:@"errors"] objectForKey:@"error"];
+        
+        NSLog(@"Error Response: %@", errorMessage);
+        
+        [actRequestingRedemptionActivityIndicator stopAnimating];
+        [__activityAlertView removeFromSuperview];
+        
+        [self alertViewForError:errorMessage title:@"Request Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
+    else {
+        //Successful request
+        [data setValue:[offerRedemptionResponse responseData] forKey:@"request"];
+        
+        [actRequestingRedemptionActivityIndicator stopAnimating];
+        [__activityAlertView removeFromSuperview];
+        
+        offerRedeemViewController = [[OfferRedeemViewController alloc] initWithNibName:@"OfferRedeemViewController" bundle:nil];
+        
+        //TODO: evaluate whether this should be pointer instead
+        offerRedeemViewController.data = [[NSMutableDictionary alloc] initWithDictionary:data copyItems:YES];
+        
+        [self.navigationController pushViewController:offerRedeemViewController animated:YES];
+    }
 }
 
 #pragma mark - Alert view methods

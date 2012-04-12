@@ -25,6 +25,8 @@
     
 }
 
+@property (nonatomic, retain) NSMutableDictionary *data;
+
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *actValidatingActivityIndicator;
 @property (nonatomic, retain) IBOutlet UILabel *lblValidatingStatusMessage;
 @property (nonatomic, retain) IBOutlet UILabel *lblSuccessMessage;
