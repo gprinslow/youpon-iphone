@@ -30,9 +30,9 @@
 
 //Action methods
 -(IBAction)redeemOffer:(id)sender;
--(IBAction)createRedemptionRequest:(id)sender;
 
 //Service response delegate
+-(void)createRedemptionRequest;
 -(void)redemptionRequestResponseReceived;
 
 //Alert view

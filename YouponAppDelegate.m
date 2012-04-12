@@ -36,12 +36,15 @@
     //Set root tab bar controller as window's root view controller
     self.window.rootViewController = self.rootTabBarController;
     
-    
-    //Present the LoginView - modally
-    [self.rootTabBarController presentModalViewController:self.loginNavigationController animated:YES];
+    [self performSelector:@selector(presentDelayedModalViewController) withObject:nil afterDelay:0.1];
     
     [self.window makeKeyAndVisible];
     return YES;
+}
+
+- (void)presentDelayedModalViewController {
+    //Present the LoginView - modally
+    [self.rootTabBarController presentModalViewController:self.loginNavigationController animated:YES];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -31,8 +31,8 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
-//Custom methods - Service Calls??
-
+//Custom methods
+- (void)presentDelayedModalViewController;
 
 
 @end

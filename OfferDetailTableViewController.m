@@ -319,7 +319,7 @@ static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUES
     [self performSelector:@selector(createRedemptionRequest) withObject:nil afterDelay:0.5];
 }
 
--(IBAction)createRedemptionRequest:(id)sender {
+-(void)createRedemptionRequest {
     
     //Call service
     
