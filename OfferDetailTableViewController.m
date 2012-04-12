@@ -173,8 +173,6 @@ static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUES
                                               target:self 
                                               action:@selector(redeemOffer:)];
     
-    actRequestingRedemptionActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
     //Service delegate
     [[NSNotificationCenter defaultCenter] 
      addObserver:self 
@@ -310,8 +308,12 @@ static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUES
 -(IBAction)redeemOffer:(id)sender {
     NSLog(@"Offer redemption initiated");
     
-    __activityAlertView = [[UIAlertView alloc] initWithFrame:CGRectMake(150, 150, 16, 16)];
+    __activityAlertView = [[UIAlertView alloc] initWithTitle:@"One moment..." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    actRequestingRedemptionActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+
+    [__activityAlertView setFrame:CGRectMake(180.0f, 180.0f, 24.0f, 24.0f)];
     [__activityAlertView addSubview:actRequestingRedemptionActivityIndicator];
+    
     [actRequestingRedemptionActivityIndicator startAnimating];
     [__activityAlertView show];
     [__activityAlertView release];
