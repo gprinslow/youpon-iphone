@@ -26,9 +26,10 @@ NSString *const RAILS_MODEL_VALIDATIONS = @"validations";
 static NSString *const UNSECURE_SERVER_URL = @"http://0.0.0.0:3000/";
 static NSString *const SECURE_SERVER_URL = @"https://0.0.0.0:3001/";
 static NSString *const REQUEST_URL_EXTENSION = @".json";
-static NSString *const REQUEST_HTTP_HEADER_FIELD = @"Content-Type";
+static NSString *const REQUEST_HTTP_HEADER_FIELD_CONTENT = @"Content-Type";
+static NSString *const REQUEST_HTTP_HEADER_FIELD_ACCEPTS = @"Accepts";
 static NSString *const REQUEST_HTTP_HEADER_FIELD_LENGTH = @"Content-Length";
-static NSString *const REQUEST_HTTP_HEADER_FIELD_VALUE = @"application/json";
+static NSString *const REQUEST_HTTP_HEADER_FIELD_JSON_VALUE = @"application/json";
 static NSString *const REQUEST_HTTP_HEADER_FIELD_COOKIE = @"Cookie";
 static NSString *const HTTP_GET = @"GET";
 static NSString *const HTTP_POST = @"POST";
@@ -80,10 +81,10 @@ static NSString *const HTTP_DELETE = @"DELETE";
     self = [super init];
     if (self) {
         if (kUseSecureServerURL == 1) {
-            self.requestServerURLString = [[NSString alloc] initWithString:SECURE_SERVER_URL];
+            _requestServerURLString = [[NSString alloc] initWithString:SECURE_SERVER_URL];
         }
         else {
-            self.requestServerURLString = [[NSString alloc] initWithString:UNSECURE_SERVER_URL];
+            _requestServerURLString = [[NSString alloc] initWithString:UNSECURE_SERVER_URL];
         }
     }
     return self;
@@ -133,23 +134,23 @@ static NSString *const HTTP_DELETE = @"DELETE";
     switch (railsServiceRequest.requestActionCode) {
         case kActionGETindex:
             action = [[NSString alloc] initWithString:@""];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
+            _requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
             break;
         case kActionGETshow:
-            action = [[NSString alloc] initWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
+            action = [[NSString alloc] initWithFormat:@"/%@", [railsServiceRequest.requestData objectForKey:@"id"]];
+            _requestHTTPMethod = [[NSString alloc] initWithString:HTTP_GET];
             break;
         case kActionPOSTcreate:
             action = [[NSString alloc] initWithString:@""];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_POST];
+            _requestHTTPMethod = [[NSString alloc] initWithString:HTTP_POST];
             break;
         case kActionPUTupdate:
-            action = [[NSString alloc] initWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_PUT];
+            action = [[NSString alloc] initWithFormat:@"/%@", [railsServiceRequest.requestData objectForKey:@"id"]];
+            _requestHTTPMethod = [[NSString alloc] initWithString:HTTP_PUT];
             break;
         case kActionDELETEdestroy:
-            action = [[NSString alloc] initWithFormat:@"/%@", [[railsServiceRequest requestData] objectForKey:@"id"]];
-            self.requestHTTPMethod = [[NSString alloc] initWithString:HTTP_DELETE];
+            action = [[NSString alloc] initWithFormat:@"/%@", [railsServiceRequest.requestData objectForKey:@"id"]];
+            _requestHTTPMethod = [[NSString alloc] initWithString:HTTP_DELETE];
             break;
         default:
             break;
@@ -159,25 +160,26 @@ static NSString *const HTTP_DELETE = @"DELETE";
      * URL and MutableURL Request
      */
     //Set Action URL String
-    self.requestActionURLString = [NSString stringWithFormat:@"%@%@", [railsServiceRequest requestModel], action];
+    _requestActionURLString = [NSString stringWithFormat:@"%@%@", railsServiceRequest.requestModel, action];
     
     //Set Full URL
-    self.requestURLString = [NSString stringWithFormat:@"%@%@%@", [self requestServerURLString], [self requestActionURLString], REQUEST_URL_EXTENSION];
-    self.requestURL = [NSURL URLWithString:[self requestURLString]];
+    _requestURLString = [NSString stringWithFormat:@"%@%@%@", _requestServerURLString, _requestActionURLString, REQUEST_URL_EXTENSION];
+    _requestURL = [NSURL URLWithString:_requestURLString];
     
     //Set Mutable URL Request
-    self.requestMutableURLRequest = [NSMutableURLRequest requestWithURL:[self requestURL]];
+    _requestMutableURLRequest = [NSMutableURLRequest requestWithURL:_requestURL];
     
     //Set (CONSTANT) Mutable Request Parameters
-    [[self requestMutableURLRequest] setValue:REQUEST_HTTP_HEADER_FIELD_VALUE forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD];
+    [_requestMutableURLRequest addValue:REQUEST_HTTP_HEADER_FIELD_JSON_VALUE forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD_CONTENT];
+    [_requestMutableURLRequest addValue:REQUEST_HTTP_HEADER_FIELD_JSON_VALUE forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD_ACCEPTS];
     
     //Set Method Parameter (as determined above)
-    [[self requestMutableURLRequest] setHTTPMethod:[self requestHTTPMethod]];
+    [_requestMutableURLRequest setHTTPMethod:_requestHTTPMethod];
     
     //IF AppDelegate.sessionToken is set, set for HTTPHeaderField Cookie
     YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
     if (delegate.sessionToken != nil) {
-        [[self requestMutableURLRequest] setValue:delegate.sessionToken forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD_COOKIE];
+        [_requestMutableURLRequest addValue:delegate.sessionToken forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD_COOKIE];
     }
     
     
@@ -192,14 +194,14 @@ static NSString *const HTTP_DELETE = @"DELETE";
     if (railsServiceRequest.requestActionCode == kActionGETindex 
         || railsServiceRequest.requestActionCode == kActionGETshow) {
         
-        return [self sendRailsServiceRequest:railsServiceRequest mutableURLRequest:[self requestMutableURLRequest]];
+        return [self sendRailsServiceRequest:railsServiceRequest mutableURLRequest:_requestMutableURLRequest];
     } 
     else if (railsServiceRequest.requestActionCode == kActionPOSTcreate 
              || railsServiceRequest.requestActionCode == kActionPUTupdate 
              || railsServiceRequest.requestActionCode == kActionDELETEdestroy) {
         
         return [self sendRailsServiceRequest:railsServiceRequest 
-                           mutableURLRequest:[self requestMutableURLRequest] 
+                           mutableURLRequest:_requestMutableURLRequest 
                        requestHTTPParameters:[railsServiceRequest.requestData JSONRepresentation]];
     }
     else {
@@ -215,10 +217,10 @@ static NSString *const HTTP_DELETE = @"DELETE";
  */
 - (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest {
 
-    self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
+    _requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
     
-    if (self.requestURLConnection != nil) {
-        self.responseData = [[NSMutableData alloc] init];
+    if (_requestURLConnection != nil) {
+        _responseData = [[NSMutableData alloc] init];
         return TRUE;
     }
     return FALSE;
@@ -228,18 +230,18 @@ static NSString *const HTTP_DELETE = @"DELETE";
  * Used for POST/PUT/DELETE
  */
 - (BOOL)sendRailsServiceRequest:(RailsServiceRequest *)railsServiceRequest mutableURLRequest:(NSMutableURLRequest *)mutableURLRequest requestHTTPParameters:(NSString *)requestHTTPParameters {
+
+    _requestJSONData = [[NSData alloc] initWithData:[requestHTTPParameters dataUsingEncoding:NSUTF8StringEncoding]];
     
-    self.requestJSONData = [[NSData alloc] initWithData:[requestHTTPParameters dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [mutableURLRequest setValue:[[NSNumber numberWithInt:[self.requestJSONData length]] stringValue] 
+    [mutableURLRequest setValue:[[NSNumber numberWithInt:[_requestJSONData length]] stringValue] 
              forHTTPHeaderField:REQUEST_HTTP_HEADER_FIELD_LENGTH];
     
-    [mutableURLRequest setHTTPBody:[self requestJSONData]];    
+    [mutableURLRequest setHTTPBody:_requestJSONData];    
     
-    self.requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
+    _requestURLConnection = [NSURLConnection connectionWithRequest:mutableURLRequest delegate:self];
     
-    if (self.requestURLConnection != nil) {
-        self.responseData = [[NSMutableData alloc] init];
+    if (_requestURLConnection != nil) {
+        _responseData = [[NSMutableData alloc] init];
         return TRUE;
     }
     return FALSE;
@@ -261,7 +263,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
     //Upon response - clear existing data
-    [self.responseData setLength:0];
+    [_responseData setLength:0];
     
     //ONLY for Session Model -- Stores Session Cookie in App Delegate
     if (__railsServiceRequest.requestActionCode == kActionPOSTcreate) {
@@ -287,7 +289,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)newData {
     //Upon data reception - append the data
-    [self.responseData appendData:newData];
+    [_responseData appendData:newData];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -301,7 +303,7 @@ static NSString *const HTTP_DELETE = @"DELETE";
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     
     //Data to responseString
-    __railsServiceResponse.responseString = [[NSString alloc] initWithData:[self responseData] encoding:NSUTF8StringEncoding];
+    __railsServiceResponse.responseString = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
     
     //Temporary jsonParser
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
