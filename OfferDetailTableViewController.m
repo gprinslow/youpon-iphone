@@ -323,17 +323,22 @@ static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUES
 
 -(void)createRedemptionRequest {
     
-    //Call service
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
     
+    //Call service
     offerRedemptionRequest = [[RailsServiceRequest alloc] init];
     offerRedemptionResponse = [[RailsServiceResponse alloc] init];
     
     offerRedemptionRequest.requestActionCode = 4; //POST-create
     offerRedemptionRequest.requestModel = RAILS_MODEL_REQUESTS;
     offerRedemptionRequest.requestResponseNotificationName = RAILS_CREATE_REQUEST_NOTIFICATION;
-    [offerRedemptionRequest.requestData setValue:data forKey:@"request"];
+    [offerRedemptionRequest.requestData setValue:data forKey:@"offer"];
+    [offerRedemptionRequest.requestData setValue:[delegate currentUser] forKey:@"user"];
     
-    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    //TODO: remove debug statement
+    for (id item in offerRedemptionRequest.requestData) {
+        NSLog(@"Request Data: %@", item);
+    }
     
     if ([[delegate railsService] callServiceWithRequest:offerRedemptionRequest andResponsePointer:offerRedemptionResponse]) {
         NSLog(@"Called CreateRequest");
