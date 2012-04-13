@@ -754,7 +754,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
             //* store the currentUser in App Delegate
             
             delegate.currentUser = [[NSDictionary alloc] 
-                                    initWithDictionary:[registerServiceResponse.responseData objectForKey:@"user"] copyItems:TRUE];
+                                    initWithDictionary:[registerServiceResponse.responseData objectForKey:@"items"] copyItems:TRUE];
             
             NSLog(@"Fully successful registration");
             

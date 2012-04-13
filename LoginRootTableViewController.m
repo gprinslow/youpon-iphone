@@ -813,7 +813,7 @@ UIAlertView *__loginErrorAlertView;
             //* store the currentUser in App Delegate
             
             delegate.currentUser = [[NSDictionary alloc] 
-                                    initWithDictionary:[loginServiceResponse.responseData objectForKey:@"user"] copyItems:TRUE];
+                                    initWithDictionary:[loginServiceResponse.responseData objectForKey:@"items"] copyItems:TRUE];
             
             NSLog(@"Fully successful login");
             
