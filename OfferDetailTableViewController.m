@@ -333,7 +333,8 @@ static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUES
     offerRedemptionRequest.requestModel = RAILS_MODEL_REQUESTS;
     offerRedemptionRequest.requestResponseNotificationName = RAILS_CREATE_REQUEST_NOTIFICATION;
     [offerRedemptionRequest.requestData setValue:data forKey:@"offer"];
-    [offerRedemptionRequest.requestData setValue:[delegate currentUser] forKey:@"user"];
+    [offerRedemptionRequest.requestData setValue:[[delegate currentUser] valueForKey:@"user"] forKey:@"user"];
+    [offerRedemptionRequest.requestData setValue:[[delegate currentUser] valueForKey:@"customer"] forKey:@"customer"];
     
     //TODO: remove debug statement
     for (id item in offerRedemptionRequest.requestData) {
