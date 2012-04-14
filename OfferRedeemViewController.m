@@ -199,7 +199,7 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
         
         //Call validation service with keycode
         //Retrieve value & set in data dictionary
-        [data setValue:[[alertView textFieldAtIndex:0] text] forKey:@"keycode_entry"];
+        [data setValue:[[alertView textFieldAtIndex:0] text] forKey:@"key_entry"];
         
         offerValidateServiceRequest = [[RailsServiceRequest alloc] init];
         offerValidateServiceResponse = [[RailsServiceResponse alloc] init];
@@ -207,7 +207,7 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
         offerValidateServiceRequest.requestActionCode = 4; //POST-Create
         offerValidateServiceRequest.requestModel = RAILS_MODEL_VALIDATIONS;
         offerValidateServiceRequest.requestResponseNotificationName = RAILS_CREATE_VALIDATION_NOTIFICATION;
-        [offerValidateServiceRequest.requestData setValue:data forKey:@"validation"];
+        [offerValidateServiceRequest.requestData setValue:data forKey:@"validation_request"];
         
         YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
         
