@@ -99,7 +99,7 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
 
 #pragma mark - Service Actions
 //Service initiator
--(IBAction)validateRedemptionRequest:(id)sender {
+-(void)validateRedemptionRequest {
     NSLog(@"Offer validation initiated");
     
     [__validationKeycodeInputAlertView show];

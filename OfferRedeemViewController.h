@@ -37,7 +37,7 @@
 
 
 //Action methods
--(IBAction)validateRedemptionRequest:(id)sender;
+-(void)validateRedemptionRequest;
 
 //Service response delegate
 -(void)validateOfferResponseReceived;
