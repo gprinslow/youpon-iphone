@@ -81,7 +81,12 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
     //Automatically start validation
     [actValidatingActivityIndicator startAnimating];
     
-    [self alertViewForKeycode:nil message:@"Ask retailer to validate now" title:@"Request Validation" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Submit"];
+    if ((int)[data valueForKey:@"validation_required"] == TRUE) {
+        [self alertViewForKeycode:nil message:@"Ask retailer to validate now" title:@"Request Validation" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Submit"];
+    }
+    else {
+        [self validateRedemptionRequest];
+    }
 }
 
 - (void)viewDidUnload
@@ -235,9 +240,10 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
         }
         else {
             //Cancel
-            //TODO: improve cancel behavior
-            [alertView removeFromSuperview];
-            [alertView dismissWithClickedButtonIndex:buttonIndex animated:TRUE];
+            [actValidatingActivityIndicator stopAnimating];
+            [actValidatingActivityIndicator setHidden:TRUE];
+            [lblValidatingStatusMessage setText:@"Validation cancelled."];
+            [lblValidatingStatusMessage setHidden:FALSE];
         }
     }
     else {
