@@ -26,7 +26,8 @@
         //Y-Coord of origin point
         CGFloat y = 10.0f;
         //Width of rectangle
-        CGFloat width = (self.frame.size.width - x - self.indentationWidth);
+        CGFloat xbuffer = 10.0f;
+        CGFloat width = (self.frame.size.width - x - self.indentationWidth - xbuffer);
         //Height of rectangle
         CGFloat height = 24.0f;
         
