@@ -7,21 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GroupedEditTableViewController.h"      //OK
-#import "TextEntryTableViewCell.h"              //OK
-#import "NSArray+NestedArray.h"                 //OK
-#import "StringValueDisplay.h"                  //OK
-#import "TableRowDetailEditController.h"        //OK
-#import "TextEntryTableViewCell.h"              //OK
+#import "GroupedEditTableViewController.h"
+#import "TextEntryTableViewCell.h"
+#import "NSArray+NestedArray.h"
+#import "StringValueDisplay.h"
+#import "TableRowDetailEditController.h"
+#import "TextEntryTableViewCell.h"
 
 #import "RailsService.h"
-#import "RegistrationRootTableViewController.h" //??
+#import "RegistrationRootTableViewController.h"
 
 
 @interface LoginRootTableViewController : GroupedEditTableViewController {
     UITextField *txfEmail;
     UITextField *txfPassword;
-    UITextField *txfPin;
     UIButton *btnLogin;
     UIActivityIndicatorView *aivLogin;
     UISwitch *swtRememberMe;
@@ -39,7 +38,6 @@
 
 - (IBAction)emailEditingDidEndOnExit:(id)sender;
 - (IBAction)passwordEditingDidEndOnExit:(id)sender;
-- (IBAction)pinEditingDidEndOnExit:(id)sender;
 - (IBAction)rememberMeSwitchValueChanged:(id)sender;
 - (IBAction)textfieldValueChanged:(UITextField *)source;
 
