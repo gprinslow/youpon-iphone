@@ -581,7 +581,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         registerServiceRequest.requestActionCode = 4; //POST
         registerServiceRequest.requestModel = RAILS_MODEL_USERS;
         registerServiceRequest.requestResponseNotificationName = RAILS_CREATE_USER_NOTIFICATION;
-        [registerServiceRequest.requestData setValue:self.data forKey:@"user"];
+        [registerServiceRequest.requestData setValue:data forKey:@"user"];
         
         //Call rails service singleton - see "...ResponseReceived" method
         YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
