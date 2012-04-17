@@ -12,7 +12,6 @@
 #define kEmailCellTag 1
 #define kPasswordCellTag 2
 #define kPasswordConfirmCellTag 3
-#define kPinCellTag 4
 #define kRememberMeCellTag 6
 
 #define kNameCellTag 7
@@ -34,14 +33,13 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
 {
     self = [super initWithStyle:style];
     if (self) {
-        //Custom initialization (which doesn't seem to happen!!)
+        //Custom initialization
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [rowPlaceholders release];
     [super dealloc];
 }
 
@@ -85,12 +83,11 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
     
     rowLabels = [[NSArray alloc] initWithObjects:
                  
-                 //Section 1 - Login
+                 //Section 1 - Login (4)
                  [NSArray arrayWithObjects:
                   NSLocalizedString(@"Email*", @"Email*"),
                   NSLocalizedString(@"Password*", @"Password*"),
                   NSLocalizedString(@"Confirm*", @"Confirm*"),
-                  NSLocalizedString(@"PIN", @"PIN"),
                   NSLocalizedString(@"Remember Me*", @"Remember Me*"),
                   nil],
                  
@@ -119,7 +116,6 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                   @"email",
                   @"password",
                   @"password_confirmation",
-                  @"pin",
                   @"rememberMe",
                   nil],
                  
@@ -148,8 +144,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                            @"Enter an email",
                            @"Enter a password",
                            @"Confirm password",
-                           @"Enter a PIN for quick login",
-                           @"Remember your login info",
+                           @"Remember your email",
                            nil],
                           
                           //Section 2 - Name
@@ -174,7 +169,6 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                
                //Section 1 - Login
                [NSArray arrayWithObjects:
-                @"TextEntryTableViewCell",
                 @"TextEntryTableViewCell",
                 @"TextEntryTableViewCell",
                 @"TextEntryTableViewCell",
@@ -203,7 +197,6 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                       
                       //Section 1 - Login
                       [NSArray arrayWithObjects:
-                       [NSNull null],
                        [NSNull null],
                        [NSNull null],
                        [NSNull null],
@@ -341,15 +334,6 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                 cell.tag = kPasswordConfirmCellTag;
                 txfPasswordConfirm = cell.textField;
                 txfPasswordConfirm.secureTextEntry = TRUE;
-            }
-            else if ([rowKey isEqualToString:@"pin"]) {
-                cell.tag = kPinCellTag;
-                txfPin = cell.textField;
-                txfPin.secureTextEntry = TRUE;
-            }
-            else if ([rowKey isEqualToString:@"email"]) {
-                cell.tag = kEmailCellTag;
-                txfEmail = cell.textField;
             }
             else if ([rowKey isEqualToString:@"name"]) {
                 cell.tag = kNameCellTag;
@@ -502,8 +486,6 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
             }
             
             [self.navigationController pushViewController:controller animated:YES];
-            
-            [controller release];
         }
     }
 }
@@ -536,14 +518,13 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
 
 - (IBAction)rememberMeSwitchValueChanged:(id)sender {
     if (![swtRememberMe isOn]) {
-        [txfPin setText:@""];
-        [txfPin setPlaceholder:@"Disabled"];
-        [txfPin setEnabled:FALSE];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        
+        [userDefaults setBool:FALSE forKey:@"rememberMe"];        
+        [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
+        [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
     }
-    else {
-        [txfPin setPlaceholder:@"Enter a PIN for quick login"];
-        [txfPin setEnabled:TRUE];
-    }
+    //Else take no action
 }
 
 - (IBAction)textfieldValueChanged:(UITextField *)source {
@@ -557,9 +538,6 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
             break;
         case kPasswordConfirmCellTag:
             [self.data setValue:source.text forKey:@"password_confirmation"];
-            break;
-        case kPinCellTag:
-            [self.data setValue:source.text forKey:@"pin"];
             break;
         case kNameCellTag:
             [self.data setValue:source.text forKey:@"name"];
@@ -642,16 +620,11 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         
-        [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
         [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
-        
         [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
-        [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
-        [userDefaults setValue:@"" forKey:@"authenticatedPin"];
         
         txfPassword.text = @"";
         txfPasswordConfirm.text = @"";
-        txfPin.text = @"";
         
         [self alertViewForError:errorMessage title:@"Registration Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
@@ -660,34 +633,14 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
     }
     //*          3)b: if success, do the following:
     else {
-        /* IF rememberMe isOn: store authenticated user (+pass and pin if not blank)
+        /* IF rememberMe isOn: store authenticated user email
          */                  
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
+  
         if (rememberMe) {            
-            
             [userDefaults setBool:TRUE forKey:@"hasAuthenticated"];
             [userDefaults setValue:[self.data objectForKey:@"email"] forKey:@"authenticatedEmail"];
-            
-            //IF entered PIN was not blank, then store it, and store password
-            if ([userDefaults objectForKey:@"lastEnteredPin"] && ![[userDefaults objectForKey:@"lastEnteredPin"] isEqualToString:@""]) {
-                
-                [userDefaults setBool:TRUE forKey:@"hasEstablishedPin"];
-                [userDefaults setValue:[userDefaults objectForKey:@"lastEnteredPin"] forKey:@"authenticatedPin"];
-                
-                [userDefaults setValue:[self.data objectForKey:@"password"] forKey:@"authenticatedPassword"];
-                
-                
-                NSLog(@"%@", [userDefaults objectForKey:@"lastEnteredPin"]);
-                
-                NSLog(@"%i", [userDefaults boolForKey:@"hasEstablishedPin"]);
-                NSLog(@"%i", [userDefaults boolForKey:@"hasAuthenticated"]);
-                
-                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedEmail"]);
-                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedPassword"]);
-                NSLog(@"%@", [userDefaults objectForKey:@"authenticatedPin"]);
-                
-            }
         }
      
         /*
@@ -773,7 +726,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
             
             [aivRegister stopAnimating];
             
-            [self alertViewForError:@"Session token was not received" title:@"Login Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self alertViewForError:@"Could not create session" title:@"Login Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         }
     }
 }
@@ -790,50 +743,17 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
     //IF swtRememberMe isOn then save that
     if ([swtRememberMe isOn]) {
         [userDefaults setBool:TRUE forKey:@"rememberMe"];
-        
-        [userDefaults setValue:txfPin.text forKey:@"lastEnteredPin"];
     }
     //IF defaults.rememberMe is TRUE and swtRememberMe is FALSE then delete authenticated info
     else if (rememberMe && ![swtRememberMe isOn]) {
-        
-        [userDefaults setBool:FALSE forKey:@"hasEstablishedPin"];
+
         [userDefaults setBool:FALSE forKey:@"hasAuthenticated"];
         [userDefaults setBool:FALSE forKey:@"rememberMe"];
         
         [userDefaults setValue:@"" forKey:@"authenticatedEmail"];
-        [userDefaults setValue:@"" forKey:@"authenticatedPassword"];
-        [userDefaults setValue:@"" forKey:@"authenticatedPin"];
-        [userDefaults setValue:@"" forKey:@"lastEnteredPin"];
     }
 }
 
-/*NOTE: This method had to be disabled because it was zeroing out some data that was "entered" already...?!
- */
-- (void)storeEnteredData {
-    
-//    //TODO: The below could probably work, not sure if more efficient though...
-//    
-////    for (NSIndexPath *path in groupedEditTableView.indexPathsForVisibleRows) {
-////        [[self data] setValue:@"" forKey:[rowKeys nestedObjectAtIndexPath:path]];
-////        
-////        TextEntryTableViewCell *cell = (TextEntryTableViewCell *)[groupedEditTableView cellForRowAtIndexPath:path];
-////        
-////        [self.tableView ce
-////    }
-//    
-//    [[self data] setValue:txfUsername.text forKey:@"username"];
-//    [[self data] setValue:txfPassword.text forKey:@"password"];
-//    [[self data] setValue:txfPasswordConfirm.text forKey:@"password_confirmation"];
-//    //Pin stored in user defaults in other method
-//    [[self data] setValue:txfEmail.text forKey:@"email"];
-//    [[self data] setValue:txfNameFirst.text forKey:@"first_name"];
-//    [[self data] setValue:txfNameMiddle.text forKey:@"middle_name"];
-//    [[self data] setValue:txfNameLast.text forKey:@"last_name"];
-//    [[self data] setValue:txfZipCode.text forKey:@"zip_code"];
-//    
-//    //Birthday & Gender should already be set (By Detail Editor)
-
-}
 
 #pragma mark - Validation & Error Alerts
 
@@ -850,6 +770,9 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
     return FALSE;
 }
 
+/*
+ * All validation is currently server-side
+ */
 - (BOOL)isValidRegistrationAction {
     
     return TRUE;

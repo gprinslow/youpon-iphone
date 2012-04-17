@@ -20,7 +20,6 @@
     UITextField *txfEmail;
     UITextField *txfPassword;
     UITextField *txfPasswordConfirm;
-    UITextField *txfPin;
     UISwitch *swtRememberMe;
     
     UITextField *txfName;
@@ -52,7 +51,6 @@
 - (void)createSessionResponseReceived;
 
 - (void)updateRememberMeOrDeleteRememberedData;
-- (void)storeEnteredData;
 
 - (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
 
