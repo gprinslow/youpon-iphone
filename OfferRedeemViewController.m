@@ -61,14 +61,14 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
     [actValidatingActivityIndicator setHidden:FALSE];
     
     [lblSuccessMessage setText:@"Success!"];
+    [lblSuccessMessage setHidden:TRUE];
+    [lblSuccessDetailMessage setHidden:TRUE];
     
     [lblFailureMessage setText:@"Sorry..."];
+    [lblFailureMessage setHidden:TRUE];
+    [lblFailureDetailMessage setHidden:TRUE];
     
     [lblBackMessage setText:@"To look for more offers, use the back button"];
-    
-    //Alert view for keycode entry
-    __validationKeycodeInputAlertView = [[UIAlertView alloc] initWithTitle:@"Request Validation" message:@"Ask retailer to validate now" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Submit", nil];
-    [__validationKeycodeInputAlertView setAlertViewStyle:UIAlertViewStyleSecureTextInput];
     
     //Service-related
     //data must be init'd by pushing controller
@@ -81,7 +81,7 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
     //Automatically start validation
     [actValidatingActivityIndicator startAnimating];
     
-    [self performSelector:@selector(validateRedemptionRequest) withObject:nil afterDelay:0.5];
+    [self alertViewForKeycode:nil message:@"Ask retailer to validate now" title:@"Request Validation" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Submit"];
 }
 
 - (void)viewDidUnload
@@ -102,7 +102,22 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
 -(void)validateRedemptionRequest {
     NSLog(@"Offer validation initiated");
     
-    [__validationKeycodeInputAlertView show];
+    offerValidateServiceRequest = [[RailsServiceRequest alloc] init];
+    offerValidateServiceResponse = [[RailsServiceResponse alloc] init];
+    
+    offerValidateServiceRequest.requestActionCode = 4; //POST-Create
+    offerValidateServiceRequest.requestModel = RAILS_MODEL_VALIDATIONS;
+    offerValidateServiceRequest.requestResponseNotificationName = RAILS_CREATE_VALIDATION_NOTIFICATION;
+    [offerValidateServiceRequest.requestData setValue:data forKey:@"validation_request"];
+    
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([[delegate railsService] callServiceWithRequest:offerValidateServiceRequest andResponsePointer:offerValidateServiceResponse]) {
+        NSLog(@"Called CreateValidation");
+    }
+    else {
+        NSLog(@"Call to CreateValidation failed");
+    }
 }
 
 //Service response delegate
@@ -119,20 +134,14 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
         
         NSLog(@"Error Response: %@", errorMessage);
         
-        [self alertViewForError:errorMessage title:@"Validation Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
         //TODO: probably not both alert & error message here - redundant
         [self refreshInterfaceFor:@"Validation failed..." successDetailMessage:nil failureDetailMessage:errorMessage isSuccess:FALSE];
-        
-        [actValidatingActivityIndicator stopAnimating];
     }
     else {
         //Successful validation
         [data setValue:[offerValidateServiceResponse responseData] forKey:@"validation"];
         
         [self refreshInterfaceFor:@"Validation succeeded..." successDetailMessage:@"Your request has been validated." failureDetailMessage:nil isSuccess:TRUE];
-        
-        [actValidatingActivityIndicator stopAnimating];
     }
 }
 
@@ -155,6 +164,8 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
         //Hide failure message
         [lblFailureMessage setHidden:TRUE];
         [lblFailureDetailMessage setHidden:TRUE];
+        
+        [actValidatingActivityIndicator stopAnimating];
     }
     else {
         //Show validated (stop activity)
@@ -170,6 +181,8 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
         //Hide success message
         [lblSuccessMessage setHidden:TRUE];
         [lblSuccessDetailMessage setHidden:TRUE];
+        
+        [actValidatingActivityIndicator stopAnimating];
     }
 }
 
@@ -186,6 +199,21 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
     return FALSE;
 }
 
+#pragma mark - Alert view for Keycode entry
+
+- (BOOL)alertViewForKeycode:(NSString *)keycode message:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles {
+    
+    //Alert view for keycode entry
+    __validationKeycodeInputAlertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
+    [__validationKeycodeInputAlertView setAlertViewStyle:UIAlertViewStyleSecureTextInput];
+    
+    [__validationKeycodeInputAlertView show];
+    [__validationKeycodeInputAlertView release];
+    
+    return TRUE;
+}
+
+
 #pragma mark - Alert view delegate methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -193,29 +221,23 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
         NSLog(@"error alert button was clicked");
     }
     else if (alertView == __validationKeycodeInputAlertView) {
-        UITextField *keycode = [alertView textFieldAtIndex:0];
-        
-        NSLog(@"Keycode: %@", keycode.text);
-        
-        //Call validation service with keycode
-        //Retrieve value & set in data dictionary
-        [data setValue:[[alertView textFieldAtIndex:0] text] forKey:@"key_entry"];
-        
-        offerValidateServiceRequest = [[RailsServiceRequest alloc] init];
-        offerValidateServiceResponse = [[RailsServiceResponse alloc] init];
-        
-        offerValidateServiceRequest.requestActionCode = 4; //POST-Create
-        offerValidateServiceRequest.requestModel = RAILS_MODEL_VALIDATIONS;
-        offerValidateServiceRequest.requestResponseNotificationName = RAILS_CREATE_VALIDATION_NOTIFICATION;
-        [offerValidateServiceRequest.requestData setValue:data forKey:@"validation_request"];
-        
-        YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
-        
-        if ([[delegate railsService] callServiceWithRequest:offerValidateServiceRequest andResponsePointer:offerValidateServiceResponse]) {
-            NSLog(@"Called CreateValidation");
+        if (buttonIndex == 1) {
+            //Submit button
+            UITextField *keycode = [alertView textFieldAtIndex:0];
+            
+            NSLog(@"Keycode: %@", keycode.text);
+            
+            //Call validation service with keycode
+            //Retrieve value & set in data dictionary
+            [data setValue:[[alertView textFieldAtIndex:0] text] forKey:@"key_entry"];
+            
+            [self performSelector:@selector(validateRedemptionRequest) withObject:nil afterDelay:0.5];
         }
         else {
-            NSLog(@"Call to CreateValidation failed");
+            //Cancel
+            //TODO: improve cancel behavior
+            [alertView removeFromSuperview];
+            [alertView dismissWithClickedButtonIndex:buttonIndex animated:TRUE];
         }
     }
     else {

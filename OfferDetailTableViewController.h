@@ -19,8 +19,6 @@
     RailsServiceResponse *offerRedemptionResponse;
     
     OfferRedeemViewController *offerRedeemViewController;
-    
-    UIActivityIndicatorView *actRequestingRedemptionActivityIndicator;
 }
 
 

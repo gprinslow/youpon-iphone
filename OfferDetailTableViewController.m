@@ -308,16 +308,6 @@ static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUES
 -(IBAction)redeemOffer:(id)sender {
     NSLog(@"Offer redemption initiated");
     
-    __activityAlertView = [[UIAlertView alloc] initWithTitle:@"One moment..." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
-    actRequestingRedemptionActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-
-    [__activityAlertView setFrame:CGRectMake(180.0f, 180.0f, 24.0f, 24.0f)];
-    [__activityAlertView addSubview:actRequestingRedemptionActivityIndicator];
-    
-    [actRequestingRedemptionActivityIndicator startAnimating];
-    [__activityAlertView show];
-    [__activityAlertView release];
-    
     [self performSelector:@selector(createRedemptionRequest) withObject:nil afterDelay:0.5];
 }
 
@@ -364,17 +354,11 @@ static NSString *const RAILS_CREATE_REQUEST_NOTIFICATION = @"RAILS_CREATE_REQUES
         
         NSLog(@"Error Response: %@", errorMessage);
         
-        [actRequestingRedemptionActivityIndicator stopAnimating];
-        [__activityAlertView removeFromSuperview];
-        
         [self alertViewForError:errorMessage title:@"Request Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     }
     else {
         //Successful request
         [data setValue:[offerRedemptionResponse responseData] forKey:@"request"];
-        
-        [actRequestingRedemptionActivityIndicator stopAnimating];
-        [__activityAlertView removeFromSuperview];
         
         offerRedeemViewController = [[OfferRedeemViewController alloc] initWithNibName:@"OfferRedeemViewController" bundle:nil];
         
