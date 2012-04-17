@@ -66,8 +66,7 @@ UIAlertView *__loginErrorAlertView;
     data = [[NSMutableDictionary alloc] initWithCapacity:5];
     
     sectionNames = [[NSArray alloc] initWithObjects:
-                    [NSNull null],
-                    NSLocalizedString(@"Options", @"Options"), 
+                    [NSNull null], 
                     nil];
     
     rowLabels = [[NSArray alloc] initWithObjects:
@@ -76,14 +75,10 @@ UIAlertView *__loginErrorAlertView;
                  [NSArray arrayWithObjects:
                   NSLocalizedString(@"Email", @"Email"),
                   NSLocalizedString(@"Password", @"Password"),
+                  NSLocalizedString(@"Remember Me", @"Remember Me"),
                   NSLocalizedString(@"", @"LoginButton"),
                   nil],
-                 
-                 //Section 2
-                 [NSArray arrayWithObjects:
-                  NSLocalizedString(@"Remember Me", @"Remember Me"),
-                  nil],
-                 
+
                  nil];
     
     rowKeys = [[NSArray alloc] initWithObjects:
@@ -92,12 +87,9 @@ UIAlertView *__loginErrorAlertView;
                [NSArray arrayWithObjects:
                 @"email",
                 @"password",
+                @"rememberMe",
                 @"loginButton",
                 nil],
-               
-               //Section 2
-               [NSArray arrayWithObject:
-                @"rememberMe"],
                
                nil];
     
@@ -108,10 +100,8 @@ UIAlertView *__loginErrorAlertView;
                   [NSNull null],
                   [NSNull null],
                   [NSNull null],
+                  [NSNull null],
                   nil],
-                 
-                 //Section 2
-                 [NSArray arrayWithObject:[NSNull null]],
                  
                  nil];
     
@@ -122,10 +112,8 @@ UIAlertView *__loginErrorAlertView;
                      [NSNull null], 
                      [NSNull null],
                      [NSNull null],
+                     [NSNull null],
                      nil],
-
-                      //Section 2
-                    [NSArray arrayWithObject:[NSNull null]],
                       
                       nil];
     
@@ -220,12 +208,9 @@ UIAlertView *__loginErrorAlertView;
     [txfPassword resignFirstResponder];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    //IF rememberMe
     BOOL rememberMe = [userDefaults boolForKey:@"rememberMe"];
     
     if (rememberMe && ![txfEmail.text isEqualToString:@""]) {
-        
         [txfPassword becomeFirstResponder];
     }
     else {
