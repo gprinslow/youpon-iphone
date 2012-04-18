@@ -581,6 +581,10 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         registerServiceRequest.requestActionCode = 4; //POST
         registerServiceRequest.requestModel = RAILS_MODEL_USERS;
         registerServiceRequest.requestResponseNotificationName = RAILS_CREATE_USER_NOTIFICATION;
+        //Hack the Birthday-Date to String for now
+        NSString *dateString = [NSString stringWithFormat:@"%@", [data valueForKey:@"birthday"]];
+        [data setValue:dateString forKey:@"birthday"];
+        
         [registerServiceRequest.requestData setValue:data forKey:@"user"];
         
         //Call rails service singleton - see "...ResponseReceived" method
