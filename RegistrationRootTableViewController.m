@@ -613,8 +613,8 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
         NSLog(@"Response Item: %@", item);
     }
     //*  Step:  3)a: if failure, return alert message
-    if ([registerServiceResponse.responseData objectForKey:@"error"]) {
-        NSString *errorMessage = (NSString *)[registerServiceResponse.responseData objectForKey:@"error"];
+    if ([registerServiceResponse.responseData objectForKey:@"errors"]) {
+        NSString *errorMessage = (NSString *)[registerServiceResponse.responseData objectForKey:@"errors"];
         
         NSLog(@"Error Response: %@", errorMessage);
         

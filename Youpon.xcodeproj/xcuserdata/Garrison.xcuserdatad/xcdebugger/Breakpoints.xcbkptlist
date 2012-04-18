@@ -101,5 +101,33 @@
          landmarkName = "-refreshInterfaceFor:successDetailMessage:failureDetailMessage:isSuccess:"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "RegistrationRootTableViewController.m"
+         timestampString = "356394899.421097"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "587"
+         endingLineNumber = "587"
+         landmarkName = "-doRegistrationAction"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "RegistrationRootTableViewController.m"
+         timestampString = "356394914.077209"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "612"
+         endingLineNumber = "612"
+         landmarkName = "-createUserResponseReceived"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
