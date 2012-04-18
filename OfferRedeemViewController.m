@@ -81,7 +81,10 @@ static NSString *const RAILS_CREATE_VALIDATION_NOTIFICATION = @"RAILS_CREATE_VAL
     //Automatically start validation
     [actValidatingActivityIndicator startAnimating];
     
-    if ((int)[data valueForKey:@"validation_required"] == TRUE) {
+    //Not sure why Int or BOOL did not result in correct comparison!!
+    NSString *validationRequired = [NSString stringWithFormat:@"%@", [data valueForKey:@"validation_required"]];
+    
+    if ([validationRequired isEqualToString:@"1"]) {
         [self alertViewForKeycode:nil message:@"Ask retailer to validate now" title:@"Request Validation" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Submit"];
     }
     else {
