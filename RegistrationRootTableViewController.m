@@ -406,7 +406,7 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
                 
                 UIButton *registerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
                 [registerButton addTarget:self action:@selector(startRegistrationAction) forControlEvents:UIControlEventTouchUpInside];
-                [registerButton setTitle:@"Register" forState:UIControlStateNormal];
+                [registerButton setTitle:@"Sign up" forState:UIControlStateNormal];
                 registerButton.frame = CGRectMake(10.0f, 7.0f, 240.0f, 30.0f);
                 [cell.contentView addSubview:registerButton];
                 btnRegister = registerButton;
@@ -770,6 +770,10 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
  */
 - (BOOL)alertViewForError:(NSString *)message title:(NSString *)title delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles {
     
+    [self enableInteractions];
+    
+    [aivRegister stopAnimating];
+    
     __registrationErrorAlertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
     
     [__registrationErrorAlertView show];
@@ -779,9 +783,24 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
 }
 
 /*
- * All validation is currently server-side
+ * Some client-side validation
  */
 - (BOOL)isValidRegistrationAction {
+    if ([txfEmail.text isEqualToString:@""]) {
+        return [self alertViewForError:@"Email cannot be blank" title:@"Registration Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
+    if ([txfPassword.text isEqualToString:@""]) {
+        return [self alertViewForError:@"Password cannot be blank" title:@"Registration Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
+    if ([txfPasswordConfirm.text isEqualToString:@""]) {
+        return [self alertViewForError:@"Password Confirmation cannot be blank" title:@"Registration Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
+    if ([txfName.text isEqualToString:@""]) {
+        return [self alertViewForError:@"Name cannot be blank" title:@"Registration Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
+    if (![txfPassword.text isEqualToString:txfPasswordConfirm.text]) {
+        return [self alertViewForError:@"Password and Confirmation must match" title:@"Registration Error" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    }
     
     return TRUE;
 }
