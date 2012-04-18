@@ -487,6 +487,10 @@ static NSString *const RAILS_CREATE_SESSION_NOTIFICATION = @"RAILS_CREATE_SESSIO
             
             [self.navigationController pushViewController:controller animated:YES];
         }
+        else {
+            [swtRememberMe setOn:!swtRememberMe.on animated:YES];
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
     }
 }
 

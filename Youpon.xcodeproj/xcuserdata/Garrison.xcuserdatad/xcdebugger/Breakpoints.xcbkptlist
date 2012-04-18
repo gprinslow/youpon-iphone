@@ -107,11 +107,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "RegistrationRootTableViewController.m"
-         timestampString = "356401885.677646"
+         timestampString = "356408356.8139"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "591"
-         endingLineNumber = "591"
+         startingLineNumber = "595"
+         endingLineNumber = "595"
          landmarkName = "-doRegistrationAction"
          landmarkType = "5">
       </FileBreakpoint>
@@ -121,11 +121,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "RegistrationRootTableViewController.m"
-         timestampString = "356401885.677646"
+         timestampString = "356408356.8139"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "616"
-         endingLineNumber = "616"
+         startingLineNumber = "620"
+         endingLineNumber = "620"
          landmarkName = "-createUserResponseReceived"
          landmarkType = "5">
       </FileBreakpoint>
