@@ -296,6 +296,9 @@ UIAlertView *__offersErrorAlertView;
 - (void)doSignOut {
     //TODO: fix signout
     NSLog(@"TODO: fix signout");
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    [delegate.rootTabBarController presentModalViewController:delegate.loginNavigationController animated:YES];
 }
 
 
