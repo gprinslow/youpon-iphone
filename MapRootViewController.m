@@ -16,6 +16,10 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
 @implementation MapRootViewController
 
 @synthesize mapRootMapView = _mapRootMapView;
+@synthesize geocoder;
+@synthesize currentLocation;
+@synthesize locationManager;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,10 +48,19 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOffersResponseReceived) name:GET_OFFERS_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOfferResponseReceived) name:GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
     
+    //Location manager
+    locationManager.delegate = self;
+    [locationManager startUpdatingLocation];
+    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    
     //Move to center
-    CLLocationCoordinate2D mapCenter = [_mapRootMapView centerCoordinate];
-    mapCenter = [_mapRootMapView convertPoint:CGPointMake(1, (_mapRootMapView.frame.size.height/2.0)) toCoordinateFromView:_mapRootMapView];
-    [_mapRootMapView setCenterCoordinate:mapCenter animated:YES];
+//    CLLocationCoordinate2D mapCenter = [_mapRootMapView centerCoordinate];
+//    mapCenter = [_mapRootMapView convertPoint:CGPointMake(1, (_mapRootMapView.frame.size.height/2.0)) toCoordinateFromView:_mapRootMapView];
+//    [_mapRootMapView setCenterCoordinate:mapCenter animated:YES];
+    CLLocation *currentloc = locationManager.location;
+    CLLocationCoordinate2D center = currentloc.coordinate;
+    
+    [_mapRootMapView setCenterCoordinate:center animated:YES];
  
 }
 
@@ -103,6 +116,7 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [locationManager stopUpdatingLocation];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -118,6 +132,8 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     if ([annotation isKindOfClass:[MapLocation class]]) {
         
         MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[_mapRootMapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        [annotationView autorelease];
+        
         if (annotationView == nil) {
             annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
         } else {
@@ -183,17 +199,61 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
         NSLog(@"Offer: %@", offer);
         NSLog(@"Location: %@", location);
         
-        NSString *offerName = [offer valueForKey:@"title"];
+        NSString *offerName = [NSString stringWithFormat:@"%@", [offer valueForKey:@"title"]];
         //addr1 city state zip
         NSString *addressString = [NSString stringWithFormat:@"%@ %@ %@ %@", [offer valueForKey:@"address1"], [offer valueForKey:@"city"], [offer valueForKey:@"state"], [offer valueForKey:@"zip"]];
         
-        CLLocationCoordinate2D coordinate;
-        coordinate.latitude = 38.6303;
-        coordinate.longitude = -90.2070;
         
-        MapLocation *annotation = [[MapLocation alloc] initWithOfferName:offerName merchantName:nil address:addressString coordinate:coordinate];
+        MapLocation *annotation = [[MapLocation alloc] initWithOfferName:offerName merchantName:nil addressString:addressString placemark:nil];        
+        [self geocodeLocation:addressString forAnnotation:annotation];
+    }
+}
+
+#pragma mark - Geocoder
+- (void)geocodeLocation:(NSString *)addressString forAnnotation:(MapLocation *)annotation {
+    if (!geocoder) {
+        geocoder = [[CLGeocoder alloc] init];
         
-        [_mapRootMapView addAnnotation:annotation];
+        [geocoder geocodeAddressString:addressString completionHandler:
+         ^(NSArray* placemarks, NSError* error){
+             if ([placemarks count] > 0)
+             {
+                 annotation.placemark = [placemarks objectAtIndex:0];
+                 
+                 // Add a More Info button to the annotation's view.
+                 MKPinAnnotationView*  view = (MKPinAnnotationView*)[_mapRootMapView viewForAnnotation:annotation];
+                 if (view && (view.rightCalloutAccessoryView == nil))
+                 {
+                     view.canShowCallout = YES;
+                     view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+                 }
+             }
+         }];
+        
+    }
+    
+}
+
+#pragma mark - Location Manager
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    self.currentLocation = newLocation;
+    
+    if(newLocation.horizontalAccuracy <= 100.0f) { 
+        [locationManager stopUpdatingLocation]; 
+    }
+}
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if(error.code == kCLErrorDenied) {
+        [locationManager stopUpdatingLocation];
+    } else if(error.code == kCLErrorLocationUnknown) {
+        // retry
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error retrieving location"
+                                                        message:[error description]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
     }
 }
 

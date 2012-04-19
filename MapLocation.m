@@ -12,16 +12,16 @@
 
 @synthesize offerName = _offerName;
 @synthesize merchantName = _merchantName;
-@synthesize address = _address;
-@synthesize coordinate = _coordinate;
+@synthesize addressString = _addressString;
+@synthesize placemark = _placemark;
 
-- (id)initWithOfferName:(NSString *)offerName merchantName:(NSString *)merchantName address:(NSString *)address coordinate:(CLLocationCoordinate2D)coordinate {
+- (id)initWithOfferName:(NSString *)offerName merchantName:(NSString *)merchantName addressString:(NSString *)addressString placemark:(CLPlacemark *)placemark {
     
     if ((self = [super init])) {
         _offerName = offerName;
         _merchantName = merchantName;
-        _address = address;
-        _coordinate = coordinate;
+        _addressString = addressString;
+        _placemark = placemark;
     }
     return self;
 }
@@ -31,7 +31,7 @@
 }
 
 - (NSString *)subtitle {
-    return _address;
+    return _addressString;
 }
 
 

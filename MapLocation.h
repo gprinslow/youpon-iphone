@@ -12,15 +12,16 @@
 @interface MapLocation : NSObject <MKAnnotation> {
     NSString *_offerName;
     NSString *_merchantName;
-    NSString *_address;
+    NSString *_addressString;
+    CLPlacemark *_placemark;
     CLLocationCoordinate2D _coordinate;
 }
 
 @property (nonatomic, retain) NSString *offerName;
 @property (nonatomic, retain) NSString *merchantName;
-@property (nonatomic, retain) NSString *address;
-@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+@property (nonatomic, retain) NSString *addressString;
+@property (nonatomic, retain) CLPlacemark *placemark;
 
-- (id)initWithOfferName:(NSString *)offerName merchantName:(NSString *)merchantName address:(NSString *)address coordinate:(CLLocationCoordinate2D)coordinate;
+- (id)initWithOfferName:(NSString *)offerName merchantName:(NSString *)merchantName addressString:(NSString *)addressString placemark:(CLPlacemark *)placemark; 
 
 @end
