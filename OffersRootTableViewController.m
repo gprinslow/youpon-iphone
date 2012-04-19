@@ -226,7 +226,7 @@ UIAlertView *__offersErrorAlertView;
     //*  Step:  3)b: if success, sort and store data
     else {
         //Offers array is an array of NSDictionaries (each of which is an offer)
-        NSArray *offers = [[offersServiceResponse responseData] objectForKey:@"items"];
+        NSArray *offers = [[offersServiceResponse responseData] objectForKey:@"offers"];
         
         //Update title with count of offers retrieved
         NSString *newTitle = [[[NSString alloc] initWithFormat:@"Offers (%d)", offers.count] autorelease];
