@@ -7,21 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
 @interface MapLocation : NSObject <MKAnnotation> {
-    NSString *_offerName;
-    NSString *_merchantName;
+    NSString *_title;
+    NSString *_subtitle;
     NSString *_addressString;
     CLPlacemark *_placemark;
     CLLocationCoordinate2D _coordinate;
 }
 
-@property (nonatomic, retain) NSString *offerName;
-@property (nonatomic, retain) NSString *merchantName;
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *subtitle;
 @property (nonatomic, retain) NSString *addressString;
 @property (nonatomic, retain) CLPlacemark *placemark;
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
-- (id)initWithOfferName:(NSString *)offerName merchantName:(NSString *)merchantName addressString:(NSString *)addressString placemark:(CLPlacemark *)placemark; 
+- (id)initWithCoordinate:(CLLocationCoordinate2D)coord title:(NSString *)title;
+
+- (id)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle addressString:(NSString *)addressString placemark:(CLPlacemark *)placemark; 
 
 @end

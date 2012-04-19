@@ -10,28 +10,41 @@
 
 @implementation MapLocation
 
-@synthesize offerName = _offerName;
-@synthesize merchantName = _merchantName;
+@synthesize title = _title;
+@synthesize subtitle = _subtitle;
 @synthesize addressString = _addressString;
 @synthesize placemark = _placemark;
+@synthesize coordinate = _coordinate;
 
-- (id)initWithOfferName:(NSString *)offerName merchantName:(NSString *)merchantName addressString:(NSString *)addressString placemark:(CLPlacemark *)placemark {
+- (id)initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title {
+    self = [super init];
+    if (self) {
+        _coordinate = coordinate;
+        [self setTitle:title];
+    }
+    return self;
+}
+
+- (id)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle addressString:(NSString *)addressString placemark:(CLPlacemark *)placemark {
     
-    if ((self = [super init])) {
-        _offerName = offerName;
-        _merchantName = merchantName;
+    self = [super init];
+    
+    if (self) {
+        _title = title;
+        _subtitle = subtitle;
         _addressString = addressString;
         _placemark = placemark;
+        _coordinate = placemark.location.coordinate;
     }
     return self;
 }
 
 - (NSString *)title {
-    return _offerName;
+    return _title;
 }
 
 - (NSString *)subtitle {
-    return _addressString;
+    return _subtitle;
 }
 
 
