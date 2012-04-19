@@ -12,9 +12,11 @@
 #define METERS_PER_MILE 1609.344
 
 @interface MapRootViewController : UIViewController <MKMapViewDelegate> {
-    MKMapView *mapRootMapView;
+    MKMapView *_mapRootMapView;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapRootMapView;
+
+-(void)replotOffers;
 
 @end
