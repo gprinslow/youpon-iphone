@@ -29,7 +29,7 @@
     CLGeocoder *_geocoder;
 }
 
-@property (nonatomic, retain) IBOutlet MKMapView *mapRootMapView;
+//@property (nonatomic, retain) IBOutlet MKMapView *mapRootMapView;
 
 -(void)replotOffers;
 

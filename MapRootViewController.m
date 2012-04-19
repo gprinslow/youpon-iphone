@@ -15,7 +15,7 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
 
 @implementation MapRootViewController
 
-@synthesize mapRootMapView = _mapRootMapView;
+//@synthesize mapRootMapView = _mapRootMapView;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -45,7 +45,12 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     _geocoder = [[CLGeocoder alloc] init];
     
     //MapView delegate
+    _mapRootMapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 367.0)];
     _mapRootMapView.delegate = self;
+    [_mapRootMapView setShowsUserLocation:TRUE];
+    [_mapRootMapView setZoomEnabled:TRUE];
+    
+    [self.view addSubview:_mapRootMapView];
     
     //Service delegates
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOffersResponseReceived) name:GET_OFFERS_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
