@@ -16,9 +16,6 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
 @implementation MapRootViewController
 
 @synthesize mapRootMapView = _mapRootMapView;
-@synthesize geocoder;
-@synthesize currentLocation;
-@synthesize locationManager;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -44,32 +41,30 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    //Geocoder
+    _geocoder = [[CLGeocoder alloc] init];
+    
+    //MapView delegate
+    _mapRootMapView.delegate = self;
+    
     //Service delegates
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOffersResponseReceived) name:GET_OFFERS_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOfferResponseReceived) name:GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
     
-    //Location manager
-    locationManager.delegate = self;
-    [locationManager startUpdatingLocation];
-    locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    
-    //Move to center
-//    CLLocationCoordinate2D mapCenter = [_mapRootMapView centerCoordinate];
-//    mapCenter = [_mapRootMapView convertPoint:CGPointMake(1, (_mapRootMapView.frame.size.height/2.0)) toCoordinateFromView:_mapRootMapView];
-//    [_mapRootMapView setCenterCoordinate:mapCenter animated:YES];
-    CLLocation *currentloc = locationManager.location;
+    //Move to center    
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    CLLocation *currentloc = delegate.locationManager.location;
     CLLocationCoordinate2D center = currentloc.coordinate;
-    
     [_mapRootMapView setCenterCoordinate:center animated:YES];
- 
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    CLLocationCoordinate2D zoomLocation;
-    zoomLocation.latitude = 38.6303;
-    zoomLocation.longitude = -90.2070;
     
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 0.5*METERS_PER_MILE, 0.5*METERS_PER_MILE);
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    CLLocation *currentloc = delegate.locationManager.location;
+    CLLocationCoordinate2D centercoord = currentloc.coordinate;
+    
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(centercoord, 0.5*METERS_PER_MILE, 0.5*METERS_PER_MILE);
     MKCoordinateRegion adjustedRegion = [_mapRootMapView regionThatFits:viewRegion];
     
     [_mapRootMapView setRegion:adjustedRegion animated:YES];
@@ -116,7 +111,6 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    [locationManager stopUpdatingLocation];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -125,30 +119,7 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark - Map View Delegate
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    
-    static NSString *identifier = @"MapLocation";   
-    if ([annotation isKindOfClass:[MapLocation class]]) {
-        
-        MKPinAnnotationView *annotationView = (MKPinAnnotationView *)[_mapRootMapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-        [annotationView autorelease];
-        
-        if (annotationView == nil) {
-            annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-        } else {
-            annotationView.annotation = annotation;
-        }
-        
-        annotationView.enabled = YES;
-        annotationView.canShowCallout = YES;
-        annotationView.image=[UIImage imageNamed:@"172-pricetag.png"];
-        
-        return annotationView;
-    }
-    
-    return nil;    
-}
+
 
 #pragma mark - Service response delegates
 
@@ -201,61 +172,73 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
         
         NSString *offerName = [NSString stringWithFormat:@"%@", [offer valueForKey:@"title"]];
         //addr1 city state zip
-        NSString *addressString = [NSString stringWithFormat:@"%@ %@ %@ %@", [offer valueForKey:@"address1"], [offer valueForKey:@"city"], [offer valueForKey:@"state"], [offer valueForKey:@"zip"]];
+        NSString *addressString = [NSString stringWithFormat:@"%@ %@ %@ %@", [location valueForKey:@"address1"], [location valueForKey:@"city"], [location valueForKey:@"state"], [location valueForKey:@"zip"]];
         
         
-        MapLocation *annotation = [[MapLocation alloc] initWithOfferName:offerName merchantName:nil addressString:addressString placemark:nil];        
+        MapLocation *annotation = [[MapLocation alloc] initWithTitle:offerName subtitle:addressString addressString:addressString placemark:nil];
+        
         [self geocodeLocation:addressString forAnnotation:annotation];
+        [_mapRootMapView addAnnotation:annotation];
     }
+}
+
+-(IBAction)goToPinDetail:(id)sender {
+    NSLog(@"Pin detail pressed");
+}
+
+#pragma mark - Map View Delegate Methods
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    
+    
+    static NSString *identifier = @"CustomMapLocationAnnotationView";   
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    
+    if ([annotation isKindOfClass:[MapLocation class]]) {
+        
+        MKPinAnnotationView *pinView = (MKPinAnnotationView *)[_mapRootMapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        
+        if (!pinView) {
+            pinView = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier] autorelease];
+            
+            pinView.pinColor = MKPinAnnotationColorRed;
+            pinView.animatesDrop = YES;
+            pinView.canShowCallout = YES;
+            
+            UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            [rightButton addTarget:self action:@selector(goToPinDetail:) forControlEvents:UIControlEventTouchUpInside];
+            pinView.rightCalloutAccessoryView = rightButton;
+            
+        }
+        else {
+            pinView.annotation = annotation;
+        }
+        
+        return pinView;
+    }
+    
+    return nil;    
 }
 
 #pragma mark - Geocoder
 - (void)geocodeLocation:(NSString *)addressString forAnnotation:(MapLocation *)annotation {
-    if (!geocoder) {
-        geocoder = [[CLGeocoder alloc] init];
-        
-        [geocoder geocodeAddressString:addressString completionHandler:
-         ^(NSArray* placemarks, NSError* error){
-             if ([placemarks count] > 0)
-             {
-                 annotation.placemark = [placemarks objectAtIndex:0];
-                 
-                 // Add a More Info button to the annotation's view.
-                 MKPinAnnotationView*  view = (MKPinAnnotationView*)[_mapRootMapView viewForAnnotation:annotation];
-                 if (view && (view.rightCalloutAccessoryView == nil))
-                 {
-                     view.canShowCallout = YES;
-                     view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-                 }
-             }
-         }];
-        
-    }
+    
+    [_geocoder geocodeAddressString:addressString completionHandler:
+     ^(NSArray* placemarks, NSError* error){
+         if ([placemarks count] > 0)
+         {
+             NSLog(@"Placemark: %@", [placemarks objectAtIndex:0]);
+             annotation.placemark = [[[CLPlacemark alloc] initWithPlacemark:[placemarks objectAtIndex:0]] autorelease];
+
+             [_mapRootMapView addAnnotation:annotation];
+             //viewForAnnotation will take care of the rest
+         }
+     }];
     
 }
 
-#pragma mark - Location Manager
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    self.currentLocation = newLocation;
-    
-    if(newLocation.horizontalAccuracy <= 100.0f) { 
-        [locationManager stopUpdatingLocation]; 
-    }
-}
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if(error.code == kCLErrorDenied) {
-        [locationManager stopUpdatingLocation];
-    } else if(error.code == kCLErrorLocationUnknown) {
-        // retry
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error retrieving location"
-                                                        message:[error description]
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-    }
-}
 
 
 @end

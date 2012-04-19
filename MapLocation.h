@@ -18,10 +18,10 @@
     CLLocationCoordinate2D _coordinate;
 }
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *subtitle;
-@property (nonatomic, retain) NSString *addressString;
-@property (nonatomic, retain) CLPlacemark *placemark;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *subtitle;
+@property (nonatomic, copy) NSString *addressString;
+@property (nonatomic, copy) CLPlacemark *placemark;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D)coord title:(NSString *)title;

@@ -19,9 +19,20 @@
 @synthesize currentUser = _currentUser;
 @synthesize window=_window;
 
+@synthesize locationManager = _locationManager;
+@synthesize currentLocation = _currentLocation;
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    //Location manager
+    _locationManager = [[CLLocationManager alloc] init];
+    [_locationManager setDelegate:self];
+    [_locationManager setDistanceFilter:kCLDistanceFilterNone];
+    [_locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+    [_locationManager startUpdatingLocation];
     
     //Alloc & init the railsService for later use
     self.railsService = [[RailsService alloc] init];
@@ -84,6 +95,7 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+    [_locationManager stopUpdatingLocation];
 }
 
 - (void)dealloc
@@ -110,5 +122,31 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
     //TODO: fill in didEndCustomizingViewControllers (if needed)
 }
+
+#pragma mark - Location Manager
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    
+    _currentLocation = newLocation;
+    
+    if(newLocation.horizontalAccuracy <= 100.0f) { 
+        [_locationManager stopUpdatingLocation]; 
+    }
+}
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if(error.code == kCLErrorDenied) {
+        [_locationManager stopUpdatingLocation];
+    } else if(error.code == kCLErrorLocationUnknown) {
+        // retry
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error retrieving location"
+                                                        message:[error description]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
+
 
 @end
