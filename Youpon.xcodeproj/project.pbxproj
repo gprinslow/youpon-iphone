@@ -72,6 +72,8 @@
 		8591BA3F152FB68F00628693 /* YouponAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9FB152FB68F00628693 /* YouponAppDelegate.m */; };
 		85F2A9CC153FF96900844E88 /* MapRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F2A9CA153FF96900844E88 /* MapRootViewController.m */; };
 		85F2A9CD153FF96900844E88 /* MapRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85F2A9CB153FF96900844E88 /* MapRootViewController.xib */; };
+		85F2A9D0153FFBF400844E88 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F2A9CF153FFBF400844E88 /* CoreLocation.framework */; };
+		85F2A9D2153FFC0300844E88 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F2A9D1153FFC0300844E88 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,6 +190,8 @@
 		85F2A9C9153FF96900844E88 /* MapRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapRootViewController.h; sourceTree = "<group>"; };
 		85F2A9CA153FF96900844E88 /* MapRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapRootViewController.m; sourceTree = "<group>"; };
 		85F2A9CB153FF96900844E88 /* MapRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapRootViewController.xib; sourceTree = "<group>"; };
+		85F2A9CF153FFBF400844E88 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		85F2A9D1153FFC0300844E88 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +199,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85F2A9D2153FFC0300844E88 /* MapKit.framework in Frameworks */,
+				85F2A9D0153FFBF400844E88 /* CoreLocation.framework in Frameworks */,
 				8591B956152FB63400628693 /* UIKit.framework in Frameworks */,
 				8591B958152FB63400628693 /* Foundation.framework in Frameworks */,
 				8591B95A152FB63400628693 /* CoreGraphics.framework in Frameworks */,
@@ -217,6 +223,8 @@
 		8591B946152FB63400628693 = {
 			isa = PBXGroup;
 			children = (
+				85F2A9D1153FFC0300844E88 /* MapKit.framework */,
+				85F2A9CF153FFBF400844E88 /* CoreLocation.framework */,
 				8591B95B152FB63400628693 /* Youpon */,
 				8591B973152FB63400628693 /* YouponTests */,
 				8591B954152FB63400628693 /* Frameworks */,
