@@ -74,6 +74,7 @@
 		85F2A9CD153FF96900844E88 /* MapRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85F2A9CB153FF96900844E88 /* MapRootViewController.xib */; };
 		85F2A9D0153FFBF400844E88 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F2A9CF153FFBF400844E88 /* CoreLocation.framework */; };
 		85F2A9D2153FFC0300844E88 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85F2A9D1153FFC0300844E88 /* MapKit.framework */; };
+		85F2A9D51540033F00844E88 /* MapLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F2A9D41540033F00844E88 /* MapLocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +193,8 @@
 		85F2A9CB153FF96900844E88 /* MapRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapRootViewController.xib; sourceTree = "<group>"; };
 		85F2A9CF153FFBF400844E88 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		85F2A9D1153FFC0300844E88 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		85F2A9D31540033F00844E88 /* MapLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLocation.h; sourceTree = "<group>"; };
+		85F2A9D41540033F00844E88 /* MapLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLocation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,6 +425,8 @@
 				8591B9F5152FB68F00628693 /* TableRowDetailEditStringController.m */,
 				8591B9F6152FB68F00628693 /* TextEntryTableViewCell.h */,
 				8591B9F7152FB68F00628693 /* TextEntryTableViewCell.m */,
+				85F2A9D31540033F00844E88 /* MapLocation.h */,
+				85F2A9D41540033F00844E88 /* MapLocation.m */,
 			);
 			name = Classes;
 			path = ..;
@@ -604,6 +609,7 @@
 				8591BA3D152FB68F00628693 /* TextEntryTableViewCell.m in Sources */,
 				8591BA3F152FB68F00628693 /* YouponAppDelegate.m in Sources */,
 				85F2A9CC153FF96900844E88 /* MapRootViewController.m in Sources */,
+				85F2A9D51540033F00844E88 /* MapLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
