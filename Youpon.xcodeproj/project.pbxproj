@@ -70,6 +70,8 @@
 		8591BA3C152FB68F00628693 /* TableRowDetailEditStringController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9F5152FB68F00628693 /* TableRowDetailEditStringController.m */; };
 		8591BA3D152FB68F00628693 /* TextEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9F7152FB68F00628693 /* TextEntryTableViewCell.m */; };
 		8591BA3F152FB68F00628693 /* YouponAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8591B9FB152FB68F00628693 /* YouponAppDelegate.m */; };
+		85F2A9CC153FF96900844E88 /* MapRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85F2A9CA153FF96900844E88 /* MapRootViewController.m */; };
+		85F2A9CD153FF96900844E88 /* MapRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85F2A9CB153FF96900844E88 /* MapRootViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +185,9 @@
 		8591B9F7152FB68F00628693 /* TextEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextEntryTableViewCell.m; sourceTree = "<group>"; };
 		8591B9FA152FB68F00628693 /* YouponAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YouponAppDelegate.h; sourceTree = SOURCE_ROOT; };
 		8591B9FB152FB68F00628693 /* YouponAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YouponAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		85F2A9C9153FF96900844E88 /* MapRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapRootViewController.h; sourceTree = "<group>"; };
+		85F2A9CA153FF96900844E88 /* MapRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapRootViewController.m; sourceTree = "<group>"; };
+		85F2A9CB153FF96900844E88 /* MapRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapRootViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -363,6 +368,8 @@
 				8591B9AC152FB68F00628693 /* OffersRootTableViewController.m */,
 				8591B9B4152FB68F00628693 /* RegistrationRootTableViewController.h */,
 				8591B9B5152FB68F00628693 /* RegistrationRootTableViewController.m */,
+				85F2A9C9153FF96900844E88 /* MapRootViewController.h */,
+				85F2A9CA153FF96900844E88 /* MapRootViewController.m */,
 			);
 			name = Controllers;
 			path = ..;
@@ -417,6 +424,7 @@
 			children = (
 				8591B997152FB68F00628693 /* MainWindow.xib */,
 				8591B9A1152FB68F00628693 /* LoginRootTableViewController.xib */,
+				85F2A9CB153FF96900844E88 /* MapRootViewController.xib */,
 				8591B9A7152FB68F00628693 /* OfferDetailTableViewController.xib */,
 				8591B9AA152FB68F00628693 /* OfferRedeemViewController.xib */,
 				8591B9AD152FB68F00628693 /* OffersRootTableViewController.xib */,
@@ -520,6 +528,7 @@
 				8591BA18152FB68F00628693 /* OfferRedeemViewController.xib in Resources */,
 				8591BA1A152FB68F00628693 /* OffersRootTableViewController.xib in Resources */,
 				8591BA1F152FB68F00628693 /* RegistrationRootTableViewController.xib in Resources */,
+				85F2A9CD153FF96900844E88 /* MapRootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +595,7 @@
 				8591BA3C152FB68F00628693 /* TableRowDetailEditStringController.m in Sources */,
 				8591BA3D152FB68F00628693 /* TextEntryTableViewCell.m in Sources */,
 				8591BA3F152FB68F00628693 /* YouponAppDelegate.m in Sources */,
+				85F2A9CC153FF96900844E88 /* MapRootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
