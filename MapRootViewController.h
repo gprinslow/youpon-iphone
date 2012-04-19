@@ -9,14 +9,28 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
+#import "RailsService.h"
+
 #define METERS_PER_MILE 1609.344
 
 @interface MapRootViewController : UIViewController <MKMapViewDelegate> {
     MKMapView *_mapRootMapView;
+    
+    //Added for service calls
+    NSMutableDictionary *data;
+    NSArray *offers;
+    RailsServiceRequest *offersMapServiceRequest;
+    RailsServiceResponse *offersMapServiceResponse;
+    RailsServiceRequest *offerMapServiceRequest;
+    RailsServiceResponse *offerMapServiceResponse;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapRootMapView;
 
 -(void)replotOffers;
+
+-(void)getOffersResponseReceived;
+-(void)getOfferResponseReceived;
+
 
 @end

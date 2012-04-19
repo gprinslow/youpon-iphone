@@ -8,6 +8,10 @@
 
 #import "MapRootViewController.h"
 #import "MapLocation.h"
+#import "YouponAppDelegate.h"
+
+NSString *const GET_OFFERS_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFERS_MAP_RESPONSE";
+NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPONSE";
 
 @implementation MapRootViewController
 
@@ -36,15 +40,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    //Service delegates
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOffersResponseReceived) name:GET_OFFERS_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOfferResponseReceived) name:GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
+    
     //Move to center
     CLLocationCoordinate2D mapCenter = [_mapRootMapView centerCoordinate];
     mapCenter = [_mapRootMapView convertPoint:CGPointMake(1, (_mapRootMapView.frame.size.height/2.0)) toCoordinateFromView:_mapRootMapView];
     [_mapRootMapView setCenterCoordinate:mapCenter animated:YES];
-    
-    [self replotOffers];
+ 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     CLLocationCoordinate2D zoomLocation;
     zoomLocation.latitude = 38.6303;
     zoomLocation.longitude = -90.2070;
@@ -53,6 +60,8 @@
     MKCoordinateRegion adjustedRegion = [_mapRootMapView regionThatFits:viewRegion];
     
     [_mapRootMapView setRegion:adjustedRegion animated:YES];
+    
+    [self replotOffers];
 }
 
 - (void)replotOffers {
@@ -61,7 +70,32 @@
         [_mapRootMapView removeAnnotation:annotation];
     } 
     
+    offersMapServiceRequest = [[RailsServiceRequest alloc] init];
+    offersMapServiceResponse = [[RailsServiceResponse alloc] init];
     
+    offerMapServiceRequest = [[RailsServiceRequest alloc] init];
+    offerMapServiceResponse = [[RailsServiceResponse alloc] init];
+    
+    offersMapServiceRequest.requestActionCode = 0;
+    offersMapServiceRequest.requestModel = RAILS_MODEL_OFFERS;
+    offersMapServiceRequest.requestResponseNotificationName = GET_OFFERS_MAP_RESPONSE_NOTIFICATION_NAME;
+    offersMapServiceRequest.requestData = nil;
+    
+    offerMapServiceRequest.requestActionCode = 1;
+    offerMapServiceRequest.requestModel = RAILS_MODEL_OFFERS;
+    offerMapServiceRequest.requestResponseNotificationName = GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME;
+    offerMapServiceRequest.requestData = nil;
+    
+    YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([delegate sessionToken] != nil) {
+        if ([[delegate railsService] callServiceWithRequest:offersMapServiceRequest andResponsePointer:offersMapServiceResponse]) {
+            NSLog(@"Called Get - Map Offers");
+        }
+        else {
+            NSLog(@"Call Get - Map Offers Failed");
+        }
+    }
 }
 
 - (void)viewDidUnload
@@ -98,6 +132,69 @@
     }
     
     return nil;    
+}
+
+#pragma mark - Service response delegates
+
+-(void)getOffersResponseReceived {
+    //After receiving offers, make successive calls to getOffer;
+    NSLog(@"Get Offers Map Response Received");
+    
+    if ([[offersMapServiceResponse responseData] objectForKey:@"errors"]) {
+        NSString *errorMessage = (NSString *)[[offersMapServiceResponse.responseData objectForKey:@"errors"] objectForKey:@"error"];
+        
+        NSLog(@"Error Response: %@", errorMessage);
+    }
+    //*  Step:  3)b: if success, sort and store data
+    else {
+        //Offers array is an array of NSDictionaries (each of which is an offer)
+        offers = [[offersMapServiceResponse responseData] objectForKey:@"offers"];
+        
+        NSLog(@"Offers Response: %@", offers);
+        
+        YouponAppDelegate *delegate = (YouponAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        for (NSDictionary *offer in offers) {
+            offerMapServiceRequest.requestData = [[NSMutableDictionary alloc] initWithDictionary:offer];
+            if ([[delegate railsService] callServiceWithRequest:offerMapServiceRequest andResponsePointer:offerMapServiceResponse]) {
+                NSLog(@"Called Get - Map Offer");
+            }
+            else {
+                NSLog(@"Call Get - Map Offer Failed");
+            }
+        }
+    }
+}
+-(void)getOfferResponseReceived {
+    //On response, replot this offer
+    NSLog(@"Get Offer Map Response Received");
+    
+    if ([[offerMapServiceResponse responseData] objectForKey:@"errors"]) {
+        NSString *errorMessage = (NSString *)[[offerMapServiceResponse.responseData objectForKey:@"errors"] objectForKey:@"error"];
+        
+        NSLog(@"Error Response: %@", errorMessage);
+    }
+    //*  Step:  3)b: if success, sort and store data
+    else {
+        //Offers array is an array of NSDictionaries (each of which is an offer)
+        NSDictionary *offer = [[NSDictionary alloc] initWithDictionary:[[offerMapServiceResponse responseData] objectForKey:@"offer"]];
+        NSDictionary *location = [[NSDictionary alloc] initWithDictionary:[[offerMapServiceResponse responseData] objectForKey:@"location"]];
+        
+        NSLog(@"Offer: %@", offer);
+        NSLog(@"Location: %@", location);
+        
+        NSString *offerName = [offer valueForKey:@"title"];
+        //addr1 city state zip
+        NSString *addressString = [NSString stringWithFormat:@"%@ %@ %@ %@", [offer valueForKey:@"address1"], [offer valueForKey:@"city"], [offer valueForKey:@"state"], [offer valueForKey:@"zip"]];
+        
+        CLLocationCoordinate2D coordinate;
+        coordinate.latitude = 38.6303;
+        coordinate.longitude = -90.2070;
+        
+        MapLocation *annotation = [[MapLocation alloc] initWithOfferName:offerName merchantName:nil address:addressString coordinate:coordinate];
+        
+        [_mapRootMapView addAnnotation:annotation];
+    }
 }
 
 

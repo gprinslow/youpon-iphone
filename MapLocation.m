@@ -31,7 +31,7 @@
 }
 
 - (NSString *)subtitle {
-    return _merchantName;
+    return _address;
 }
 
 
