@@ -198,9 +198,6 @@ UIAlertView *__offersErrorAlertView;
             NSLog(@"Call Get - Offers Failed");
         }
     }
-    else {
-        NSLog(@"Must establish session token before calling get offers");
-    }
 }
 
 /*
