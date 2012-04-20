@@ -50,7 +50,7 @@ NSString *const GET_OFFER_MAP_RESPONSE_NOTIFICATION_NAME = @"GET_OFFER_MAP_RESPO
     [_mapRootMapView setShowsUserLocation:TRUE];
     [_mapRootMapView setZoomEnabled:TRUE];
     
-    [self.view addSubview:_mapRootMapView];
+    self.view = _mapRootMapView;
     
     //Service delegates
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOffersResponseReceived) name:GET_OFFERS_MAP_RESPONSE_NOTIFICATION_NAME object:nil];
